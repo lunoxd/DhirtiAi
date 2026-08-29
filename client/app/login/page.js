@@ -4,11 +4,11 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../../context/AuthContext";
-import { LogIn, AlertCircle, Stethoscope, ShieldCheck, User } from "lucide-react";
+import { LogIn, AlertCircle } from "lucide-react";
 
 export default function LoginPage() {
   const router = useRouter();
-  const { login, loginDemo } = useAuth();
+  const { login } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -35,133 +35,16 @@ export default function LoginPage() {
     }
   };
 
-  const handleQuickRoleLogin = async (role) => {
-    setError("");
-    setLoading(true);
-    try {
-      const loggedInUser = await loginDemo(role);
-      if (loggedInUser.role === "ADMIN") {
-        router.push("/admin");
-      } else if (loggedInUser.role === "DOCTOR") {
-        router.push("/doctor");
-      } else {
-        router.push("/dashboard");
-      }
-    } catch (err) {
-      setError(err.message || `Failed to sign in as ${role}`);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   return (
-    <div style={{ maxWidth: "540px", margin: "0 auto", padding: "40px 20px 64px 20px" }}>
+    <div style={{ maxWidth: "540px", margin: "0 auto", padding: "48px 20px 64px 20px" }}>
       <div className="card" style={{ padding: "40px", backgroundColor: "#2b2d31", borderRadius: "var(--rounded-xl)" }}>
         <div style={{ textAlign: "center", marginBottom: "28px" }}>
           <h1 style={{ fontSize: "28px", fontWeight: 800, color: "#ffffff", marginBottom: "6px" }}>
             Sign in to Dhriti
           </h1>
           <p style={{ fontSize: "15px", color: "var(--text-muted)" }}>
-            Select a panel for instant access or enter your credentials
+            Enter your credentials to access your account
           </p>
-        </div>
-
-        {/* 3-Panel Login Switcher - WHITE & BIGGER LOGOS */}
-        <div style={{
-          backgroundColor: "#1e1f22",
-          border: "1px solid var(--hairline)",
-          borderRadius: "var(--rounded-lg)",
-          padding: "16px",
-          marginBottom: "24px"
-        }}>
-          <div style={{
-            fontSize: "12px",
-            fontWeight: 800,
-            textTransform: "uppercase",
-            letterSpacing: "0.06em",
-            color: "var(--primary)",
-            marginBottom: "12px",
-            textAlign: "center"
-          }}>
-            ⚡ 1-Click Panel Access
-          </div>
-
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "10px" }}>
-            {/* User Button */}
-            <button
-              type="button"
-              onClick={() => handleQuickRoleLogin("USER")}
-              disabled={loading}
-              className="btn btn-secondary btn-sm"
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                padding: "14px 8px",
-                height: "auto",
-                gap: "8px",
-                backgroundColor: "#2b2d31",
-                border: "1px solid var(--hairline)"
-              }}
-            >
-              <User size={26} color="#ffffff" />
-              <span style={{ fontSize: "13px", fontWeight: 800, color: "#ffffff" }}>User Panel</span>
-              <span style={{ fontSize: "10.5px", color: "var(--text-muted)" }}>Survivor View</span>
-            </button>
-
-            {/* Doctor Button */}
-            <button
-              type="button"
-              onClick={() => handleQuickRoleLogin("DOCTOR")}
-              disabled={loading}
-              className="btn btn-secondary btn-sm"
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                padding: "14px 8px",
-                height: "auto",
-                gap: "8px",
-                backgroundColor: "#2b2d31",
-                border: "1px solid var(--hairline)"
-              }}
-            >
-              <Stethoscope size={26} color="#ffffff" />
-              <span style={{ fontSize: "13px", fontWeight: 800, color: "#ffffff" }}>Doctor Panel</span>
-              <span style={{ fontSize: "10.5px", color: "var(--text-muted)" }}>Distress Triage</span>
-            </button>
-
-            {/* Admin Button */}
-            <button
-              type="button"
-              onClick={() => handleQuickRoleLogin("ADMIN")}
-              disabled={loading}
-              className="btn btn-secondary btn-sm"
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                padding: "14px 8px",
-                height: "auto",
-                gap: "8px",
-                backgroundColor: "#2b2d31",
-                border: "1px solid var(--hairline)"
-              }}
-            >
-              <ShieldCheck size={26} color="#ffffff" />
-              <span style={{ fontSize: "13px", fontWeight: 800, color: "#ffffff" }}>Admin Panel</span>
-              <span style={{ fontSize: "10.5px", color: "var(--text-muted)" }}>Control Center</span>
-            </button>
-          </div>
-        </div>
-
-        <div style={{ display: "flex", alignItems: "center", gap: "14px", marginBottom: "20px" }}>
-          <div style={{ flex: 1, height: "1px", backgroundColor: "var(--hairline)" }} />
-          <span style={{ fontSize: "12px", color: "var(--text-muted)", fontWeight: 700 }}>OR EMAIL LOGIN</span>
-          <div style={{ flex: 1, height: "1px", backgroundColor: "var(--hairline)" }} />
         </div>
 
         {error && (
@@ -183,7 +66,7 @@ export default function LoginPage() {
         )}
 
         <form onSubmit={handleSubmit}>
-          <div className="form-group" style={{ marginBottom: "18px" }}>
+          <div className="form-group" style={{ marginBottom: "20px" }}>
             <label className="form-label" style={{ fontSize: "12px", fontWeight: 700, color: "var(--text-muted)", marginBottom: "6px" }}>EMAIL ADDRESS</label>
             <input
               type="email"
@@ -196,7 +79,7 @@ export default function LoginPage() {
             />
           </div>
 
-          <div className="form-group" style={{ marginBottom: "24px" }}>
+          <div className="form-group" style={{ marginBottom: "28px" }}>
             <label className="form-label" style={{ fontSize: "12px", fontWeight: 700, color: "var(--text-muted)", marginBottom: "6px" }}>PASSWORD</label>
             <input
               type="password"
@@ -220,7 +103,7 @@ export default function LoginPage() {
           </button>
         </form>
 
-        <div style={{ textAlign: "center", marginTop: "24px", fontSize: "14px", color: "var(--text-muted)" }}>
+        <div style={{ textAlign: "center", marginTop: "28px", fontSize: "14px", color: "var(--text-muted)" }}>
           Don&apos;t have an account?{" "}
           <Link href="/register" style={{ color: "var(--primary)", fontWeight: 700 }}>
             Sign up free
