@@ -2,7 +2,6 @@ import "./globals.css";
 import { AuthProvider } from "../context/AuthContext";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import DhritiAiChat from "../components/DhritiAiChat";
 
 export const metadata = {
   title: "DHRITI — Mental Wellbeing Monitoring & Distress-Support Platform",
@@ -23,7 +22,6 @@ export default function RootLayout({ children }) {
               {children}
             </main>
             <Footer />
-            <DhritiAiChat />
           </div>
         </AuthProvider>
       </body>
