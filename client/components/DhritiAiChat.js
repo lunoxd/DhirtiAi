@@ -10,7 +10,7 @@ export default function DhritiAiChat() {
   const [messages, setMessages] = useState([
     {
       role: "assistant",
-      content: "Namaste! I am DhritiAi, your emotional wellbeing assistant. You can chat with me naturally, or click 'Start AI Check-in' above to complete today's guided wellbeing assessment!"
+      content: "Namaste! I am DhritiAi, your emotional wellbeing assistant. Click '10-Q AI Check-in' to start today's 10-question AI wellbeing assessment!"
     }
   ]);
   const [input, setInput] = useState("");
@@ -18,21 +18,16 @@ export default function DhritiAiChat() {
   const [showEmergencyModal, setShowEmergencyModal] = useState(false);
   const messagesEndRef = useRef(null);
 
-  // Interactive AI Check-in State Machine
+  // Interactive AI 10-Question Check-in State Machine
   const [isAiCheckInMode, setIsAiCheckInMode] = useState(false);
   const [checkInStep, setCheckInStep] = useState(0);
-  const [checkInAnswers, setCheckInAnswers] = useState({
-    sleep: "",
-    stress: "",
-    mood: "",
-    support: ""
-  });
+  const [checkInAnswers, setCheckInAnswers] = useState({});
 
   const checkInQuestions = [
     {
       step: 1,
       key: "sleep",
-      question: "🤖 Step 1/4: How has your sleep quality been over the last 24 hours?",
+      question: "🤖 Question 1/10: How has your sleep quality been over the last 24 hours?",
       options: [
         { label: "😴 Restful (7-9 hrs)", value: "RESTFUL" },
         { label: "😐 Moderate (5-7 hrs)", value: "MODERATE" },
@@ -42,7 +37,7 @@ export default function DhritiAiChat() {
     {
       step: 2,
       key: "stress",
-      question: "🤖 Step 2/4: What is your primary stress or anxiety level today?",
+      question: "🤖 Question 2/10: What is your primary stress or anxiety level today?",
       options: [
         { label: "😌 Low / Calm", value: "LOW" },
         { label: "😬 Moderate Stress", value: "MODERATE" },
@@ -52,21 +47,81 @@ export default function DhritiAiChat() {
     {
       step: 3,
       key: "mood",
-      question: "🤖 Step 3/4: How would you describe your overall mood & energy today?",
+      question: "🤖 Question 3/10: How would you describe your overall mood & emotional state today?",
       options: [
-        { label: "⚡ High Energy & Positive", value: "POSITIVE" },
-        { label: "🌤️ Balanced / Neutral", value: "BALANCED" },
-        { label: "🌧️ Low Energy / Feeling Sad", value: "LOW" }
+        { label: "⚡ Positive / Uplifted", value: "POSITIVE" },
+        { label: "🌤️ Neutral / Okay", value: "NEUTRAL" },
+        { label: "🌧️ Low / Feeling Sad", value: "LOW" }
       ]
     },
     {
       step: 4,
+      key: "energy",
+      question: "🤖 Question 4/10: What is your physical & mental energy level right now?",
+      options: [
+        { label: "🔋 High Energy", value: "HIGH" },
+        { label: "🪫 Moderate Energy", value: "MODERATE" },
+        { label: "⚠️ Exhausted / Fatigue", value: "EXHAUSTED" }
+      ]
+    },
+    {
+      step: 5,
       key: "support",
-      question: "🤖 Step 4/4: Have you felt connected and supported by family or friends today?",
+      question: "🤖 Question 5/10: Have you felt connected & supported by family or friends today?",
       options: [
         { label: "🤝 Fully Connected", value: "CONNECTED" },
         { label: "😐 Somewhat Connected", value: "SOMEWHAT" },
         { label: "🌧️ Feeling Isolated / Alone", value: "ISOLATED" }
+      ]
+    },
+    {
+      step: 6,
+      key: "focus",
+      question: "🤖 Question 6/10: How has your mental focus & concentration been today?",
+      options: [
+        { label: "🎯 Clear & Focused", value: "CLEAR" },
+        { label: "🤔 Slightly Distracted", value: "DISTRACTED" },
+        { label: "🌫️ Brain Fog / Unfocused", value: "FOGGY" }
+      ]
+    },
+    {
+      step: 7,
+      key: "appetite",
+      question: "🤖 Question 7/10: How has your appetite & meal schedule been today?",
+      options: [
+        { label: "🥗 Regular & Healthy", value: "REGULAR" },
+        { label: "🍎 Reduced / Skipped Meals", value: "REDUCED" },
+        { label: "⚠️ Irregular / Loss of Appetite", value: "IRREGULAR" }
+      ]
+    },
+    {
+      step: 8,
+      key: "safety",
+      question: "🤖 Question 8/10: Do you feel safe, grounded, and secure right now?",
+      options: [
+        { label: "🛡️ Yes, I feel safe", value: "SAFE" },
+        { label: "😟 Anxious / Uneasy", value: "ANXIOUS" },
+        { label: "🚨 No, feeling unsafe", value: "UNSAFE" }
+      ]
+    },
+    {
+      step: 9,
+      key: "coping",
+      question: "🤖 Question 9/10: How confident do you feel in coping with today's challenges?",
+      options: [
+        { label: "💪 Strong & Confident", value: "STRONG" },
+        { label: "😬 Struggling a bit", value: "STRUGGLING" },
+        { label: "🌧️ Unable to cope", value: "UNABLE" }
+      ]
+    },
+    {
+      step: 10,
+      key: "outlook",
+      question: "🤖 Question 10/10: Looking ahead, how do you feel about tomorrow?",
+      options: [
+        { label: "🌅 Optimistic & Hopeful", value: "OPTIMISTIC" },
+        { label: "🌤️ Uncertain / Cautious", value: "UNCERTAIN" },
+        { label: "🌧️ Hopeless / Overwhelmed", value: "HOPELESS" }
       ]
     }
   ];
@@ -84,18 +139,18 @@ export default function DhritiAiChat() {
   const startAiCheckIn = () => {
     setIsAiCheckInMode(true);
     setCheckInStep(1);
-    setCheckInAnswers({ sleep: "", stress: "", mood: "", support: "" });
+    setCheckInAnswers({});
     setMessages((prev) => [
       ...prev,
       {
         role: "assistant",
-        content: "🤖 Starting AI Wellbeing Check-in for today! Please answer the 4 questions below by clicking an option pill or typing your response."
+        content: "🤖 Starting AI 10-Question Wellbeing Assessment for today! Please click an option pill for each question."
       },
       {
         role: "assistant",
         content: checkInQuestions[0].question,
         options: checkInQuestions[0].options,
-        stepKey: "sleep"
+        stepKey: checkInQuestions[0].key
       }
     ]);
   };
@@ -104,12 +159,14 @@ export default function DhritiAiChat() {
     const updatedAnswers = { ...checkInAnswers, [key]: optionObj.value };
     setCheckInAnswers(updatedAnswers);
 
-    // Add user selection message
+    if (key === "safety" && optionObj.value === "UNSAFE") {
+      setShowEmergencyModal(true);
+    }
+
     const userMsg = { role: "user", content: optionObj.label };
-    const currentStepIndex = checkInStep - 1;
     const nextStep = checkInStep + 1;
 
-    if (nextStep <= 4) {
+    if (nextStep <= 10) {
       setCheckInStep(nextStep);
       const nextQ = checkInQuestions[nextStep - 1];
       setMessages((prev) => [
@@ -123,7 +180,7 @@ export default function DhritiAiChat() {
         }
       ]);
     } else {
-      // Completed all 4 steps -> Analyze & Submit Check-in to Database!
+      // Completed all 10 questions -> Submit Check-in to Database!
       setCheckInStep(0);
       setIsAiCheckInMode(false);
       setLoading(true);
@@ -133,21 +190,14 @@ export default function DhritiAiChat() {
         userMsg,
         {
           role: "assistant",
-          content: "📊 Analyzing your responses with deterministic score rules and Groq AI..."
+          content: "📊 Analyzing your 10 responses with deterministic Dhriti score rules and Groq AI..."
         }
       ]);
 
       try {
-        const structuredResponses = {
-          sleep: updatedAnswers.sleep,
-          stress: updatedAnswers.stress,
-          mood: updatedAnswers.mood,
-          support: updatedAnswers.support
-        };
-
         const res = await apiCheckIns.submit(
-          structuredResponses,
-          `AI Interactive Check-in completed via DhritiAi.`
+          updatedAnswers,
+          `AI 10-Question Wellbeing Assessment completed via DhritiAi.`
         );
 
         const checkInResult = res.checkIn;
@@ -157,21 +207,20 @@ export default function DhritiAiChat() {
           ...prev,
           {
             role: "assistant",
-            content: `✅ Check-in Recorded for Today!\n\n• Dhriti Wellbeing Index: ${score}/100\n• Risk Status: ${checkInResult.riskLevel}\n• Trend: ${checkInResult.trend}\n\nRecommendations: ${checkInResult.supportRecommendation}`
+            content: `✅ 10-Q Check-in Recorded for Today!\n\n• Dhriti Wellbeing Index: ${score}/100\n• Risk Status: ${checkInResult.riskLevel}\n• Trend: ${checkInResult.trend}\n\nRecommendations: ${checkInResult.supportRecommendation}`
           }
         ]);
 
-        // Refresh window dashboard data if logged in
         if (typeof window !== "undefined") {
           window.dispatchEvent(new Event("checkin-updated"));
         }
       } catch (err) {
-        console.error("AI Check-in submit error:", err);
+        console.error("AI 10-Q Check-in submit error:", err);
         setMessages((prev) => [
           ...prev,
           {
             role: "assistant",
-            content: "Your check-in answers were recorded! You can view your updated trend on your dashboard."
+            content: "Your 10-question check-in was recorded! Check your dashboard for updated score trends."
           }
         ]);
       } finally {
@@ -218,7 +267,7 @@ export default function DhritiAiChat() {
   };
 
   const quickPrompts = [
-    { label: "🤖 AI Check-in", action: startAiCheckIn },
+    { label: "🤖 10-Q AI Check-in", action: startAiCheckIn },
     { label: "🌸 Calm anxiety", text: "How can I calm my anxiety and grounding myself right now?" },
     { label: "💤 Sleep tips", text: "What are some practical tips for better sleep hygiene?" },
     { label: "🫁 Breathing", text: "Guide me through a simple 4-7-8 breathing exercise." }
@@ -269,9 +318,9 @@ export default function DhritiAiChat() {
           position: "fixed",
           bottom: "24px",
           right: "24px",
-          width: "410px",
+          width: "420px",
           maxWidth: "calc(100vw - 32px)",
-          height: "580px",
+          height: "590px",
           maxHeight: "calc(100vh - 80px)",
           backgroundColor: "#2b2d31",
           border: "1px solid var(--hairline)",
@@ -299,7 +348,7 @@ export default function DhritiAiChat() {
                   <span style={{ width: "8px", height: "8px", borderRadius: "50%", backgroundColor: "var(--status-stable)" }} />
                 </div>
                 <div style={{ fontSize: "11px", color: "var(--text-muted)", fontWeight: 600 }}>
-                  Mental Health & AI Check-in Assistant
+                  10-Q AI Wellbeing Assessment
                 </div>
               </div>
             </div>
@@ -308,10 +357,10 @@ export default function DhritiAiChat() {
               <button
                 onClick={startAiCheckIn}
                 className="btn btn-primary btn-sm"
-                style={{ fontSize: "11.5px", padding: "5px 10px" }}
+                style={{ fontSize: "11px", padding: "5px 10px" }}
               >
                 <ClipboardList size={13} />
-                <span>AI Check-in</span>
+                <span>10-Q AI Check-in</span>
               </button>
 
               <button

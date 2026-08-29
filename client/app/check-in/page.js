@@ -4,143 +4,110 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../../context/AuthContext";
 import { apiCheckIns } from "../../lib/api";
-import { ArrowLeft, ArrowRight, ShieldAlert, Sparkles, Check } from "lucide-react";
+import { ArrowLeft, ArrowRight, ShieldAlert, Sparkles, Check, Bot } from "lucide-react";
 import EmergencyModal from "../../components/EmergencyModal";
 
-const STRUCTURED_QUESTIONS = [
+const AI_10_QUESTIONS = [
   {
-    id: "mood",
-    category: "Mood",
-    question: "How are you feeling emotionally today?",
+    id: "sleep",
+    category: "Sleep Quality",
+    question: "1. How has your sleep quality been over the last 24 hours?",
     options: [
-      { key: "very_good", label: "Very Good" },
-      { key: "good", label: "Good" },
-      { key: "okay", label: "Okay" },
-      { key: "difficult", label: "Difficult" },
-      { key: "very_difficult", label: "Very Difficult" }
+      { key: "RESTFUL", label: "😴 Restful (7-9 hrs)" },
+      { key: "MODERATE", label: "😐 Moderate (5-7 hrs)" },
+      { key: "DISRUPTED", label: "😫 Disrupted / Insomnia (<5 hrs)" }
     ]
   },
   {
     id: "stress",
-    category: "Stress Level",
-    question: "How stressed have you felt recently?",
+    category: "Stress & Anxiety",
+    question: "2. What is your primary stress or anxiety level today?",
     options: [
-      { key: "not_at_all", label: "Not at all" },
-      { key: "a_little", label: "A little" },
-      { key: "somewhat", label: "Somewhat" },
-      { key: "very_stressed", label: "Very stressed" },
-      { key: "extremely_stressed", label: "Extremely stressed" }
+      { key: "LOW", label: "😌 Low / Calm" },
+      { key: "MODERATE", label: "😬 Moderate Stress" },
+      { key: "SEVERE", label: "🚨 Severe / Overwhelmed" }
     ]
   },
   {
-    id: "sleep",
-    category: "Sleep Quality",
-    question: "How has your sleep been recently?",
+    id: "mood",
+    category: "Mood & Emotional State",
+    question: "3. How would you describe your overall mood & emotional state today?",
     options: [
-      { key: "very_good", label: "Very good" },
-      { key: "good", label: "Good" },
-      { key: "okay", label: "Okay" },
-      { key: "poor", label: "Poor" },
-      { key: "very_poor", label: "Very poor" }
+      { key: "POSITIVE", label: "⚡ Positive / Uplifted" },
+      { key: "NEUTRAL", label: "🌤️ Neutral / Okay" },
+      { key: "LOW", label: "🌧️ Low / Feeling Sad" }
     ]
   },
   {
-    id: "daily_functioning",
-    category: "Daily Functioning",
-    question: "How manageable have routine daily tasks felt?",
+    id: "energy",
+    category: "Energy & Vitality",
+    question: "4. What is your physical & mental energy level right now?",
     options: [
-      { key: "very_easy", label: "Very manageable" },
-      { key: "manageable", label: "Manageable" },
-      { key: "somewhat_difficult", label: "Somewhat difficult" },
-      { key: "hard_to_manage", label: "Hard to manage" },
-      { key: "unable_to_function", label: "Unable to function" }
+      { key: "HIGH", label: "🔋 High Energy" },
+      { key: "MODERATE", label: "🪫 Moderate Energy" },
+      { key: "EXHAUSTED", label: "⚠️ Exhausted / Fatigue" }
     ]
   },
   {
-    id: "social_connection",
+    id: "support",
     category: "Social Connection",
-    question: "How connected have you felt with people you trust?",
+    question: "5. Have you felt connected & supported by family or friends today?",
     options: [
-      { key: "very_connected", label: "Very connected" },
-      { key: "moderately_connected", label: "Connected" },
-      { key: "somewhat_isolated", label: "Somewhat isolated" },
-      { key: "very_isolated", label: "Very isolated" },
-      { key: "completely_isolated", label: "Completely isolated" }
+      { key: "CONNECTED", label: "🤝 Fully Connected" },
+      { key: "SOMEWHAT", label: "😐 Somewhat Connected" },
+      { key: "ISOLATED", label: "🌧️ Feeling Isolated / Alone" }
     ]
   },
   {
-    id: "intrusive_thoughts",
-    category: "Intrusive Thoughts",
-    question: "How often have upsetting thoughts or memories been bothering you?",
+    id: "focus",
+    category: "Mental Focus",
+    question: "6. How has your mental focus & concentration been today?",
     options: [
-      { key: "never", label: "Never" },
-      { key: "rarely", label: "Rarely" },
-      { key: "sometimes", label: "Sometimes" },
-      { key: "often", label: "Often" },
-      { key: "very_often", label: "Very often" }
+      { key: "CLEAR", label: "🎯 Clear & Focused" },
+      { key: "DISTRACTED", label: "🤔 Slightly Distracted" },
+      { key: "FOGGY", label: "🌫️ Brain Fog / Unfocused" }
     ]
   },
   {
-    id: "emotional_control",
-    category: "Emotional Regulation",
-    question: "How overwhelmed have your emotions felt lately?",
+    id: "appetite",
+    category: "Appetite & Routine",
+    question: "7. How has your appetite & meal schedule been today?",
     options: [
-      { key: "in_control", label: "In control" },
-      { key: "mostly_calm", label: "Mostly calm" },
-      { key: "occasionally_overwhelmed", label: "Occasionally overwhelmed" },
-      { key: "frequently_overwhelmed", label: "Frequently overwhelmed" },
-      { key: "constantly_overwhelmed", label: "Constantly overwhelmed" }
+      { key: "REGULAR", label: "🥗 Regular & Healthy" },
+      { key: "REDUCED", label: "🍎 Reduced / Skipped Meals" },
+      { key: "IRREGULAR", label: "⚠️ Irregular / Loss of Appetite" }
     ]
   },
   {
-    id: "coping_ability",
-    category: "Coping Ability",
-    question: "How confident do you feel in your ability to cope right now?",
-    options: [
-      { key: "very_confident", label: "Very confident" },
-      { key: "confident", label: "Confident" },
-      { key: "unsure", label: "Unsure" },
-      { key: "struggling", label: "Struggling" },
-      { key: "unable_to_cope", label: "Unable to cope" }
-    ]
-  },
-  {
-    id: "sense_of_safety",
+    id: "safety",
     category: "Sense of Safety",
     isSafetyQuestion: true,
-    question: "Do you feel safe right now?",
+    question: "8. Do you feel safe, grounded, and secure right now?",
     options: [
-      { key: "yes", label: "Yes, I feel safe" },
-      { key: "unsure", label: "Unsure / Uneasy" },
-      { key: "no", label: "No, I do not feel safe" }
+      { key: "SAFE", label: "🛡️ Yes, I feel safe" },
+      { key: "ANXIOUS", label: "😟 Anxious / Uneasy" },
+      { key: "UNSAFE", label: "🚨 No, feeling unsafe" }
     ]
   },
   {
-    id: "overall_wellbeing",
-    category: "Overall Wellbeing",
-    question: "Overall, how would you describe your emotional state today?",
+    id: "coping",
+    category: "Coping Ability",
+    question: "9. How confident do you feel in coping with today's challenges?",
     options: [
-      { key: "very_positive", label: "Very positive" },
-      { key: "positive", label: "Positive" },
-      { key: "fair", label: "Fair" },
-      { key: "low", label: "Low" },
-      { key: "very_low", label: "Very low" }
+      { key: "STRONG", label: "💪 Strong & Confident" },
+      { key: "STRUGGLING", label: "😬 Struggling a bit" },
+      { key: "UNABLE", label: "🌧️ Unable to cope" }
     ]
-  }
-];
-
-const WRITTEN_QUESTIONS = [
-  {
-    id: "general_reflection",
-    title: "Optional Reflection",
-    question: "Is there anything bothering you or on your mind that you would like to note down?",
-    placeholder: "Write anything you'd like us to know (optional, skip anytime)..."
   },
   {
-    id: "support_needs",
-    title: "Support Thoughts (Optional)",
-    question: "Is there any specific support, comfort, or routine that might help you today?",
-    placeholder: "e.g. Taking a walk, resting, talking to a counselor, breathing exercises..."
+    id: "outlook",
+    category: "Future Outlook",
+    question: "10. Looking ahead, how do you feel about tomorrow?",
+    options: [
+      { key: "OPTIMISTIC", label: "🌅 Optimistic & Hopeful" },
+      { key: "UNCERTAIN", label: "🌤️ Uncertain / Cautious" },
+      { key: "HOPELESS", label: "🌧️ Hopeless / Overwhelmed" }
+    ]
   }
 ];
 
@@ -150,12 +117,11 @@ export default function CheckInPage() {
 
   const [currentStep, setCurrentStep] = useState(0);
   const [answers, setAnswers] = useState({});
-  const [writtenAnswers, setWrittenAnswers] = useState({});
   const [submitting, setSubmitting] = useState(false);
   const [loadingMessageIndex, setLoadingMessageIndex] = useState(0);
   const [showEmergencyModal, setShowEmergencyModal] = useState(false);
 
-  const totalSteps = STRUCTURED_QUESTIONS.length + WRITTEN_QUESTIONS.length;
+  const totalSteps = AI_10_QUESTIONS.length;
 
   useEffect(() => {
     if (!authLoading && !isAuthenticated) {
@@ -167,10 +133,10 @@ export default function CheckInPage() {
     let interval;
     if (submitting) {
       const messages = [
-        "Analyzing your check-in...",
-        "Understanding your responses",
-        "Looking at recent changes",
-        "Preparing your wellbeing summary"
+        "DhritiAi analyzing your 10 responses...",
+        "Evaluating deterministic score rules",
+        "Calculating Dhriti Index (0–100)",
+        "Preparing today's wellbeing summary"
       ];
       interval = setInterval(() => {
         setLoadingMessageIndex((prev) => (prev + 1) % messages.length);
@@ -183,23 +149,17 @@ export default function CheckInPage() {
     const nextAnswers = { ...answers, [questionId]: optionKey };
     setAnswers(nextAnswers);
 
-    if (questionId === "sense_of_safety" && optionKey === "no") {
+    if (questionId === "safety" && optionKey === "UNSAFE") {
       setShowEmergencyModal(true);
     }
 
     setTimeout(() => {
       if (currentStep < totalSteps - 1) {
         setCurrentStep((prev) => prev + 1);
+      } else {
+        handleSubmit(nextAnswers);
       }
     }, 180);
-  };
-
-  const handleNext = () => {
-    if (currentStep < totalSteps - 1) {
-      setCurrentStep((prev) => prev + 1);
-    } else {
-      handleSubmit();
-    }
   };
 
   const handleBack = () => {
@@ -208,18 +168,13 @@ export default function CheckInPage() {
     }
   };
 
-  const handleSkipWritten = () => {
-    if (currentStep < totalSteps - 1) {
-      setCurrentStep((prev) => prev + 1);
-    } else {
-      handleSubmit();
-    }
-  };
-
-  const handleSubmit = async () => {
+  const handleSubmit = async (finalAnswers = answers) => {
     setSubmitting(true);
     try {
-      const res = await apiCheckIns.submit(answers, writtenAnswers);
+      const res = await apiCheckIns.submit(
+        finalAnswers,
+        "AI 10-Question Wellbeing Assessment completed."
+      );
       const checkInId = res.checkIn.id;
       router.push(`/check-in/result?id=${checkInId}`);
     } catch (err) {
@@ -232,7 +187,7 @@ export default function CheckInPage() {
   if (authLoading) {
     return (
       <div className="container-narrow" style={{ textAlign: "center", padding: "80px 20px" }}>
-        <p style={{ color: "var(--text-muted)" }}>Preparing check-in...</p>
+        <p style={{ color: "var(--text-muted)" }}>Loading AI Check-in Assessment...</p>
       </div>
     );
   }
@@ -240,15 +195,15 @@ export default function CheckInPage() {
   // Loading Screen
   if (submitting) {
     const loadingMessages = [
-      "Analyzing your check-in...",
-      "Understanding your responses",
-      "Looking at recent changes",
-      "Preparing your wellbeing summary"
+      "DhritiAi analyzing your 10 responses...",
+      "Evaluating deterministic score rules",
+      "Calculating Dhriti Index (0–100)",
+      "Preparing today's wellbeing summary"
     ];
 
     return (
       <div className="container-narrow" style={{ paddingTop: "80px", paddingBottom: "100px", textAlign: "center" }}>
-        <div className="card" style={{ padding: "48px 24px", maxWidth: "480px", margin: "0 auto" }}>
+        <div className="card" style={{ padding: "48px 24px", maxWidth: "480px", margin: "0 auto", backgroundColor: "#2b2d31" }}>
           <div style={{
             width: "48px",
             height: "48px",
@@ -259,11 +214,11 @@ export default function CheckInPage() {
             animation: "spin 0.8s linear infinite"
           }} />
 
-          <h2 style={{ fontSize: "20px", fontWeight: 800, color: "var(--ink)", marginBottom: "8px" }}>
+          <h2 style={{ fontSize: "20px", fontWeight: 800, color: "#ffffff", marginBottom: "8px" }}>
             {loadingMessages[loadingMessageIndex]}
           </h2>
           <p style={{ fontSize: "14px", color: "var(--text-muted)" }}>
-            Processing your check-in securely and deterministically.
+            Processing your check-in securely via Groq AI & deterministic rules.
           </p>
         </div>
 
@@ -277,9 +232,7 @@ export default function CheckInPage() {
     );
   }
 
-  const isStructuredStep = currentStep < STRUCTURED_QUESTIONS.length;
-  const currentStructuredQ = isStructuredStep ? STRUCTURED_QUESTIONS[currentStep] : null;
-  const currentWrittenQ = !isStructuredStep ? WRITTEN_QUESTIONS[currentStep - STRUCTURED_QUESTIONS.length] : null;
+  const currentQ = AI_10_QUESTIONS[currentStep];
 
   return (
     <div className="container-narrow" style={{ paddingTop: "20px", paddingBottom: "60px" }}>
@@ -302,8 +255,8 @@ export default function CheckInPage() {
             <ArrowLeft size={16} /> Back
           </button>
 
-          <span style={{ fontSize: "13px", fontWeight: 700, color: "var(--text-muted)" }}>
-            Question {currentStep + 1} of {totalSteps}
+          <span style={{ fontSize: "13px", fontWeight: 700, color: "#ffffff" }}>
+            🤖 AI Question {currentStep + 1} of 10
           </span>
         </div>
 
@@ -311,7 +264,7 @@ export default function CheckInPage() {
         <div style={{
           width: "100%",
           height: "6px",
-          backgroundColor: "var(--surface-soft)",
+          backgroundColor: "#1e1f22",
           borderRadius: "var(--rounded-pill)",
           overflow: "hidden"
         }}>
@@ -324,124 +277,79 @@ export default function CheckInPage() {
         </div>
       </div>
 
-      {/* Structured Question Card */}
-      {isStructuredStep && currentStructuredQ && (
-        <div className="card" style={{ padding: "32px 24px" }}>
-          {currentStructuredQ.isSafetyQuestion && (
+      {/* 10-Question Card */}
+      <div className="card" style={{ padding: "36px 28px", backgroundColor: "#2b2d31" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "16px" }}>
+          <div style={{
+            padding: "4px 10px",
+            backgroundColor: "#1e1f22",
+            border: "1px solid var(--hairline)",
+            borderRadius: "var(--rounded-pill)",
+            fontSize: "11px",
+            fontWeight: 800,
+            color: "var(--primary)",
+            display: "flex",
+            alignItems: "center",
+            gap: "6px"
+          }}>
+            <Bot size={14} /> DHRITI AI WELLBEING ASSESSMENT
+          </div>
+
+          {currentQ.isSafetyQuestion && (
             <div style={{
               display: "inline-flex",
               alignItems: "center",
               gap: "6px",
-              padding: "4px 12px",
+              padding: "4px 10px",
               borderRadius: "var(--rounded-pill)",
-              backgroundColor: "rgba(245, 36, 67, 0.12)",
+              backgroundColor: "rgba(245, 36, 67, 0.2)",
               color: "var(--status-critical)",
-              fontSize: "12px",
-              fontWeight: 700,
-              marginBottom: "16px"
+              fontSize: "11px",
+              fontWeight: 800
             }}>
-              <ShieldAlert size={14} />
-              <span>SAFETY CHECK</span>
+              <ShieldAlert size={14} /> SAFETY CHECK
             </div>
           )}
-
-          <div style={{ fontSize: "12px", textTransform: "uppercase", letterSpacing: "0.06em", color: "var(--text-muted)", marginBottom: "8px", fontWeight: 700 }}>
-            {currentStructuredQ.category}
-          </div>
-
-          <h2 style={{
-            fontSize: "clamp(22px, 4vw, 26px)",
-            fontWeight: 800,
-            color: "var(--ink)",
-            letterSpacing: "-0.02em",
-            marginBottom: "24px",
-            lineHeight: "1.3"
-          }}>
-            {currentStructuredQ.question}
-          </h2>
-
-          <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-            {currentStructuredQ.options.map((opt) => {
-              const isSelected = answers[currentStructuredQ.id] === opt.key;
-              return (
-                <button
-                  key={opt.key}
-                  onClick={() => handleSelectOption(currentStructuredQ.id, opt.key)}
-                  className={`option-button ${isSelected ? "selected" : ""}`}
-                >
-                  <span style={{ fontWeight: isSelected ? 700 : 600 }}>{opt.label}</span>
-                  {isSelected && <Check size={18} color="#ffffff" />}
-                </button>
-              );
-            })}
-          </div>
         </div>
-      )}
 
-      {/* Optional Written Reflection Card */}
-      {!isStructuredStep && currentWrittenQ && (
-        <div className="card" style={{ padding: "32px 24px" }}>
-          <div style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: "6px",
-            padding: "4px 12px",
-            borderRadius: "var(--rounded-pill)",
-            backgroundColor: "var(--surface-soft)",
-            color: "var(--primary)",
-            fontSize: "12px",
-            fontWeight: 700,
-            marginBottom: "16px"
-          }}>
-            <Sparkles size={14} />
-            <span>{currentWrittenQ.title}</span>
-          </div>
-
-          <h2 style={{
-            fontSize: "clamp(20px, 3.5vw, 24px)",
-            fontWeight: 800,
-            color: "var(--ink)",
-            letterSpacing: "-0.02em",
-            marginBottom: "8px",
-            lineHeight: "1.3"
-          }}>
-            {currentWrittenQ.question}
-          </h2>
-
-          <p style={{ fontSize: "14px", color: "var(--text-muted)", marginBottom: "20px" }}>
-            You can write as little or as much as you like, or skip this entirely.
-          </p>
-
-          <textarea
-            className="form-textarea"
-            placeholder={currentWrittenQ.placeholder}
-            value={writtenAnswers[currentWrittenQ.id] || ""}
-            onChange={(e) =>
-              setWrittenAnswers({ ...writtenAnswers, [currentWrittenQ.id]: e.target.value })
-            }
-            style={{ width: "100%", minHeight: "120px", marginBottom: "24px" }}
-          />
-
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <button
-              type="button"
-              onClick={handleSkipWritten}
-              className="btn btn-secondary"
-            >
-              Skip Question
-            </button>
-
-            <button
-              type="button"
-              onClick={handleNext}
-              className="btn btn-primary"
-            >
-              <span>{currentStep === totalSteps - 1 ? "Complete Check-in" : "Continue"}</span>
-              <ArrowRight size={16} />
-            </button>
-          </div>
+        <div style={{ fontSize: "12px", textTransform: "uppercase", letterSpacing: "0.06em", color: "var(--text-muted)", marginBottom: "8px", fontWeight: 700 }}>
+          {currentQ.category}
         </div>
-      )}
+
+        <h2 style={{
+          fontSize: "clamp(22px, 4vw, 26px)",
+          fontWeight: 800,
+          color: "#ffffff",
+          letterSpacing: "-0.02em",
+          marginBottom: "24px",
+          lineHeight: "1.3"
+        }}>
+          {currentQ.question}
+        </h2>
+
+        <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+          {currentQ.options.map((opt) => {
+            const isSelected = answers[currentQ.id] === opt.key;
+            return (
+              <button
+                key={opt.key}
+                onClick={() => handleSelectOption(currentQ.id, opt.key)}
+                className={`option-button ${isSelected ? "selected" : ""}`}
+                style={{
+                  padding: "14px 18px",
+                  fontSize: "15px",
+                  backgroundColor: isSelected ? "var(--primary)" : "#1e1f22",
+                  color: "#ffffff",
+                  border: isSelected ? "1px solid var(--primary)" : "1px solid var(--hairline)"
+                }}
+              >
+                <span style={{ fontWeight: isSelected ? 800 : 600 }}>{opt.label}</span>
+                {isSelected && <Check size={18} color="#ffffff" />}
+              </button>
+            );
+          })}
+        </div>
+      </div>
 
       {showEmergencyModal && (
         <EmergencyModal
