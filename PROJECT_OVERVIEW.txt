@@ -1,0 +1,63 @@
+========================================================================
+                      DHRITI PLATFORM 2.0 OVERVIEW
+========================================================================
+
+------------------------------------------------------------------------
+1. TECHNOLOGIES WE USE (DEAD SIMPLE)
+------------------------------------------------------------------------
+• Frontend (UI):       Next.js 16 (React, Turbopack)
+• Styling:             Vanilla CSS (Discord Dark Theme #313338)
+• Icons:               Lucide React Icons
+• Backend API:         Node.js + Express.js
+• Database:            SQLite database (managed via Prisma ORM)
+• AI Engine:           Groq API (Active model: qwen/qwen3.6-27b) + Empathetic AI Engine
+• Security & Auth:     JWT (JSON Web Tokens) + Bcrypt Password Hashing
+
+------------------------------------------------------------------------
+2. WEBSITE FLOW (STEP-BY-STEP)
+------------------------------------------------------------------------
+STEP 1: LANDING PAGE (/)
+   - Intro screen with "Understand your wellbeing. Recognize changes early."
+   - Click "Start Check-in" -> Redirects to Sign In / Sign Up.
+
+STEP 2: SIGN IN / SIGN UP (/login & /register)
+   - 1-Step Instant Sign Up (Choose: User / Survivor OR Doctor / Responder).
+   - Doctor accounts require Admin approval before activation.
+   - System Admin Credentials:
+     • Email:    chiru@gmail.com
+     • Password: chiru@6595
+
+STEP 3: USER DASHBOARD (/dashboard)
+   - Fixed unscrollable 3-panel full-width screen:
+     • Left Panel:   Dhriti Index Score Gauge (0-100) + Historical Trend Chart.
+     • Middle Panel: Monthly Check-in Calendar Grid.
+     • Right Panel:  Embedded DhritiAi Chatbot.
+
+STEP 4: 10-QUESTION AI CHECK-IN ASSESSMENT (/check-in)
+   - User answers 10 guided wellbeing questions with 1-click option pills:
+     1. Sleep Quality        6. Mental Focus
+     2. Stress & Anxiety     7. Appetite & Routine
+     3. Mood & Emotions      8. Sense of Safety Check
+     4. Energy & Vitality    9. Coping Ability
+     5. Social Connection   10. Future Outlook
+
+STEP 5: RESULT & CLINICAL TRIAGE (/check-in/result)
+   - Calculates deterministic 0-100 Dhriti Index Score and Risk Level.
+   - IF SCORE IS ELEVATED / BAD (High / Critical >= 50):
+     • Shows 1-click button: [ Request Doctor Callback ]
+     • Shows 24/7 Verified Indian Crisis Contacts:
+       - Tele-MANAS: 14416 (Toll-Free 24/7)
+       - KIRAN: 1800-599-0019
+       - Vandrevala: +91 9999 666 555
+
+STEP 6: ROLE PANELS
+   - DOCTOR PORTAL (/doctor): Clinicians review distress queue and process callback requests.
+   - ADMIN PORTAL  (/admin):  System admin approves doctor signups and manages platform audit logs.
+
+------------------------------------------------------------------------
+3. HOW TO START THE PROJECT (1-CLICK RUNNERS)
+------------------------------------------------------------------------
+• WINDOWS:   Double-click "start.bat"  OR run ".\start.ps1" in PowerShell
+• MAC/LINUX: Run "./start.sh"          OR run "./chirupullthisbro.sh"
+
+========================================================================
