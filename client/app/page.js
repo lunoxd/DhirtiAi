@@ -30,7 +30,7 @@ export default function LandingPage() {
     }}>
       <div className="container" style={{ paddingTop: "12px", paddingBottom: "32px" }}>
         
-        {/* 1. HERO SECTION - COMPACT SINGLE VIEWPORT FIT */}
+        {/* 1. HERO SECTION */}
         <section style={{
           display: "grid",
           gridTemplateColumns: "1.1fr 0.9fr",
@@ -74,14 +74,14 @@ export default function LandingPage() {
               A calm, accessible platform for monitoring emotional health. Track changes over time with a deterministic 0–100 Dhriti Index, Groq AI guidance, and 24/7 crisis support.
             </p>
 
-            {/* Action Row */}
+            {/* Action Row - Directs to /login if not logged in */}
             <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
               <Link
-                href={isAuthenticated ? "/dashboard" : "/register"}
+                href={isAuthenticated ? "/dashboard" : "/login"}
                 className="btn btn-primary btn-lg"
                 style={{ fontSize: "15px", padding: "12px 28px" }}
               >
-                <span>{isAuthenticated ? "Go to Dashboard" : "Start Free Check-in"}</span>
+                <span>{isAuthenticated ? "Go to Dashboard" : "Start Check-in"}</span>
                 <ArrowRight size={17} />
               </Link>
             </div>

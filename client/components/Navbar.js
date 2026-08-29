@@ -191,8 +191,7 @@ export default function Navbar() {
               </div>
             ) : (
               <div style={{ display: "flex", alignItems: "center", gap: "6px" }} className="desktop-only">
-                <Link href="/login" className="btn btn-secondary btn-sm">Sign in</Link>
-                <Link href="/register" className="btn btn-primary btn-sm">Sign up</Link>
+                <Link href="/login" className="btn btn-primary btn-sm" style={{ padding: "6px 14px" }}>Sign in</Link>
               </div>
             )}
 
@@ -253,8 +252,7 @@ export default function Navbar() {
                 </div>
               ) : (
                 <div style={{ display: "flex", gap: "8px" }}>
-                  <Link href="/login" onClick={() => setMobileMenuOpen(false)} className="btn btn-secondary btn-block btn-sm">Sign in</Link>
-                  <Link href="/register" onClick={() => setMobileMenuOpen(false)} className="btn btn-primary btn-block btn-sm">Sign up</Link>
+                  <Link href="/login" onClick={() => setMobileMenuOpen(false)} className="btn btn-primary btn-block btn-sm">Sign in</Link>
                 </div>
               )}
             </div>
