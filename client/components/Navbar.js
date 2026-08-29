@@ -15,8 +15,7 @@ import {
   X,
   PlusCircle,
   Stethoscope,
-  LayoutDashboard,
-  Sparkles
+  LayoutDashboard
 } from "lucide-react";
 import EmergencyModal from "./EmergencyModal";
 
@@ -32,14 +31,12 @@ export default function Navbar() {
     navLinks = [
       { href: "/admin", label: "Admin", icon: LayoutDashboard },
       { href: "/doctor", label: "Doctor Queue", icon: Stethoscope },
-      { href: "/chat", label: "DhritiAi Chat", icon: Sparkles },
       { href: "/dashboard", label: "User View", icon: Activity },
       { href: "/support", label: "Helplines", icon: HeartHandshake }
     ];
   } else if (isDoctor) {
     navLinks = [
       { href: "/doctor", label: "Distress Queue", icon: Stethoscope },
-      { href: "/chat", label: "DhritiAi Chat", icon: Sparkles },
       { href: "/dashboard", label: "Check-in", icon: PlusCircle },
       { href: "/support", label: "Helplines", icon: HeartHandshake }
     ];
@@ -47,7 +44,6 @@ export default function Navbar() {
     navLinks = [
       { href: "/dashboard", label: "Dashboard", icon: Activity, authRequired: true },
       { href: "/check-in", label: "Check In", icon: PlusCircle, authRequired: true },
-      { href: "/chat", label: "DhritiAi Chat", icon: Sparkles, authRequired: false },
       { href: "/history", label: "History", icon: History, authRequired: true },
       { href: "/support", label: "Helplines", icon: HeartHandshake, authRequired: false }
     ];
