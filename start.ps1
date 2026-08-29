@@ -1,8 +1,13 @@
 # DHRITI Platform 2.0 PowerShell Startup Script (start.ps1)
-# Pulls latest code from GitHub, syncs SQLite database, and launches Express backend + Next.js frontend
+# Works natively on Windows PowerShell & Windows Terminal
+
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force -ErrorAction SilentlyContinue
+
+$ScriptDir = Split-Path -Path $MyInvocation.MyCommand.Definition -Parent
+if (-not $ScriptDir) { $ScriptDir = Get-Location }
 
 Write-Host "===============================================" -ForegroundColor Cyan
-Write-Host "🚀 DHRITI PLATFORM 2.0 STARTUP (PowerShell)" -ForegroundColor Cyan
+Write-Host "🚀 DHRITI PLATFORM 2.0 STARTUP (Windows PS)" -ForegroundColor Cyan
 Write-Host "===============================================" -ForegroundColor Cyan
 
 # 1. Pull latest code from GitHub
@@ -17,7 +22,7 @@ if ($LASTEXITCODE -ne 0) {
 
 # 2. Database schema synchronization
 Write-Host "`n🗄️ [2/4] Syncing SQLite Database Schema via Prisma..." -ForegroundColor Yellow
-Set-Location "$PSScriptRoot\server"
+Set-Location "$ScriptDir\server"
 npx prisma db push --skip-generate
 
 # 3. Seed real Admin Account & clean mock data
@@ -30,12 +35,10 @@ Write-Host "   • Backend API:  http://localhost:5001" -ForegroundColor Cyan
 Write-Host "   • Frontend Web: http://localhost:3000" -ForegroundColor Cyan
 Write-Host "===============================================" -ForegroundColor Cyan
 
-# Start Backend API in background job
-$BackendJob = Start-Job -ScriptBlock {
-    Set-Location $using:PSScriptRoot\server
-    node index.js
-}
+# Start Express Backend on Port 5001 in a dedicated PowerShell process
+Start-Process powershell -ArgumentList "-NoExit", "-Command", "Set-Location '$ScriptDir\server'; node index.js"
 
-# Start Frontend Next.js server in current process
-Set-Location "$PSScriptRoot\client"
-npm run dev
+# Start Next.js Frontend on Port 3000 in a dedicated PowerShell process
+Start-Process powershell -ArgumentList "-NoExit", "-Command", "Set-Location '$ScriptDir\client'; npm run dev"
+
+Write-Host "`n✓ DHRITI Backend & Frontend services launched in separate windows!" -ForegroundColor Green
