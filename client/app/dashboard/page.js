@@ -127,7 +127,7 @@ export default function DashboardPage() {
       height: "calc(100vh - 60px)",
       maxHeight: "calc(100vh - 60px)",
       overflow: "hidden",
-      padding: "12px 20px",
+      padding: "16px 24px",
       display: "flex",
       flexDirection: "column",
       justifyContent: "space-between",
@@ -139,18 +139,18 @@ export default function DashboardPage() {
         justifyContent: "space-between",
         alignItems: "center",
         flexWrap: "nowrap",
-        marginBottom: "8px"
+        marginBottom: "12px"
       }}>
         <div>
-          <h1 style={{ fontSize: "20px", fontWeight: 800, color: "#ffffff", margin: 0 }}>
+          <h1 style={{ fontSize: "22px", fontWeight: 800, color: "#ffffff", margin: 0 }}>
             Welcome, {user?.name || "Friend"}
           </h1>
-          <p style={{ fontSize: "12px", color: "var(--text-muted)", margin: 0 }}>
+          <p style={{ fontSize: "13px", color: "var(--text-muted)", margin: 0 }}>
             Full-screen personal wellbeing monitoring dashboard
           </p>
         </div>
 
-        <Link href="/check-in" className="btn btn-primary btn-sm" style={{ padding: "6px 14px" }}>
+        <Link href="/check-in" className="btn btn-primary btn-sm" style={{ padding: "8px 16px" }}>
           <PlusCircle size={15} />
           <span>New Check-in</span>
         </Link>
@@ -192,14 +192,14 @@ export default function DashboardPage() {
       <div style={{
         display: "grid",
         gridTemplateColumns: "1.1fr 1.2fr 1.1fr",
-        gap: "14px",
+        gap: "16px",
         flex: 1,
-        maxHeight: "calc(100vh - 120px)",
+        maxHeight: "calc(100vh - 140px)",
         alignItems: "stretch",
         overflow: "hidden"
       }}>
         {/* Column 1 (Left): Score Display + Historical Dhriti Trend Graph */}
-        <div style={{ display: "flex", flexDirection: "column", gap: "10px", height: "100%", overflow: "hidden" }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: "12px", height: "100%", overflow: "hidden" }}>
           <DhritiIndexGauge
             score={currentScore?.dhritiIndex || 0}
             riskLevel={currentScore?.riskLevel || "STABLE"}
@@ -218,15 +218,15 @@ export default function DashboardPage() {
         </div>
 
         {/* Column 3 (Right): DHRITIAI CHATBOT */}
-        <div className="card" style={{ padding: "14px", height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-between", overflow: "hidden" }}>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "8px" }}>
+        <div className="card" style={{ padding: "16px", height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-between", overflow: "hidden" }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "10px" }}>
             <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-              <img src="/logo.png" alt="Dhriti Logo" style={{ height: "22px", width: "auto" }} />
-              <h3 style={{ fontSize: "14px", fontWeight: 800, color: "#ffffff" }}>
+              <img src="/logo.png" alt="Dhriti Logo" style={{ height: "24px", width: "auto" }} />
+              <h3 style={{ fontSize: "15px", fontWeight: 800, color: "#ffffff" }}>
                 DhritiAi Assistant
               </h3>
             </div>
-            <span className="badge badge-stable" style={{ fontSize: "10px", padding: "1px 6px" }}>Groq AI</span>
+            <span className="badge badge-stable" style={{ fontSize: "10px", padding: "2px 8px" }}>Groq AI</span>
           </div>
 
           {/* Messages Feed */}
@@ -235,12 +235,12 @@ export default function DashboardPage() {
             backgroundColor: "#1e1f22",
             border: "1px solid var(--hairline)",
             borderRadius: "var(--rounded-md)",
-            padding: "10px",
+            padding: "12px",
             overflowY: "auto",
             display: "flex",
             flexDirection: "column",
-            gap: "8px",
-            marginBottom: "8px"
+            gap: "10px",
+            marginBottom: "10px"
           }}>
             {chatMessages.map((m, idx) => (
               <div
@@ -252,10 +252,10 @@ export default function DashboardPage() {
               >
                 <div style={{
                   maxWidth: "90%",
-                  padding: "8px 12px",
-                  borderRadius: "10px",
-                  fontSize: "13.5px",
-                  lineHeight: "1.45",
+                  padding: "10px 14px",
+                  borderRadius: "12px",
+                  fontSize: "14px",
+                  lineHeight: "1.5",
                   fontWeight: 500,
                   backgroundColor: m.role === "user" ? "var(--primary)" : "#2b2d31",
                   color: "#ffffff",
@@ -267,8 +267,8 @@ export default function DashboardPage() {
               </div>
             ))}
             {chatLoading && (
-              <div style={{ fontSize: "11px", color: "var(--text-muted)", display: "flex", alignItems: "center", gap: "6px" }}>
-                <Sparkles size={12} color="var(--primary)" />
+              <div style={{ fontSize: "12px", color: "var(--text-muted)", display: "flex", alignItems: "center", gap: "6px" }}>
+                <Sparkles size={13} color="var(--primary)" />
                 <span>DhritiAi is typing...</span>
               </div>
             )}
@@ -276,19 +276,19 @@ export default function DashboardPage() {
           </div>
 
           {/* Quick Suggestions */}
-          <div style={{ display: "flex", gap: "4px", overflowX: "auto", marginBottom: "6px" }}>
+          <div style={{ display: "flex", gap: "6px", overflowX: "auto", marginBottom: "8px" }}>
             {quickPrompts.map((qp, i) => (
               <button
                 key={i}
                 onClick={() => handleSendChat(qp.text)}
                 style={{
-                  fontSize: "10.5px",
+                  fontSize: "11px",
                   fontWeight: 600,
                   color: "#ffffff",
                   backgroundColor: "#1e1f22",
                   border: "1px solid var(--hairline)",
                   borderRadius: "var(--rounded-pill)",
-                  padding: "3px 8px",
+                  padding: "4px 10px",
                   whiteSpace: "nowrap"
                 }}
               >
@@ -298,11 +298,11 @@ export default function DashboardPage() {
           </div>
 
           {/* Input Bar */}
-          <div style={{ display: "flex", gap: "6px" }}>
+          <div style={{ display: "flex", gap: "8px" }}>
             <input
               type="text"
               className="form-input"
-              style={{ flex: 1, fontSize: "13px", backgroundColor: "#1e1f22", color: "#ffffff", padding: "6px 10px" }}
+              style={{ flex: 1, fontSize: "14px", backgroundColor: "#1e1f22", color: "#ffffff", padding: "8px 12px" }}
               placeholder="Ask DhritiAi..."
               value={chatInput}
               onChange={(e) => setChatInput(e.target.value)}
@@ -312,9 +312,9 @@ export default function DashboardPage() {
               onClick={() => handleSendChat()}
               disabled={chatLoading || !chatInput.trim()}
               className="btn btn-primary btn-sm"
-              style={{ padding: "6px 10px" }}
+              style={{ padding: "8px 14px" }}
             >
-              <Send size={13} />
+              <Send size={14} />
             </button>
           </div>
         </div>
