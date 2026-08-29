@@ -56,34 +56,34 @@ export default function LoginPage() {
 
   return (
     <div className="container-narrow" style={{ paddingTop: "32px", paddingBottom: "64px" }}>
-      <div className="card" style={{ padding: "36px" }}>
-        <div style={{ textAlign: "center", marginBottom: "24px" }}>
-          <h1 style={{ fontSize: "24px", fontWeight: 800, color: "#ffffff", marginBottom: "6px" }}>
+      <div className="card" style={{ padding: "32px" }}>
+        <div style={{ textAlign: "center", marginBottom: "20px" }}>
+          <h1 style={{ fontSize: "22px", fontWeight: 800, color: "#ffffff", marginBottom: "4px" }}>
             Sign in to Dhriti
           </h1>
-          <p style={{ fontSize: "14px", color: "var(--text-muted)" }}>
-            Select your panel for instant login or enter account credentials
+          <p style={{ fontSize: "13px", color: "var(--text-muted)" }}>
+            Select a panel for instant access or enter credentials
           </p>
         </div>
 
-        {/* 3-Panel Quick Access Login */}
+        {/* 3-Panel Login Switcher */}
         <div style={{
           backgroundColor: "var(--surface-soft)",
           border: "1px solid var(--hairline)",
           borderRadius: "var(--rounded-lg)",
-          padding: "16px",
-          marginBottom: "24px"
+          padding: "14px",
+          marginBottom: "20px"
         }}>
           <div style={{
             fontSize: "11px",
-            fontWeight: 800,
+            fontWeight: 700,
             textTransform: "uppercase",
-            letterSpacing: "0.06em",
+            letterSpacing: "0.04em",
             color: "var(--primary)",
             marginBottom: "10px",
             textAlign: "center"
           }}>
-            ⚡ 1-Click Panel Access System
+            ⚡ 1-Click Panel Access
           </div>
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "8px" }}>
@@ -92,11 +92,11 @@ export default function LoginPage() {
               onClick={() => handleQuickRoleLogin("USER")}
               disabled={loading}
               className="btn btn-secondary btn-sm"
-              style={{ display: "flex", flexDirection: "column", padding: "12px 6px", height: "auto", gap: "4px" }}
+              style={{ display: "flex", flexDirection: "column", padding: "10px 4px", height: "auto", gap: "4px" }}
             >
-              <User size={18} color="var(--primary)" />
-              <span style={{ fontSize: "12px", fontWeight: 700, color: "#ffffff" }}>1. Survivor Panel</span>
-              <span style={{ fontSize: "10px", color: "var(--text-muted)" }}>User Check-in</span>
+              <User size={16} color="var(--primary)" />
+              <span style={{ fontSize: "12px", fontWeight: 700, color: "#ffffff" }}>1. User Panel</span>
+              <span style={{ fontSize: "10px", color: "var(--text-muted)" }}>Survivor View</span>
             </button>
 
             <button
@@ -104,9 +104,9 @@ export default function LoginPage() {
               onClick={() => handleQuickRoleLogin("DOCTOR")}
               disabled={loading}
               className="btn btn-secondary btn-sm"
-              style={{ display: "flex", flexDirection: "column", padding: "12px 6px", height: "auto", gap: "4px" }}
+              style={{ display: "flex", flexDirection: "column", padding: "10px 4px", height: "auto", gap: "4px" }}
             >
-              <Stethoscope size={18} color="var(--status-stable)" />
+              <Stethoscope size={16} color="var(--status-stable)" />
               <span style={{ fontSize: "12px", fontWeight: 700, color: "#ffffff" }}>2. Doctor Panel</span>
               <span style={{ fontSize: "10px", color: "var(--text-muted)" }}>Distress Triage</span>
             </button>
@@ -116,35 +116,35 @@ export default function LoginPage() {
               onClick={() => handleQuickRoleLogin("ADMIN")}
               disabled={loading}
               className="btn btn-secondary btn-sm"
-              style={{ display: "flex", flexDirection: "column", padding: "12px 6px", height: "auto", gap: "4px" }}
+              style={{ display: "flex", flexDirection: "column", padding: "10px 4px", height: "auto", gap: "4px" }}
             >
-              <ShieldCheck size={18} color="var(--primary)" />
+              <ShieldCheck size={16} color="var(--primary)" />
               <span style={{ fontSize: "12px", fontWeight: 700, color: "#ffffff" }}>3. Admin Panel</span>
               <span style={{ fontSize: "10px", color: "var(--text-muted)" }}>System Control</span>
             </button>
           </div>
         </div>
 
-        <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "20px" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "16px" }}>
           <div style={{ flex: 1, height: "1px", backgroundColor: "var(--hairline)" }} />
-          <span style={{ fontSize: "12px", color: "var(--text-muted)", fontWeight: 700 }}>OR SIGN IN WITH EMAIL</span>
+          <span style={{ fontSize: "11px", color: "var(--text-muted)", fontWeight: 700 }}>OR EMAIL LOGIN</span>
           <div style={{ flex: 1, height: "1px", backgroundColor: "var(--hairline)" }} />
         </div>
 
         {error && (
           <div style={{
-            backgroundColor: "rgba(242, 63, 67, 0.15)",
+            backgroundColor: "rgba(218, 59, 37, 0.15)",
             border: "1px solid var(--status-critical)",
             borderRadius: "var(--rounded-md)",
-            padding: "12px 16px",
-            marginBottom: "20px",
+            padding: "10px 14px",
+            marginBottom: "16px",
             display: "flex",
             alignItems: "center",
-            gap: "10px",
+            gap: "8px",
             color: "var(--status-critical)",
             fontSize: "13px"
           }}>
-            <AlertCircle size={16} />
+            <AlertCircle size={15} />
             <span>{error}</span>
           </div>
         )}
@@ -178,14 +178,14 @@ export default function LoginPage() {
             type="submit"
             className="btn btn-primary btn-block btn-lg"
             disabled={loading}
-            style={{ marginTop: "12px" }}
+            style={{ marginTop: "8px" }}
           >
-            <LogIn size={16} />
+            <LogIn size={15} />
             <span>{loading ? "Signing in..." : "Sign in"}</span>
           </button>
         </form>
 
-        <div style={{ textAlign: "center", marginTop: "24px", fontSize: "14px", color: "var(--text-muted)" }}>
+        <div style={{ textAlign: "center", marginTop: "20px", fontSize: "13px", color: "var(--text-muted)" }}>
           Don&apos;t have an account?{" "}
           <Link href="/register" style={{ color: "var(--primary)", fontWeight: 700 }}>
             Sign up free

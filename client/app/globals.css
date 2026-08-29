@@ -1,5 +1,5 @@
 :root {
-  /* Discord Dark Theme Palette with Yellow Primary Accent */
+  /* Discord Dark Theme Palette with Crimson Primary Accent (218, 59, 37 / #da3b25) */
   --canvas: #313338;             /* Discord Primary Canvas */
   --surface-soft: #1e1f22;        /* Discord Recessed / Input Background */
   --surface-card: #2b2d31;        /* Discord Card / Panel Background */
@@ -15,24 +15,24 @@
   --text-muted: #949ba4;          /* Discord Muted Secondary Text */
   --text-muted-soft: #80848e;
 
-  --on-primary: #111111;          /* Dark Text on Yellow Primary Buttons */
+  --on-primary: #ffffff;          /* White Text on Crimson Buttons */
   --on-dark: #ffffff;
   --on-dark-soft: #949ba4;
 
-  --primary: #f0b232;             /* Discord Yellow */
-  --primary-active: #d99b26;
-  --brand-accent: #f0b232;
+  --primary: rgb(218, 59, 37);    /* RGB(218, 59, 37) -> #da3b25 */
+  --primary-active: #b82d1b;
+  --brand-accent: rgb(218, 59, 37);
 
   /* Semantics */
   --success: #23a55a;             /* Discord Green */
   --warning: #f0b232;             /* Discord Yellow */
-  --error: #f23f43;               /* Discord Red */
+  --error: rgb(218, 59, 37);      /* Crimson Red */
 
   --status-stable: #23a55a;
   --status-mild: #57f287;
   --status-elevated: #f0b232;
   --status-high: #f2723f;
-  --status-critical: #f23f43;
+  --status-critical: rgb(218, 59, 37);
 
   /* Border Radii */
   --rounded-xs: 4px;
@@ -44,7 +44,7 @@
   --rounded-full: 50%;
 
   /* Spacing */
-  --spacing-section: 80px;
+  --spacing-section: 64px;
 
   --font-display: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-body: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -69,7 +69,7 @@ html, body {
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
   color: var(--ink);
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: -0.02em;
 }
 
@@ -87,15 +87,15 @@ button {
 
 /* Containers */
 .container {
-  max-width: 1140px;
+  max-width: 1080px;
   margin: 0 auto;
-  padding: 0 24px;
+  padding: 0 20px;
 }
 
 .container-narrow {
-  max-width: 680px;
+  max-width: 620px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 16px;
 }
 
 /* Cards */
@@ -103,15 +103,14 @@ button {
   background-color: var(--surface-card);
   border: 1px solid var(--hairline);
   border-radius: var(--rounded-lg);
-  padding: 28px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  padding: 24px;
 }
 
 .card-gray {
   background-color: var(--surface-card);
   border: 1px solid var(--hairline-soft);
   border-radius: var(--rounded-lg);
-  padding: 28px;
+  padding: 24px;
 }
 
 .card-inner {
@@ -142,7 +141,7 @@ button {
 
 .btn-primary {
   background-color: var(--primary);
-  color: #111111;
+  color: #ffffff;
 }
 .btn-primary:hover {
   background-color: var(--primary-active);
@@ -163,7 +162,7 @@ button {
   color: #ffffff;
 }
 .btn-danger:hover {
-  background-color: #d83a3e;
+  background-color: #b82d1b;
 }
 
 .btn-success {
@@ -194,13 +193,12 @@ button {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  margin-bottom: 18px;
+  margin-bottom: 16px;
 }
 
 .form-label {
   font-size: 12px;
   font-weight: 600;
-  letter-spacing: 0.02em;
   color: var(--text-muted);
   text-transform: uppercase;
 }
@@ -213,17 +211,17 @@ button {
   color: var(--ink);
   font-size: 14px;
   outline: none;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  transition: border-color 0.15s ease;
   font-family: inherit;
 }
 
 .form-input:focus, .form-textarea:focus {
   border-color: var(--primary);
-  box-shadow: 0 0 0 2px rgba(240, 178, 50, 0.25);
+  box-shadow: 0 0 0 2px rgba(218, 59, 37, 0.25);
 }
 
 .form-textarea {
-  min-height: 110px;
+  min-height: 100px;
   resize: vertical;
 }
 
@@ -263,9 +261,9 @@ button {
 }
 
 .badge-critical {
-  background-color: rgba(242, 63, 67, 0.18);
+  background-color: rgba(218, 59, 37, 0.18);
   color: var(--status-critical);
-  border: 1px solid rgba(242, 63, 67, 0.35);
+  border: 1px solid rgba(218, 59, 37, 0.35);
 }
 
 /* Nav Pill Group Component */
@@ -290,18 +288,17 @@ button {
 
 .nav-pill-item.active {
   background-color: var(--primary);
-  color: #111111;
+  color: #ffffff;
   font-weight: 700;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 /* Safety Alert Banner */
 .safety-banner {
-  background-color: rgba(242, 63, 67, 0.12);
-  border: 1px solid rgba(242, 63, 67, 0.45);
+  background-color: rgba(218, 59, 37, 0.12);
+  border: 1px solid rgba(218, 59, 37, 0.45);
   border-radius: var(--rounded-lg);
   padding: 20px;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
 
 /* Check-in Question Buttons */
@@ -309,7 +306,7 @@ button {
   background-color: var(--surface-soft);
   border: 1px solid var(--hairline);
   border-radius: var(--rounded-md);
-  padding: 16px 20px;
+  padding: 14px 18px;
   text-align: left;
   font-size: 15px;
   font-weight: 500;
@@ -324,12 +321,11 @@ button {
 .option-button:hover {
   background-color: #35373c;
   border-color: #4e5058;
-  transform: translateX(2px);
 }
 
 .option-button.selected {
   background-color: var(--primary);
-  color: #111111;
+  color: #ffffff;
   font-weight: 700;
   border-color: var(--primary);
 }
@@ -351,8 +347,8 @@ button {
   background-color: var(--surface-card);
   border: 1px solid var(--hairline);
   border-radius: var(--rounded-xl);
-  max-width: 560px;
+  max-width: 540px;
   width: 100%;
-  padding: 32px;
+  padding: 28px;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
 }
