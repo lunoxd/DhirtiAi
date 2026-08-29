@@ -8,7 +8,7 @@ function cleanAiResponse(text) {
   return text.replace(/<think>[\s\S]*?<\/think>/gi, "").trim();
 }
 
-async function analyzeWrittenResponses(writtenResponses, scoreData) {
+async function analyzeWrittenResponses(structuredResponses, writtenResponses, scoreData) {
   const apiKey = process.env.GROQ_API_KEY;
 
   const promptText = typeof writtenResponses === "string"
@@ -120,5 +120,6 @@ async function analyzeWrittenResponses(writtenResponses, scoreData) {
 }
 
 module.exports = {
-  analyzeWrittenResponses
+  analyzeWrittenResponses,
+  analyzeWithGroq: analyzeWrittenResponses
 };

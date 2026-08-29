@@ -3,95 +3,122 @@
  * Calculates deterministic 0-100 Dhriti Index, detects trends, and enforces safety overrides.
  */
 
-// Centralized Question Scoring Matrix
+// Centralized Question Scoring Matrix with support for both legacy and 10-Q AI Assessment keys
 const QUESTION_SCORING_MATRIX = {
   mood: {
     label: "Mood",
     options: {
-      very_good: 0,
-      good: 1,
+      very_good: 0, POSITIVE: 0,
+      good: 1, BALANCED: 1, NEUTRAL: 2,
       okay: 2,
-      difficult: 4,
+      difficult: 4, LOW: 4,
       very_difficult: 5
     }
   },
   stress: {
     label: "Stress Level",
     options: {
-      not_at_all: 0,
+      not_at_all: 0, LOW: 0,
       a_little: 1,
-      somewhat: 2,
-      very_stressed: 4,
+      somewhat: 2, MODERATE: 2,
+      very_stressed: 4, SEVERE: 5,
       extremely_stressed: 5
     }
   },
   sleep: {
     label: "Sleep Quality",
     options: {
-      very_good: 0,
+      very_good: 0, RESTFUL: 0,
       good: 1,
-      okay: 2,
-      poor: 4,
+      okay: 2, MODERATE: 2,
+      poor: 4, DISRUPTED: 4,
       very_poor: 5
     }
   },
-  daily_functioning: {
-    label: "Daily Functioning",
+  energy: {
+    label: "Energy & Vitality",
     options: {
-      very_easy: 0,
-      manageable: 1,
-      somewhat_difficult: 2,
-      hard_to_manage: 4,
-      unable_to_function: 5
+      HIGH: 0,
+      MODERATE: 2,
+      EXHAUSTED: 5
     }
   },
   social_connection: {
     label: "Social Connection",
     options: {
-      very_connected: 0,
-      moderately_connected: 1,
+      very_connected: 0, CONNECTED: 0,
+      moderately_connected: 1, SOMEWHAT: 2,
       somewhat_isolated: 2,
-      very_isolated: 4,
+      very_isolated: 4, ISOLATED: 4,
       completely_isolated: 5
     }
   },
-  intrusive_thoughts: {
-    label: "Intrusive / Upsetting Thoughts",
+  support: {
+    label: "Social Support",
     options: {
-      never: 0,
-      rarely: 1,
-      sometimes: 2,
-      often: 4,
-      very_often: 5
+      CONNECTED: 0,
+      SOMEWHAT: 2,
+      ISOLATED: 4
     }
   },
-  emotional_control: {
-    label: "Emotional Regulation",
+  focus: {
+    label: "Mental Focus",
     options: {
-      in_control: 0,
-      mostly_calm: 1,
-      occasionally_overwhelmed: 2,
-      frequently_overwhelmed: 4,
-      constantly_overwhelmed: 5
+      CLEAR: 0,
+      DISTRACTED: 2,
+      FOGGY: 4
     }
   },
-  coping_ability: {
-    label: "Coping Ability",
+  appetite: {
+    label: "Appetite & Routine",
     options: {
-      very_confident: 0,
-      confident: 1,
-      unsure: 2,
-      struggling: 4,
-      unable_to_cope: 5
+      REGULAR: 0,
+      REDUCED: 2,
+      IRREGULAR: 4
     }
   },
   sense_of_safety: {
     label: "Sense of Safety",
     isSafetyQuestion: true,
     options: {
-      yes: 0,
-      unsure: 3,
-      no: 5 // Immediate safety concern trigger
+      yes: 0, SAFE: 0,
+      unsure: 3, ANXIOUS: 3,
+      no: 5, UNSAFE: 5
+    }
+  },
+  safety: {
+    label: "Sense of Safety",
+    isSafetyQuestion: true,
+    options: {
+      SAFE: 0,
+      ANXIOUS: 3,
+      UNSAFE: 5
+    }
+  },
+  coping_ability: {
+    label: "Coping Ability",
+    options: {
+      very_confident: 0, STRONG: 0,
+      confident: 1,
+      unsure: 2, STRUGGLING: 3,
+      struggling: 4, UNABLE: 5,
+      unable_to_cope: 5
+    }
+  },
+  coping: {
+    label: "Coping Ability",
+    options: {
+      STRONG: 0,
+      STRUGGLING: 3,
+      UNABLE: 5
+    }
+  },
+  outlook: {
+    label: "Future Outlook",
+    options: {
+      OPTIMISTIC: 0,
+      UNCERTAIN: 2,
+      HOPELESS: 5
     }
   },
   overall_wellbeing: {
@@ -142,9 +169,6 @@ function getDefaultSupportRecommendation(riskLevel, safetyConcern) {
 
 /**
  * Calculate deterministic Dhriti Index and trend analysis
- * @param {Object} structuredResponses - key-value pairs of question IDs to option keys
- * @param {Array} previousCheckIns - sorted array of past check-ins (latest first)
- * @param {Object} aiSignals - signals extracted by Groq (optional)
  */
 function calculateDhritiIndex(structuredResponses, previousCheckIns = [], aiSignals = null) {
   let totalRawScore = 0;
@@ -152,54 +176,44 @@ function calculateDhritiIndex(structuredResponses, previousCheckIns = [], aiSign
   let safetyOverride = false;
   const noticedItems = [];
 
-  for (const [qKey, qConfig] of Object.entries(QUESTION_SCORING_MATRIX)) {
-    const selectedOption = structuredResponses[qKey];
-    maxPossibleRawScore += 5; // standard 5 max per question
+  const responseKeys = Object.keys(structuredResponses || {});
 
-    if (selectedOption && qConfig.options[selectedOption] !== undefined) {
+  for (const qKey of responseKeys) {
+    const qConfig = QUESTION_SCORING_MATRIX[qKey];
+    const selectedOption = structuredResponses[qKey];
+    maxPossibleRawScore += 5;
+
+    if (qConfig && selectedOption && qConfig.options[selectedOption] !== undefined) {
       const points = qConfig.options[selectedOption];
       totalRawScore += points;
 
-      // Check safety question specifically
-      if (qKey === "sense_of_safety" && selectedOption === "no") {
+      if ((qKey === "sense_of_safety" || qKey === "safety") && (selectedOption === "no" || selectedOption === "UNSAFE")) {
         safetyOverride = true;
       }
 
-      // Record noticeable high-distress indicators
       if (points >= 4) {
-        if (qKey === "stress") noticedItems.push("High stress levels reported");
-        if (qKey === "sleep") noticedItems.push("Sleep quality has been significantly impacted");
-        if (qKey === "intrusive_thoughts") noticedItems.push("Upsetting thoughts or memories reported frequently");
-        if (qKey === "daily_functioning") noticedItems.push("Difficulty managing routine daily activities");
-        if (qKey === "social_connection") noticedItems.push("Feelings of isolation from support networks");
-        if (qKey === "emotional_control") noticedItems.push("Feeling frequently overwhelmed by emotions");
-        if (qKey === "coping_ability") noticedItems.push("Coping mechanisms are currently strained");
+        noticedItems.push(`Elevated distress noted in ${qConfig.label || qKey}`);
       }
     } else {
-      // Default to neutral/mild if unanswered
       totalRawScore += 1;
     }
   }
 
-  // Check if AI analysis detected an explicit safety concern in written text
+  if (maxPossibleRawScore === 0) maxPossibleRawScore = 50;
+
   if (aiSignals && aiSignals.safetyConcern === true) {
     safetyOverride = true;
   }
 
-  // Calculate deterministic 0-100 base score
   let baseScore = Math.round((totalRawScore / maxPossibleRawScore) * 100);
   baseScore = Math.min(100, Math.max(0, baseScore));
 
-  // Determine baseline risk level
   let riskLevel = getRiskLevel(baseScore);
 
-  // If safety override is triggered, escalate to Critical/High immediately
   if (safetyOverride && baseScore < 70) {
-    // Escalate risk level representation while keeping deterministic calculation transparent
     riskLevel = "High";
   }
 
-  // Calculate historical trend
   let trend = "STABLE";
   let deltaPoints = 0;
   let rapidIncreaseDetected = false;
@@ -216,15 +230,6 @@ function calculateDhritiIndex(structuredResponses, previousCheckIns = [], aiSign
       trend = "IMPROVING";
     } else {
       trend = "STABLE";
-    }
-
-    // Detect rapid spike over last 3 check-ins if available
-    if (previousCheckIns.length >= 2) {
-      const olderCheckIn = previousCheckIns[1];
-      const olderScore = typeof olderCheckIn.dhritiIndex === "number" ? olderCheckIn.dhritiIndex : parseFloat(olderCheckIn.dhritiIndex);
-      if (baseScore - olderScore >= 15) {
-        rapidIncreaseDetected = true;
-      }
     }
   }
 
