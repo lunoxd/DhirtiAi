@@ -1,36 +1,37 @@
 :root {
-  /* Clean White Palette with High Contrast Text */
-  --canvas: #ffffff;             /* Pure White Canvas */
-  --surface-soft: #f8f9fa;        /* Light Surface Soft */
-  --surface-card: #ffffff;        /* White Card Surface */
-  --surface-strong: #e5e7eb;      /* Hairline Border */
-  --surface-dark: #111827;        /* Dark Footer Surface */
+  /* Discord Dark Aesthetic System with Custom Coral Pink Primary Accent */
+  --canvas: #313338;             /* Discord Main Canvas Floor */
+  --surface-soft: #1e1f22;        /* Discord Recessed / Input Background */
+  --surface-card: #2b2d31;        /* Discord Container Card Background */
+  --surface-strong: #3f4147;      /* Discord Element Hairline Border */
+  --surface-dark: #1e1f22;        /* Discord Dark Bar / Footer */
+  --surface-dark-elevated: #232428;
 
-  --hairline: #e5e7eb;
-  --hairline-soft: #f3f4f6;
+  --hairline: #3f4147;
+  --hairline-soft: #35373c;
 
-  --ink: #111827;                 /* Deep High-Contrast Headlines (#111827) */
-  --text-body: #1f2937;           /* High-Contrast Body Text (#1f2937) */
-  --text-muted: #4b5563;          /* High-Contrast Muted Text (#4b5563) */
-  --text-muted-soft: #6b7280;
+  --ink: #ffffff;                 /* Pure White Headlines & Crisp Titles */
+  --text-body: #dbdee1;           /* Light Discord Primary Body Text */
+  --text-muted: #949ba4;          /* Secondary Muted Text */
+  --text-muted-soft: #80848e;
 
-  --on-primary: #ffffff;          /* White Text on Coral Pink Buttons */
+  --on-primary: #ffffff;          /* Pure White Text on Primary Coral Buttons */
   --on-dark: #ffffff;
-  --on-dark-soft: #9ca3af;
+  --on-dark-soft: #949ba4;
 
   --primary: rgb(245, 36, 67);    /* RGB(245, 36, 67) Vibrant Coral Pink */
   --primary-active: #d81b37;
   --brand-accent: rgb(245, 36, 67);
 
   /* Semantics */
-  --success: #059669;
-  --warning: #d97706;
-  --error: rgb(245, 36, 67);
+  --success: #23a55a;             /* Discord Green */
+  --warning: #f0b232;             /* Discord Yellow */
+  --error: rgb(245, 36, 67);      /* Coral Pink / Red */
 
-  --status-stable: #059669;
-  --status-mild: #10b981;
-  --status-elevated: #d97706;
-  --status-high: #ea580c;
+  --status-stable: #23a55a;
+  --status-mild: #57f287;
+  --status-elevated: #f0b232;
+  --status-high: #f2723f;
   --status-critical: rgb(245, 36, 67);
 
   /* Border Radii */
@@ -60,20 +61,16 @@ html, body {
   color: var(--text-body);
   font-family: var(--font-body);
   font-size: 15px;
-  line-height: 1.5;
+  line-height: 1.55;
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
-  color: var(--ink);
+  color: #ffffff !important;
   font-weight: 700;
   letter-spacing: -0.02em;
-}
-
-p, span, div, li, label, th, td {
-  color: inherit;
 }
 
 a {
@@ -90,28 +87,28 @@ button {
 
 /* Containers */
 .container {
-  max-width: 1080px;
+  max-width: 1100px;
   margin: 0 auto;
   padding: 0 20px;
 }
 
 .container-narrow {
-  max-width: 620px;
+  max-width: 640px;
   margin: 0 auto;
   padding: 0 16px;
 }
 
 /* Cards */
 .card {
-  background-color: var(--canvas);
+  background-color: var(--surface-card);
   border: 1px solid var(--hairline);
   border-radius: var(--rounded-lg);
   padding: 24px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
 }
 
 .card-gray {
-  background-color: var(--surface-soft);
+  background-color: var(--surface-card);
   border: 1px solid var(--hairline);
   border-radius: var(--rounded-lg);
   padding: 24px;
@@ -146,19 +143,20 @@ button {
 .btn-primary {
   background-color: var(--primary);
   color: #ffffff !important;
+  box-shadow: 0 2px 8px rgba(245, 36, 67, 0.3);
 }
 .btn-primary:hover {
   background-color: var(--primary-active);
 }
 
 .btn-secondary {
-  background-color: var(--canvas);
-  color: var(--ink) !important;
+  background-color: var(--surface-soft);
+  color: #ffffff !important;
   border: 1px solid var(--hairline);
 }
 .btn-secondary:hover {
-  background-color: var(--surface-soft);
-  border-color: #d1d5db;
+  background-color: #35373c;
+  border-color: #4e5058;
 }
 
 .btn-danger {
@@ -174,7 +172,7 @@ button {
   color: #ffffff !important;
 }
 .btn-success:hover {
-  background-color: #047857;
+  background-color: #1f9450;
 }
 
 .btn-sm {
@@ -208,11 +206,11 @@ button {
 }
 
 .form-input, .form-textarea {
-  background-color: var(--canvas);
+  background-color: var(--surface-soft);
   border: 1px solid var(--hairline);
   border-radius: var(--rounded-md);
   padding: 10px 14px;
-  color: var(--ink) !important;
+  color: #ffffff !important;
   font-size: 14px;
   outline: none;
   transition: border-color 0.15s ease;
@@ -221,7 +219,7 @@ button {
 
 .form-input:focus, .form-textarea:focus {
   border-color: var(--primary);
-  box-shadow: 0 0 0 2px rgba(245, 36, 67, 0.15);
+  box-shadow: 0 0 0 2px rgba(245, 36, 67, 0.25);
 }
 
 .form-textarea {
@@ -241,33 +239,33 @@ button {
 }
 
 .badge-stable {
-  background-color: rgba(5, 150, 105, 0.12);
-  color: #047857;
-  border: 1px solid rgba(5, 150, 105, 0.3);
+  background-color: rgba(35, 165, 90, 0.18);
+  color: var(--status-stable);
+  border: 1px solid rgba(35, 165, 90, 0.35);
 }
 
 .badge-mild {
-  background-color: rgba(16, 185, 129, 0.12);
-  color: #059669;
-  border: 1px solid rgba(16, 185, 129, 0.3);
+  background-color: rgba(87, 242, 135, 0.18);
+  color: var(--status-mild);
+  border: 1px solid rgba(87, 242, 135, 0.35);
 }
 
 .badge-elevated {
-  background-color: rgba(217, 119, 6, 0.12);
-  color: #b45309;
-  border: 1px solid rgba(217, 119, 6, 0.3);
+  background-color: rgba(240, 178, 50, 0.18);
+  color: var(--status-elevated);
+  border: 1px solid rgba(240, 178, 50, 0.35);
 }
 
 .badge-high {
-  background-color: rgba(234, 88, 12, 0.12);
-  color: #c2410c;
-  border: 1px solid rgba(234, 88, 12, 0.3);
+  background-color: rgba(242, 114, 63, 0.18);
+  color: var(--status-high);
+  border: 1px solid rgba(242, 114, 63, 0.35);
 }
 
 .badge-critical {
-  background-color: rgba(245, 36, 67, 0.12);
+  background-color: rgba(245, 36, 67, 0.18);
   color: var(--status-critical);
-  border: 1px solid rgba(245, 36, 67, 0.3);
+  border: 1px solid rgba(245, 36, 67, 0.35);
 }
 
 /* Nav Pill Group Component */
@@ -298,8 +296,8 @@ button {
 
 /* Safety Alert Banner */
 .safety-banner {
-  background-color: rgba(245, 36, 67, 0.08);
-  border: 1px solid rgba(245, 36, 67, 0.35);
+  background-color: rgba(245, 36, 67, 0.12);
+  border: 1px solid rgba(245, 36, 67, 0.45);
   border-radius: var(--rounded-lg);
   padding: 20px;
   margin-bottom: 20px;
@@ -307,14 +305,14 @@ button {
 
 /* Check-in Question Buttons */
 .option-button {
-  background-color: var(--canvas);
+  background-color: var(--surface-soft);
   border: 1px solid var(--hairline);
   border-radius: var(--rounded-md);
   padding: 14px 18px;
   text-align: left;
   font-size: 15px;
   font-weight: 600;
-  color: var(--ink) !important;
+  color: #ffffff !important;
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -323,8 +321,8 @@ button {
 }
 
 .option-button:hover {
-  background-color: var(--surface-soft);
-  border-color: #d1d5db;
+  background-color: #35373c;
+  border-color: #4e5058;
 }
 
 .option-button.selected {
@@ -338,8 +336,8 @@ button {
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(2px);
+  background-color: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -348,11 +346,11 @@ button {
 }
 
 .modal-content {
-  background-color: var(--canvas);
+  background-color: var(--surface-card);
   border: 1px solid var(--hairline);
   border-radius: var(--rounded-xl);
   max-width: 540px;
   width: 100%;
   padding: 28px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
 }

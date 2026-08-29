@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { apiChat } from "../lib/api";
-import { MessageSquare, X, Send, Sparkles, Heart, Bot, ShieldAlert } from "lucide-react";
+import { X, Send, Sparkles } from "lucide-react";
 import EmergencyModal from "./EmergencyModal";
 
 export default function DhritiAiChat() {
@@ -10,7 +10,7 @@ export default function DhritiAiChat() {
   const [messages, setMessages] = useState([
     {
       role: "assistant",
-      content: "Namaste! I am DhritiAi, your compassionate mental health & wellbeing companion. How are you feeling today?"
+      content: "Namaste! I am DhritiAi, your mental health and emotional wellbeing companion. How are you feeling today?"
     }
   ]);
   const [input, setInput] = useState("");
@@ -50,7 +50,7 @@ export default function DhritiAiChat() {
         ...prev,
         {
           role: "assistant",
-          content: "I'm here for you. If you're feeling overwhelmed, taking a slow deep breath in for 4 seconds can help bring calm. You can also reach Tele-MANAS anytime at 14416."
+          content: "I am here with you. Taking a slow deep breath in for 4 seconds and exhaling for 4 seconds can help bring calm. You can also reach Tele-MANAS anytime at 14416."
         }
       ]);
     } finally {
@@ -90,11 +90,10 @@ export default function DhritiAiChat() {
             display: "flex",
             alignItems: "center",
             gap: "10px",
-            boxShadow: "0 8px 24px rgba(245, 36, 67, 0.35)",
+            boxShadow: "0 8px 24px rgba(245, 36, 67, 0.4)",
             border: "none",
             fontWeight: 700,
-            fontSize: "14px",
-            transition: "transform 0.15s ease"
+            fontSize: "14px"
           }}
         >
           <div style={{
@@ -118,14 +117,14 @@ export default function DhritiAiChat() {
           position: "fixed",
           bottom: "24px",
           right: "24px",
-          width: "380px",
+          width: "385px",
           maxWidth: "calc(100vw - 32px)",
           height: "540px",
           maxHeight: "calc(100vh - 100px)",
-          backgroundColor: "#ffffff",
+          backgroundColor: "#2b2d31",
           border: "1px solid var(--hairline)",
           borderRadius: "var(--rounded-xl)",
-          boxShadow: "0 20px 40px rgba(0, 0, 0, 0.18)",
+          boxShadow: "0 20px 40px rgba(0, 0, 0, 0.5)",
           zIndex: 1000,
           display: "flex",
           flexDirection: "column",
@@ -133,7 +132,7 @@ export default function DhritiAiChat() {
         }}>
           {/* Drawer Header */}
           <div style={{
-            backgroundColor: "var(--surface-soft)",
+            backgroundColor: "#1e1f22",
             borderBottom: "1px solid var(--hairline)",
             padding: "14px 16px",
             display: "flex",
@@ -143,7 +142,7 @@ export default function DhritiAiChat() {
             <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
               <img src="/logo.png" alt="Dhriti Logo" style={{ height: "26px", width: "auto" }} />
               <div>
-                <div style={{ fontSize: "15px", fontWeight: 800, color: "var(--ink)", display: "flex", alignItems: "center", gap: "6px" }}>
+                <div style={{ fontSize: "15px", fontWeight: 800, color: "#ffffff", display: "flex", alignItems: "center", gap: "6px" }}>
                   <span>DhritiAi</span>
                   <span style={{ width: "8px", height: "8px", borderRadius: "50%", backgroundColor: "var(--status-stable)" }} />
                 </div>
@@ -173,7 +172,7 @@ export default function DhritiAiChat() {
             display: "flex",
             flexDirection: "column",
             gap: "12px",
-            backgroundColor: "#ffffff"
+            backgroundColor: "#2b2d31"
           }}>
             {messages.map((m, idx) => (
               <div
@@ -184,13 +183,13 @@ export default function DhritiAiChat() {
                 }}
               >
                 <div style={{
-                  maxWidth: "84%",
+                  maxWidth: "85%",
                   padding: "10px 14px",
                   borderRadius: "14px",
                   fontSize: "13.5px",
                   lineHeight: "1.5",
-                  backgroundColor: m.role === "user" ? "var(--primary)" : "var(--surface-soft)",
-                  color: m.role === "user" ? "#ffffff" : "var(--ink)",
+                  backgroundColor: m.role === "user" ? "var(--primary)" : "#1e1f22",
+                  color: "#ffffff",
                   border: m.role === "user" ? "none" : "1px solid var(--hairline)",
                   whiteSpace: "pre-wrap"
                 }}>
@@ -203,7 +202,7 @@ export default function DhritiAiChat() {
               <div style={{ display: "flex", justifyContent: "flex-start" }}>
                 <div className="card-inner" style={{ fontSize: "12px", color: "var(--text-muted)", display: "flex", alignItems: "center", gap: "6px" }}>
                   <Sparkles size={13} color="var(--primary)" />
-                  <span>DhritiAi is thinking...</span>
+                  <span>DhritiAi is typing...</span>
                 </div>
               </div>
             )}
@@ -213,7 +212,7 @@ export default function DhritiAiChat() {
           {/* Quick Prompts Bar */}
           <div style={{
             padding: "8px 12px",
-            backgroundColor: "var(--surface-soft)",
+            backgroundColor: "#1e1f22",
             borderTop: "1px solid var(--hairline)",
             display: "flex",
             gap: "6px",
@@ -227,8 +226,8 @@ export default function DhritiAiChat() {
                 style={{
                   fontSize: "11px",
                   fontWeight: 600,
-                  color: "var(--ink)",
-                  backgroundColor: "#ffffff",
+                  color: "#ffffff",
+                  backgroundColor: "#2b2d31",
                   border: "1px solid var(--hairline)",
                   borderRadius: "var(--rounded-pill)",
                   padding: "4px 10px",
@@ -243,7 +242,7 @@ export default function DhritiAiChat() {
           {/* Input Bar */}
           <div style={{
             padding: "12px 14px",
-            backgroundColor: "#ffffff",
+            backgroundColor: "#1e1f22",
             borderTop: "1px solid var(--hairline)",
             display: "flex",
             gap: "8px",

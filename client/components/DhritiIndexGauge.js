@@ -34,15 +34,15 @@ export default function DhritiIndexGauge({ score, riskLevel, delta = 0, trend = 
     <div className="card" style={{ textAlign: "center", position: "relative", overflow: "hidden" }}>
       {safetyConcern && (
         <div style={{
-          backgroundColor: "rgba(245, 36, 67, 0.12)",
-          borderBottom: "1px solid rgba(245, 36, 67, 0.35)",
+          backgroundColor: "rgba(245, 36, 67, 0.18)",
+          borderBottom: "1px solid rgba(245, 36, 67, 0.45)",
           padding: "8px 12px",
           margin: "-24px -24px 20px -24px",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
           gap: "8px",
-          color: "var(--error)",
+          color: "var(--status-critical)",
           fontSize: "12px",
           fontWeight: 700
         }}>
@@ -74,7 +74,7 @@ export default function DhritiIndexGauge({ score, riskLevel, delta = 0, trend = 
           fontSize: "56px",
           fontWeight: 800,
           lineHeight: 1,
-          color: "var(--ink)",
+          color: "#ffffff",
           letterSpacing: "-0.03em",
           fontVariantNumeric: "tabular-nums"
         }}>
@@ -126,12 +126,12 @@ export default function DhritiIndexGauge({ score, riskLevel, delta = 0, trend = 
         {delta > 0 ? (
           <>
             <TrendingUp size={16} color="var(--status-critical)" />
-            <span><strong style={{ color: "var(--ink)" }}>↑ {Math.abs(delta)} points</strong> from previous check-in</span>
+            <span><strong style={{ color: "#ffffff" }}>↑ {Math.abs(delta)} points</strong> from previous check-in</span>
           </>
         ) : delta < 0 ? (
           <>
             <TrendingDown size={16} color="var(--status-stable)" />
-            <span><strong style={{ color: "var(--ink)" }}>↓ {Math.abs(delta)} points</strong> from previous check-in</span>
+            <span><strong style={{ color: "#ffffff" }}>↓ {Math.abs(delta)} points</strong> from previous check-in</span>
           </>
         ) : (
           <>

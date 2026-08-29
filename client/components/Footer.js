@@ -7,8 +7,8 @@ import { Heart } from "lucide-react";
 export default function Footer() {
   return (
     <footer style={{
-      backgroundColor: "var(--surface-soft)",
-      color: "var(--text-body)",
+      backgroundColor: "#1e1f22",
+      color: "#ffffff",
       borderTop: "1px solid var(--hairline)",
       padding: "64px 0 36px 0",
       marginTop: "80px"
@@ -22,7 +22,7 @@ export default function Footer() {
         }}>
           {/* Brand Col */}
           <div>
-            <div style={{ display: "flex", alignItems: "center", gap: "10px", fontWeight: 800, color: "var(--ink)", fontSize: "18px", marginBottom: "12px" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "10px", fontWeight: 800, color: "#ffffff", fontSize: "18px", marginBottom: "12px" }}>
               <img
                 src="/logo.png"
                 alt="Dhriti Logo"
@@ -41,21 +41,21 @@ export default function Footer() {
 
           {/* Helplines Col */}
           <div>
-            <h4 style={{ fontSize: "13px", fontWeight: 700, color: "var(--ink)", marginBottom: "14px", letterSpacing: "0.04em", textTransform: "uppercase" }}>
+            <h4 style={{ fontSize: "13px", fontWeight: 700, color: "var(--primary)", marginBottom: "14px", letterSpacing: "0.04em", textTransform: "uppercase" }}>
               24/7 Verified Helplines (India)
             </h4>
             <ul style={{ listStyle: "none", fontSize: "13px", color: "var(--text-muted)", display: "flex", flexDirection: "column", gap: "8px" }}>
-              <li><strong>Tele-MANAS:</strong> <a href="tel:14416" style={{ color: "var(--ink)", textDecoration: "underline" }}>14416</a> (Toll-Free)</li>
-              <li><strong>KIRAN Helpline:</strong> <a href="tel:18005990019" style={{ color: "var(--ink)", textDecoration: "underline" }}>1800-599-0019</a></li>
-              <li><strong>Vandrevala Crisis:</strong> <a href="tel:+919999666555" style={{ color: "var(--ink)", textDecoration: "underline" }}>+91 9999 666 555</a></li>
-              <li><strong>NIMHANS Support:</strong> <a href="tel:08046110007" style={{ color: "var(--ink)", textDecoration: "underline" }}>080-46110007</a></li>
+              <li><strong>Tele-MANAS:</strong> <a href="tel:14416" style={{ color: "#ffffff", textDecoration: "underline" }}>14416</a> (Toll-Free)</li>
+              <li><strong>KIRAN Helpline:</strong> <a href="tel:18005990019" style={{ color: "#ffffff", textDecoration: "underline" }}>1800-599-0019</a></li>
+              <li><strong>Vandrevala Crisis:</strong> <a href="tel:+919999666555" style={{ color: "#ffffff", textDecoration: "underline" }}>+91 9999 666 555</a></li>
+              <li><strong>NIMHANS Support:</strong> <a href="tel:08046110007" style={{ color: "#ffffff", textDecoration: "underline" }}>080-46110007</a></li>
               <li><strong>Emergency Services:</strong> <a href="tel:112" style={{ color: "var(--error)", fontWeight: 700 }}>112</a></li>
             </ul>
           </div>
 
           {/* Navigation Col */}
           <div>
-            <h4 style={{ fontSize: "13px", fontWeight: 700, color: "var(--ink)", marginBottom: "14px", letterSpacing: "0.04em", textTransform: "uppercase" }}>
+            <h4 style={{ fontSize: "13px", fontWeight: 700, color: "var(--primary)", marginBottom: "14px", letterSpacing: "0.04em", textTransform: "uppercase" }}>
               Platform Navigation
             </h4>
             <div style={{ display: "flex", flexDirection: "column", gap: "8px", fontSize: "13px", color: "var(--text-muted)" }}>

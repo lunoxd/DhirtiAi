@@ -1,11 +1,11 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Play, Pause, RotateCcw, Heart } from "lucide-react";
+import { Play, Pause, RotateCcw } from "lucide-react";
 
 export default function BreathingWidget() {
   const [isActive, setIsActive] = useState(false);
-  const [phase, setPhase] = useState("Inhale"); // "Inhale" | "Hold" | "Exhale" | "Pause"
+  const [phase, setPhase] = useState("Inhale");
   const [secondsLeft, setSecondsLeft] = useState(4);
   const [cyclesCompleted, setCyclesCompleted] = useState(0);
 
@@ -23,7 +23,6 @@ export default function BreathingWidget() {
         setSecondsLeft((prev) => {
           if (prev > 1) return prev - 1;
 
-          // Transition phase
           if (phase === "Inhale") {
             setPhase("Hold");
             return phaseDurations.Hold;
@@ -66,7 +65,7 @@ export default function BreathingWidget() {
         BOX BREATHING GROUNDING
       </div>
 
-      <h3 style={{ fontSize: "16px", fontWeight: 800, color: "var(--ink)", marginBottom: "16px" }}>
+      <h3 style={{ fontSize: "16px", fontWeight: 800, color: "#ffffff", marginBottom: "16px" }}>
         4-4-4-4 Calm Pacing
       </h3>
 
@@ -87,7 +86,7 @@ export default function BreathingWidget() {
         <div style={{ fontSize: "14px", fontWeight: 700, color: "var(--primary)", textTransform: "uppercase" }}>
           {isActive ? phase : "Ready"}
         </div>
-        <div style={{ fontSize: "32px", fontWeight: 800, color: "var(--ink)", lineHeight: 1 }}>
+        <div style={{ fontSize: "32px", fontWeight: 800, color: "#ffffff", lineHeight: 1 }}>
           {isActive ? secondsLeft : "4s"}
         </div>
       </div>

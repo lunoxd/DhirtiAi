@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, CheckCircle2 } from "lucide-react";
+import { ChevronLeft, ChevronRight, Calendar as CalendarIcon } from "lucide-react";
 
 export default function CheckInCalendar({ checkIns = [] }) {
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -24,10 +24,8 @@ export default function CheckInCalendar({ checkIns = [] }) {
     "July", "August", "September", "October", "November", "December"
   ];
 
-  // Days calculations
   const firstDayOfMonth = new Date(year, month, 1).getDay();
   const daysInMonth = new Date(year, month + 1, 0).getDate();
-
   const prevMonthDays = new Date(year, month, 0).getDate();
 
   const handlePrevMonth = () => {
@@ -49,10 +47,8 @@ export default function CheckInCalendar({ checkIns = [] }) {
     }
   };
 
-  // Build grid days
   const gridCells = [];
 
-  // Padding days from previous month
   for (let i = firstDayOfMonth - 1; i >= 0; i--) {
     gridCells.push({
       day: prevMonthDays - i,
@@ -61,7 +57,6 @@ export default function CheckInCalendar({ checkIns = [] }) {
     });
   }
 
-  // Days in current month
   for (let day = 1; day <= daysInMonth; day++) {
     const monthStr = String(month + 1).padStart(2, "0");
     const dayStr = String(day).padStart(2, "0");
@@ -88,7 +83,7 @@ export default function CheckInCalendar({ checkIns = [] }) {
       }}>
         <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
           <CalendarIcon size={16} color="var(--primary)" />
-          <h3 style={{ fontSize: "15px", fontWeight: 800, color: "var(--ink)" }}>
+          <h3 style={{ fontSize: "15px", fontWeight: 800, color: "#ffffff" }}>
             {monthNames[month]} {year}
           </h3>
         </div>
@@ -149,7 +144,7 @@ export default function CheckInCalendar({ checkIns = [] }) {
                 height: "42px",
                 borderRadius: "var(--rounded-md)",
                 backgroundColor: hasCheckIns
-                  ? "rgba(245, 36, 67, 0.08)"
+                  ? "rgba(245, 36, 67, 0.18)"
                   : cell.isCurrentMonth
                   ? "var(--surface-soft)"
                   : "transparent",
@@ -161,14 +156,14 @@ export default function CheckInCalendar({ checkIns = [] }) {
                 alignItems: "center",
                 justifyContent: "center",
                 cursor: hasCheckIns ? "pointer" : "default",
-                opacity: cell.isCurrentMonth ? 1 : 0.3,
+                opacity: cell.isCurrentMonth ? 1 : 0.35,
                 position: "relative"
               }}
             >
               <span style={{
                 fontSize: "12px",
                 fontWeight: isToday || hasCheckIns ? 800 : 500,
-                color: hasCheckIns ? "var(--ink)" : "var(--text-body)"
+                color: hasCheckIns ? "#ffffff" : "var(--text-body)"
               }}>
                 {cell.day}
               </span>
@@ -209,11 +204,11 @@ export default function CheckInCalendar({ checkIns = [] }) {
           alignItems: "center"
         }}>
           <div>
-            <div style={{ fontSize: "12px", fontWeight: 700, color: "var(--ink)" }}>
+            <div style={{ fontSize: "12px", fontWeight: 700, color: "#ffffff" }}>
               Check-in on {new Date(selectedDayCheckIns[0].createdAt).toLocaleDateString()}
             </div>
             <div style={{ fontSize: "11px", color: "var(--text-muted)" }}>
-              Score: <strong style={{ color: "var(--ink)" }}>{Math.round(selectedDayCheckIns[0].dhritiIndex)}/100</strong> ({selectedDayCheckIns[0].riskLevel})
+              Score: <strong style={{ color: "#ffffff" }}>{Math.round(selectedDayCheckIns[0].dhritiIndex)}/100</strong> ({selectedDayCheckIns[0].riskLevel})
             </div>
           </div>
           <button

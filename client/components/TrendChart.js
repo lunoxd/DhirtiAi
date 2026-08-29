@@ -20,7 +20,6 @@ export default function TrendChart({ trendPoints = [] }) {
   const width = 460;
   const padding = 36;
 
-  // Compute points SVG polyline
   const maxScore = 100;
   const minScore = 0;
 
@@ -42,7 +41,7 @@ export default function TrendChart({ trendPoints = [] }) {
           <div style={{ fontSize: "12px", fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", color: "var(--text-muted)" }}>
             HISTORICAL DHRITI TREND
           </div>
-          <div style={{ fontSize: "14px", fontWeight: 700, color: "var(--ink)", marginTop: "2px" }}>
+          <div style={{ fontSize: "14px", fontWeight: 700, color: "#ffffff", marginTop: "2px" }}>
             Score Progression Over Time
           </div>
         </div>
@@ -52,14 +51,14 @@ export default function TrendChart({ trendPoints = [] }) {
       <div style={{ width: "100%", overflowX: "auto" }}>
         <svg viewBox={`0 0 ${width} ${height}`} style={{ width: "100%", height: "auto", overflow: "visible" }}>
           {/* Grid lines */}
-          <line x1={padding} y1={padding} x2={width - padding} y2={padding} stroke="#e5e7eb" strokeDasharray="3 3" />
-          <line x1={padding} y1={height / 2} x2={width - padding} y2={height / 2} stroke="#e5e7eb" strokeDasharray="3 3" />
-          <line x1={padding} y1={height - padding} x2={width - padding} y2={height - padding} stroke="#e5e7eb" />
+          <line x1={padding} y1={padding} x2={width - padding} y2={padding} stroke="#3f4147" strokeDasharray="3 3" />
+          <line x1={padding} y1={height / 2} x2={width - padding} y2={height / 2} stroke="#3f4147" strokeDasharray="3 3" />
+          <line x1={padding} y1={height - padding} x2={width - padding} y2={height - padding} stroke="#3f4147" />
 
           {/* Grid Y Axis Labels */}
-          <text x={padding - 8} y={padding + 4} fill="#4b5563" fontSize="10" fontWeight="600" textAnchor="end">100</text>
-          <text x={padding - 8} y={height / 2 + 4} fill="#4b5563" fontSize="10" fontWeight="600" textAnchor="end">50</text>
-          <text x={padding - 8} y={height - padding + 4} fill="#4b5563" fontSize="10" fontWeight="600" textAnchor="end">0</text>
+          <text x={padding - 8} y={padding + 4} fill="#949ba4" fontSize="10" fontWeight="600" textAnchor="end">100</text>
+          <text x={padding - 8} y={height / 2 + 4} fill="#949ba4" fontSize="10" fontWeight="600" textAnchor="end">50</text>
+          <text x={padding - 8} y={height - padding + 4} fill="#949ba4" fontSize="10" fontWeight="600" textAnchor="end">0</text>
 
           {/* Polyline */}
           {coords.length > 1 && (
@@ -80,14 +79,14 @@ export default function TrendChart({ trendPoints = [] }) {
                 cx={c.x}
                 cy={c.y}
                 r="5"
-                fill="var(--canvas)"
+                fill="#2b2d31"
                 stroke="var(--primary)"
                 strokeWidth="3"
               />
               <text
                 x={c.x}
                 y={c.y - 10}
-                fill="#111827"
+                fill="#ffffff"
                 fontSize="11"
                 fontWeight="800"
                 textAnchor="middle"
@@ -97,7 +96,7 @@ export default function TrendChart({ trendPoints = [] }) {
               <text
                 x={c.x}
                 y={height - padding + 16}
-                fill="#4b5563"
+                fill="#949ba4"
                 fontSize="10"
                 fontWeight="600"
                 textAnchor="middle"
