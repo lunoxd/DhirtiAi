@@ -58,10 +58,10 @@ export default function LoginPage() {
     <div className="container-narrow" style={{ paddingTop: "32px", paddingBottom: "64px" }}>
       <div className="card" style={{ padding: "32px" }}>
         <div style={{ textAlign: "center", marginBottom: "20px" }}>
-          <h1 style={{ fontSize: "22px", fontWeight: 800, color: "#ffffff", marginBottom: "4px" }}>
+          <h1 style={{ fontSize: "24px", fontWeight: 800, color: "var(--ink)", marginBottom: "4px" }}>
             Sign in to Dhriti
           </h1>
-          <p style={{ fontSize: "13px", color: "var(--text-muted)" }}>
+          <p style={{ fontSize: "14px", color: "var(--text-muted)" }}>
             Select a panel for instant access or enter credentials
           </p>
         </div>
@@ -95,7 +95,7 @@ export default function LoginPage() {
               style={{ display: "flex", flexDirection: "column", padding: "10px 4px", height: "auto", gap: "4px" }}
             >
               <User size={16} color="var(--primary)" />
-              <span style={{ fontSize: "12px", fontWeight: 700, color: "#ffffff" }}>1. User Panel</span>
+              <span style={{ fontSize: "12px", fontWeight: 700, color: "var(--ink)" }}>1. User Panel</span>
               <span style={{ fontSize: "10px", color: "var(--text-muted)" }}>Survivor View</span>
             </button>
 
@@ -107,7 +107,7 @@ export default function LoginPage() {
               style={{ display: "flex", flexDirection: "column", padding: "10px 4px", height: "auto", gap: "4px" }}
             >
               <Stethoscope size={16} color="var(--status-stable)" />
-              <span style={{ fontSize: "12px", fontWeight: 700, color: "#ffffff" }}>2. Doctor Panel</span>
+              <span style={{ fontSize: "12px", fontWeight: 700, color: "var(--ink)" }}>2. Doctor Panel</span>
               <span style={{ fontSize: "10px", color: "var(--text-muted)" }}>Distress Triage</span>
             </button>
 
@@ -119,7 +119,7 @@ export default function LoginPage() {
               style={{ display: "flex", flexDirection: "column", padding: "10px 4px", height: "auto", gap: "4px" }}
             >
               <ShieldCheck size={16} color="var(--primary)" />
-              <span style={{ fontSize: "12px", fontWeight: 700, color: "#ffffff" }}>3. Admin Panel</span>
+              <span style={{ fontSize: "12px", fontWeight: 700, color: "var(--ink)" }}>3. Admin Panel</span>
               <span style={{ fontSize: "10px", color: "var(--text-muted)" }}>System Control</span>
             </button>
           </div>
@@ -133,7 +133,7 @@ export default function LoginPage() {
 
         {error && (
           <div style={{
-            backgroundColor: "rgba(218, 59, 37, 0.15)",
+            backgroundColor: "rgba(245, 36, 67, 0.12)",
             border: "1px solid var(--status-critical)",
             borderRadius: "var(--rounded-md)",
             padding: "10px 14px",
@@ -185,7 +185,7 @@ export default function LoginPage() {
           </button>
         </form>
 
-        <div style={{ textAlign: "center", marginTop: "20px", fontSize: "13px", color: "var(--text-muted)" }}>
+        <div style={{ textAlign: "center", marginTop: "20px", fontSize: "14px", color: "var(--text-muted)" }}>
           Don&apos;t have an account?{" "}
           <Link href="/register" style={{ color: "var(--primary)", fontWeight: 700 }}>
             Sign up free

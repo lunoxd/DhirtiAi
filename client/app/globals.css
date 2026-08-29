@@ -1,37 +1,36 @@
 :root {
-  /* Clean White Palette with Vibrant Coral Pink Accent (rgb(245, 36, 67)) */
+  /* Clean White Palette with High Contrast Text */
   --canvas: #ffffff;             /* Pure White Canvas */
   --surface-soft: #f8f9fa;        /* Light Surface Soft */
   --surface-card: #ffffff;        /* White Card Surface */
   --surface-strong: #e5e7eb;      /* Hairline Border */
-  --surface-dark: #1e1f22;        /* Dark Footer */
-  --surface-dark-elevated: #2b2d31;
+  --surface-dark: #111827;        /* Dark Footer Surface */
 
   --hairline: #e5e7eb;
   --hairline-soft: #f3f4f6;
 
-  --ink: #111111;                 /* Dark Headlines & Primary Type */
-  --text-body: #374151;           /* Dark Primary Body Text */
-  --text-muted: #6b7280;          /* Secondary Muted Text */
-  --text-muted-soft: #898989;
+  --ink: #111827;                 /* Deep High-Contrast Headlines (#111827) */
+  --text-body: #1f2937;           /* High-Contrast Body Text (#1f2937) */
+  --text-muted: #4b5563;          /* High-Contrast Muted Text (#4b5563) */
+  --text-muted-soft: #6b7280;
 
   --on-primary: #ffffff;          /* White Text on Coral Pink Buttons */
   --on-dark: #ffffff;
-  --on-dark-soft: #949ba4;
+  --on-dark-soft: #9ca3af;
 
   --primary: rgb(245, 36, 67);    /* RGB(245, 36, 67) Vibrant Coral Pink */
   --primary-active: #d81b37;
   --brand-accent: rgb(245, 36, 67);
 
   /* Semantics */
-  --success: #10b981;             /* Emerald Green */
-  --warning: #f59e0b;             /* Warm Amber */
-  --error: rgb(245, 36, 67);      /* Coral Pink */
+  --success: #059669;
+  --warning: #d97706;
+  --error: rgb(245, 36, 67);
 
-  --status-stable: #10b981;
-  --status-mild: #34d399;
-  --status-elevated: #f59e0b;
-  --status-high: #f97316;
+  --status-stable: #059669;
+  --status-mild: #10b981;
+  --status-elevated: #d97706;
+  --status-high: #ea580c;
   --status-critical: rgb(245, 36, 67);
 
   /* Border Radii */
@@ -73,6 +72,10 @@ h1, h2, h3, h4, h5, h6 {
   letter-spacing: -0.02em;
 }
 
+p, span, div, li, label, th, td {
+  color: inherit;
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -104,7 +107,7 @@ button {
   border: 1px solid var(--hairline);
   border-radius: var(--rounded-lg);
   padding: 24px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 .card-gray {
@@ -142,7 +145,7 @@ button {
 
 .btn-primary {
   background-color: var(--primary);
-  color: #ffffff;
+  color: #ffffff !important;
 }
 .btn-primary:hover {
   background-color: var(--primary-active);
@@ -150,7 +153,7 @@ button {
 
 .btn-secondary {
   background-color: var(--canvas);
-  color: var(--ink);
+  color: var(--ink) !important;
   border: 1px solid var(--hairline);
 }
 .btn-secondary:hover {
@@ -160,7 +163,7 @@ button {
 
 .btn-danger {
   background-color: var(--error);
-  color: #ffffff;
+  color: #ffffff !important;
 }
 .btn-danger:hover {
   background-color: #d81b37;
@@ -168,10 +171,10 @@ button {
 
 .btn-success {
   background-color: var(--success);
-  color: #ffffff;
+  color: #ffffff !important;
 }
 .btn-success:hover {
-  background-color: #059669;
+  background-color: #047857;
 }
 
 .btn-sm {
@@ -199,7 +202,7 @@ button {
 
 .form-label {
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--text-muted);
   text-transform: uppercase;
 }
@@ -209,7 +212,7 @@ button {
   border: 1px solid var(--hairline);
   border-radius: var(--rounded-md);
   padding: 10px 14px;
-  color: var(--ink);
+  color: var(--ink) !important;
   font-size: 14px;
   outline: none;
   transition: border-color 0.15s ease;
@@ -233,32 +236,32 @@ button {
   gap: 6px;
   padding: 3px 10px;
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 700;
   border-radius: var(--rounded-pill);
 }
 
 .badge-stable {
-  background-color: rgba(16, 185, 129, 0.12);
-  color: var(--status-stable);
-  border: 1px solid rgba(16, 185, 129, 0.3);
+  background-color: rgba(5, 150, 105, 0.12);
+  color: #047857;
+  border: 1px solid rgba(5, 150, 105, 0.3);
 }
 
 .badge-mild {
-  background-color: rgba(52, 211, 153, 0.12);
+  background-color: rgba(16, 185, 129, 0.12);
   color: #059669;
-  border: 1px solid rgba(52, 211, 153, 0.3);
+  border: 1px solid rgba(16, 185, 129, 0.3);
 }
 
 .badge-elevated {
-  background-color: rgba(245, 158, 11, 0.12);
-  color: #d97706;
-  border: 1px solid rgba(245, 158, 11, 0.3);
+  background-color: rgba(217, 119, 6, 0.12);
+  color: #b45309;
+  border: 1px solid rgba(217, 119, 6, 0.3);
 }
 
 .badge-high {
-  background-color: rgba(249, 115, 22, 0.12);
-  color: #ea580c;
-  border: 1px solid rgba(249, 115, 22, 0.3);
+  background-color: rgba(234, 88, 12, 0.12);
+  color: #c2410c;
+  border: 1px solid rgba(234, 88, 12, 0.3);
 }
 
 .badge-critical {
@@ -289,7 +292,7 @@ button {
 
 .nav-pill-item.active {
   background-color: var(--primary);
-  color: #ffffff;
+  color: #ffffff !important;
   font-weight: 700;
 }
 
@@ -310,8 +313,8 @@ button {
   padding: 14px 18px;
   text-align: left;
   font-size: 15px;
-  font-weight: 500;
-  color: var(--ink);
+  font-weight: 600;
+  color: var(--ink) !important;
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -326,7 +329,7 @@ button {
 
 .option-button.selected {
   background-color: var(--primary);
-  color: #ffffff;
+  color: #ffffff !important;
   font-weight: 700;
   border-color: var(--primary);
 }
@@ -335,7 +338,7 @@ button {
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.45);
+  background-color: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(2px);
   display: flex;
   align-items: center;
@@ -351,5 +354,5 @@ button {
   max-width: 540px;
   width: 100%;
   padding: 28px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
 }

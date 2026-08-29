@@ -259,7 +259,7 @@ export default function CheckInPage() {
             animation: "spin 0.8s linear infinite"
           }} />
 
-          <h2 style={{ fontSize: "20px", fontWeight: 800, color: "#ffffff", marginBottom: "8px" }}>
+          <h2 style={{ fontSize: "20px", fontWeight: 800, color: "var(--ink)", marginBottom: "8px" }}>
             {loadingMessages[loadingMessageIndex]}
           </h2>
           <p style={{ fontSize: "14px", color: "var(--text-muted)" }}>
@@ -307,7 +307,7 @@ export default function CheckInPage() {
           </span>
         </div>
 
-        {/* Hairline Progress Track */}
+        {/* Progress Track */}
         <div style={{
           width: "100%",
           height: "6px",
@@ -326,7 +326,7 @@ export default function CheckInPage() {
 
       {/* Structured Question Card */}
       {isStructuredStep && currentStructuredQ && (
-        <div className="card" style={{ padding: "36px 28px" }}>
+        <div className="card" style={{ padding: "32px 24px" }}>
           {currentStructuredQ.isSafetyQuestion && (
             <div style={{
               display: "inline-flex",
@@ -334,7 +334,7 @@ export default function CheckInPage() {
               gap: "6px",
               padding: "4px 12px",
               borderRadius: "var(--rounded-pill)",
-              backgroundColor: "rgba(242, 63, 67, 0.18)",
+              backgroundColor: "rgba(245, 36, 67, 0.12)",
               color: "var(--status-critical)",
               fontSize: "12px",
               fontWeight: 700,
@@ -352,9 +352,9 @@ export default function CheckInPage() {
           <h2 style={{
             fontSize: "clamp(22px, 4vw, 26px)",
             fontWeight: 800,
-            color: "#ffffff",
+            color: "var(--ink)",
             letterSpacing: "-0.02em",
-            marginBottom: "28px",
+            marginBottom: "24px",
             lineHeight: "1.3"
           }}>
             {currentStructuredQ.question}
@@ -369,7 +369,7 @@ export default function CheckInPage() {
                   onClick={() => handleSelectOption(currentStructuredQ.id, opt.key)}
                   className={`option-button ${isSelected ? "selected" : ""}`}
                 >
-                  <span style={{ fontWeight: isSelected ? 700 : 500 }}>{opt.label}</span>
+                  <span style={{ fontWeight: isSelected ? 700 : 600 }}>{opt.label}</span>
                   {isSelected && <Check size={18} color="#ffffff" />}
                 </button>
               );
@@ -380,7 +380,7 @@ export default function CheckInPage() {
 
       {/* Optional Written Reflection Card */}
       {!isStructuredStep && currentWrittenQ && (
-        <div className="card" style={{ padding: "36px 28px" }}>
+        <div className="card" style={{ padding: "32px 24px" }}>
           <div style={{
             display: "inline-flex",
             alignItems: "center",
@@ -400,7 +400,7 @@ export default function CheckInPage() {
           <h2 style={{
             fontSize: "clamp(20px, 3.5vw, 24px)",
             fontWeight: 800,
-            color: "#ffffff",
+            color: "var(--ink)",
             letterSpacing: "-0.02em",
             marginBottom: "8px",
             lineHeight: "1.3"
@@ -419,7 +419,7 @@ export default function CheckInPage() {
             onChange={(e) =>
               setWrittenAnswers({ ...writtenAnswers, [currentWrittenQ.id]: e.target.value })
             }
-            style={{ width: "100%", minHeight: "130px", marginBottom: "24px" }}
+            style={{ width: "100%", minHeight: "120px", marginBottom: "24px" }}
           />
 
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>

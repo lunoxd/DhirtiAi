@@ -66,7 +66,7 @@ export default function EmergencyModal({ onClose, isCritical = false }) {
               width: "36px",
               height: "36px",
               borderRadius: "var(--rounded-full)",
-              backgroundColor: "rgba(242, 63, 67, 0.18)",
+              backgroundColor: "rgba(245, 36, 67, 0.12)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -75,7 +75,7 @@ export default function EmergencyModal({ onClose, isCritical = false }) {
               <ShieldAlert size={20} />
             </div>
             <div>
-              <h3 style={{ fontSize: "18px", fontWeight: 800, color: "#ffffff" }}>
+              <h3 style={{ fontSize: "18px", fontWeight: 800, color: "var(--ink)" }}>
                 {isCritical ? "Immediate Safety & Crisis Support" : "24/7 Verified Indian Helplines"}
               </h3>
               <p style={{ fontSize: "13px", color: "var(--text-muted)" }}>
@@ -133,11 +133,11 @@ export default function EmergencyModal({ onClose, isCritical = false }) {
             >
               <div>
                 <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
-                  <span style={{ fontWeight: 700, fontSize: "14px", color: "#ffffff" }}>{item.name}</span>
+                  <span style={{ fontWeight: 700, fontSize: "14px", color: "var(--ink)" }}>{item.name}</span>
                   <span className="badge badge-stable" style={{ fontSize: "10px", padding: "1px 6px" }}>{item.tag}</span>
                 </div>
                 <div style={{ fontSize: "12px", color: "var(--text-muted)", marginTop: "2px" }}>{item.desc}</div>
-                <div style={{ fontSize: "13px", fontWeight: 800, color: "#ffffff", marginTop: "4px" }}>
+                <div style={{ fontSize: "13px", fontWeight: 800, color: "var(--ink)", marginTop: "4px" }}>
                   {item.display}
                 </div>
               </div>
