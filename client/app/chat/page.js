@@ -9,7 +9,7 @@ export default function DhritiAiPage() {
   const [messages, setMessages] = useState([
     {
       role: "assistant",
-      content: "Namaste! I am DhritiAi, your AI mental health and emotional wellbeing assistant. How are you feeling today? You can share your thoughts, ask about grounding techniques, or talk about stress relief."
+      content: "Namaste! I am DhritiAi, your AI mental health and emotional wellbeing assistant. How are you feeling right now?"
     }
   ]);
   const [input, setInput] = useState("");
@@ -47,7 +47,7 @@ export default function DhritiAiPage() {
         ...prev,
         {
           role: "assistant",
-          content: "I am here with you. If you are feeling overwhelmed, taking a slow deep breath in for 4 seconds and exhaling for 4 seconds can help bring calm. You can also reach Tele-MANAS anytime at 14416."
+          content: "I am here with you. Taking a slow deep breath in for 4 seconds and exhaling for 4 seconds can help bring calm. You can also reach Tele-MANAS anytime at 14416."
         }
       ]);
     } finally {
@@ -63,43 +63,55 @@ export default function DhritiAiPage() {
   };
 
   const quickPrompts = [
-    { label: "🌸 Grounding for Anxiety", text: "What are some grounding exercises to reduce panic or anxiety right now?" },
-    { label: "💤 Improving Sleep Quality", text: "How can I calm my mind before sleeping tonight?" },
-    { label: "🫁 4-7-8 Breathing Guide", text: "Can you guide me through a 4-7-8 breathing session?" },
+    { label: "🌸 Grounding for Anxiety", text: "What are some quick grounding exercises to calm anxiety right now?" },
+    { label: "💤 Better Sleep Tips", text: "How can I calm my mind before sleeping tonight?" },
+    { label: "🫁 4-4-4 Breathing Guide", text: "Guide me through a simple 4-4-4 breathing session." },
     { label: "📞 24/7 Crisis Helplines", text: "Please list official Indian mental health helpline numbers." }
   ];
 
   return (
-    <div className="container-narrow" style={{ paddingTop: "12px", paddingBottom: "40px" }}>
-      {/* Page Header */}
-      <div className="card" style={{ padding: "20px", marginBottom: "16px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+    <div style={{
+      width: "100%",
+      maxWidth: "920px",
+      margin: "0 auto",
+      height: "calc(100vh - 84px)",
+      maxHeight: "calc(100vh - 84px)",
+      overflow: "hidden",
+      padding: "0 16px 16px 16px",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "space-between"
+    }}>
+      {/* 1. Header Bar */}
+      <div className="card" style={{ padding: "14px 20px", marginBottom: "12px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-          <img src="/logo.png" alt="Dhriti Logo" style={{ height: "32px", width: "auto" }} />
+          <img src="/logo.png" alt="Dhriti Logo" style={{ height: "36px", width: "auto" }} />
           <div>
-            <h1 style={{ fontSize: "20px", fontWeight: 800, color: "#ffffff", display: "flex", alignItems: "center", gap: "8px" }}>
-              <span>DhritiAi</span>
-              <span className="badge badge-stable" style={{ fontSize: "10px", padding: "2px 8px" }}>Live AI</span>
+            <h1 style={{ fontSize: "22px", fontWeight: 800, color: "#ffffff", display: "flex", alignItems: "center", gap: "8px" }}>
+              <span>DhritiAi Assistant</span>
+              <span className="badge badge-stable" style={{ fontSize: "11px", padding: "2px 8px" }}>Live AI</span>
             </h1>
-            <p style={{ fontSize: "12px", color: "var(--text-muted)" }}>
-              Mental Health & Emotional Wellbeing Assistant
+            <p style={{ fontSize: "13px", color: "var(--text-muted)" }}>
+              Mental Health & Emotional Wellbeing Companion
             </p>
           </div>
         </div>
 
-        <button onClick={() => setShowEmergency(true)} className="btn btn-danger btn-sm">
-          <ShieldAlert size={14} /> Helplines
+        <button onClick={() => setShowEmergency(true)} className="btn btn-danger btn-sm" style={{ padding: "6px 12px", fontSize: "13px" }}>
+          <ShieldAlert size={15} /> 24/7 Helplines
         </button>
       </div>
 
-      {/* Main Chat Conversation Container */}
-      <div className="card" style={{ padding: "20px", height: "540px", display: "flex", flexDirection: "column" }}>
+      {/* 2. Unscrollable Main Container with Internal Scroll Message List */}
+      <div className="card" style={{ padding: "16px", flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
+        {/* Message Bubble Feed */}
         <div style={{
           flex: 1,
           overflowY: "auto",
           display: "flex",
           flexDirection: "column",
-          gap: "14px",
-          paddingRight: "4px",
+          gap: "16px",
+          paddingRight: "6px",
           backgroundColor: "#2b2d31"
         }}>
           {messages.map((m, idx) => (
@@ -112,13 +124,15 @@ export default function DhritiAiPage() {
             >
               <div style={{
                 maxWidth: "85%",
-                padding: "12px 16px",
-                borderRadius: "14px",
-                fontSize: "14px",
-                lineHeight: "1.55",
+                padding: "14px 18px",
+                borderRadius: "16px",
+                fontSize: "16px",
+                lineHeight: "1.6",
+                fontWeight: 500,
                 backgroundColor: m.role === "user" ? "var(--primary)" : "#1e1f22",
                 color: "#ffffff",
                 border: m.role === "user" ? "none" : "1px solid var(--hairline)",
+                boxShadow: "0 2px 8px rgba(0, 0, 0, 0.2)",
                 whiteSpace: "pre-wrap"
               }}>
                 {m.content}
@@ -128,8 +142,8 @@ export default function DhritiAiPage() {
 
           {loading && (
             <div style={{ display: "flex", justifyContent: "flex-start" }}>
-              <div className="card-inner" style={{ fontSize: "13px", color: "var(--text-muted)", display: "flex", alignItems: "center", gap: "8px" }}>
-                <Sparkles size={14} color="var(--primary)" />
+              <div className="card-inner" style={{ fontSize: "14px", color: "var(--text-muted)", display: "flex", alignItems: "center", gap: "8px" }}>
+                <Sparkles size={16} color="var(--primary)" />
                 <span>DhritiAi is typing a thoughtful response...</span>
               </div>
             </div>
@@ -137,27 +151,27 @@ export default function DhritiAiPage() {
           <div ref={messagesEndRef} />
         </div>
 
-        {/* Quick Prompts */}
+        {/* Quick Prompts Bar */}
         <div style={{
           padding: "10px 0",
           display: "flex",
           gap: "8px",
           overflowX: "auto",
           borderTop: "1px solid var(--hairline)",
-          marginTop: "12px"
+          marginTop: "10px"
         }}>
           {quickPrompts.map((qp, i) => (
             <button
               key={i}
               onClick={() => handleSend(qp.text)}
               style={{
-                fontSize: "12px",
-                fontWeight: 600,
+                fontSize: "13px",
+                fontWeight: 700,
                 color: "#ffffff",
                 backgroundColor: "#1e1f22",
                 border: "1px solid var(--hairline)",
                 borderRadius: "var(--rounded-pill)",
-                padding: "6px 12px",
+                padding: "6px 14px",
                 whiteSpace: "nowrap"
               }}
             >
@@ -166,12 +180,12 @@ export default function DhritiAiPage() {
           ))}
         </div>
 
-        {/* Message Input */}
+        {/* Message Input Bar */}
         <div style={{ display: "flex", gap: "10px", marginTop: "8px" }}>
           <input
             type="text"
             className="form-input"
-            style={{ flex: 1, backgroundColor: "#1e1f22", color: "#ffffff" }}
+            style={{ flex: 1, backgroundColor: "#1e1f22", color: "#ffffff", fontSize: "16px", padding: "12px 16px" }}
             placeholder="Type your message about mental health or feelings..."
             value={input}
             onChange={(e) => setInput(e.target.value)}
@@ -180,9 +194,10 @@ export default function DhritiAiPage() {
           <button
             onClick={() => handleSend()}
             disabled={loading || !input.trim()}
-            className="btn btn-primary"
+            className="btn btn-primary btn-lg"
+            style={{ padding: "12px 20px" }}
           >
-            <Send size={16} /> Send
+            <Send size={18} /> Send
           </button>
         </div>
       </div>

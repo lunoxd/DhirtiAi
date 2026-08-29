@@ -8,8 +8,8 @@ import { Heart } from "lucide-react";
 export default function Footer() {
   const pathname = usePathname();
 
-  // Hide footer on dashboard for fixed full-viewport experience
-  if (pathname === "/dashboard") {
+  // Hide footer on dashboard & chat pages for fixed unscrollable full-viewport experience
+  if (pathname === "/dashboard" || pathname === "/chat") {
     return null;
   }
 
