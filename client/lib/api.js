@@ -69,6 +69,10 @@ export const apiCheckIns = {
       method: "POST",
       body: JSON.stringify({ structuredResponses, writtenResponses })
     }),
+  requestDoctor: (id) =>
+    fetchApi(`/checkins/${id}/request-doctor`, {
+      method: "POST"
+    }),
   getHistory: () => fetchApi("/checkins/history"),
   getById: (id) => fetchApi(`/checkins/${id}`),
   deleteById: (id) =>

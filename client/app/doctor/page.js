@@ -12,7 +12,8 @@ import {
   MessageSquare,
   X,
   RefreshCw,
-  UserCheck
+  UserCheck,
+  PhoneCall
 } from "lucide-react";
 import DisclaimerBanner from "../../components/DisclaimerBanner";
 
@@ -91,6 +92,8 @@ export default function DoctorPortalPage() {
     );
   }
 
+  const callbackRequestsCount = queue.filter(q => q.triageStatus === "PENDING_DOCTOR_CALLBACK" || q.safetyConcern).length;
+
   return (
     <div className="container" style={{ paddingBottom: "60px" }}>
       {/* Header */}
@@ -112,10 +115,10 @@ export default function DoctorPortalPage() {
             </span>
           </div>
           <h1 style={{ fontSize: "28px", fontWeight: 800, color: "#ffffff", letterSpacing: "-0.02em", marginBottom: "4px" }}>
-            Distress Triage Queue
+            Distress Triage & Callback Queue
           </h1>
           <p style={{ fontSize: "14px", color: "var(--text-muted)" }}>
-            Review survivor check-ins, evaluate distress patterns, and coordinate helpline referrals.
+            Review survivor check-ins, process doctor callback requests, and coordinate crisis support.
           </p>
         </div>
 
@@ -131,9 +134,21 @@ export default function DoctorPortalPage() {
         gap: "16px",
         marginBottom: "28px"
       }}>
+        <div className="card" style={{ padding: "20px", border: callbackRequestsCount > 0 ? "1px solid var(--primary)" : "1px solid var(--hairline)" }}>
+          <div style={{ fontSize: "11px", color: "var(--text-muted)", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}>
+            Doctor Callback Requests
+          </div>
+          <div style={{ fontSize: "32px", fontWeight: 800, color: "var(--primary)", marginTop: "4px" }}>
+            {callbackRequestsCount}
+          </div>
+          <div style={{ fontSize: "12px", color: "var(--text-muted)", marginTop: "4px" }}>
+            High distress / user requested
+          </div>
+        </div>
+
         <div className="card" style={{ padding: "20px" }}>
           <div style={{ fontSize: "11px", color: "var(--text-muted)", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}>
-            Active Critical Inquiries
+            Active Critical Cases
           </div>
           <div style={{ fontSize: "32px", fontWeight: 800, color: "var(--status-critical)", marginTop: "4px" }}>
             {stats?.activeCritical || 0}
@@ -157,25 +172,13 @@ export default function DoctorPortalPage() {
 
         <div className="card" style={{ padding: "20px" }}>
           <div style={{ fontSize: "11px", color: "var(--text-muted)", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}>
-            Resolved Cases
+            Resolved Interventions
           </div>
           <div style={{ fontSize: "32px", fontWeight: 800, color: "var(--status-stable)", marginTop: "4px" }}>
             {stats?.resolved || 0}
           </div>
           <div style={{ fontSize: "12px", color: "var(--text-muted)", marginTop: "4px" }}>
-            Interventions completed
-          </div>
-        </div>
-
-        <div className="card" style={{ padding: "20px" }}>
-          <div style={{ fontSize: "11px", color: "var(--text-muted)", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}>
-            Total Monitored
-          </div>
-          <div style={{ fontSize: "32px", fontWeight: 800, color: "#ffffff", marginTop: "4px" }}>
-            {stats?.totalFlagged || 0}
-          </div>
-          <div style={{ fontSize: "12px", color: "var(--text-muted)", marginTop: "4px" }}>
-            Flagged check-ins
+            Support completed
           </div>
         </div>
       </div>
@@ -191,13 +194,13 @@ export default function DoctorPortalPage() {
       }}>
         {/* Status Pill Group */}
         <div className="nav-pill-group">
-          {["ALL", "PENDING", "IN_PROGRESS", "CONTACTED", "RESOLVED"].map((st) => (
+          {["ALL", "PENDING_DOCTOR_CALLBACK", "PENDING", "IN_PROGRESS", "CONTACTED", "RESOLVED"].map((st) => (
             <button
               key={st}
               onClick={() => setStatusFilter(st)}
               className={`nav-pill-item ${statusFilter === st ? "active" : ""}`}
             >
-              {st.replace("_", " ")}
+              {st === "PENDING_DOCTOR_CALLBACK" ? "🚨 DOCTOR CALLBACKS" : st.replace("_", " ")}
             </button>
           ))}
         </div>
@@ -241,6 +244,8 @@ export default function DoctorPortalPage() {
               minute: "2-digit"
             });
 
+            const isDoctorCallbackRequested = item.triageStatus === "PENDING_DOCTOR_CALLBACK";
+
             return (
               <div
                 key={item.id}
@@ -249,21 +254,29 @@ export default function DoctorPortalPage() {
                 style={{
                   padding: "20px 24px",
                   cursor: "pointer",
-                  borderLeft: item.safetyConcern ? "4px solid var(--status-critical)" : item.riskLevel === "Critical" ? "4px solid var(--status-critical)" : "1px solid var(--hairline)"
+                  backgroundColor: isDoctorCallbackRequested ? "#2f2428" : "#2b2d31",
+                  borderLeft: isDoctorCallbackRequested ? "4px solid var(--primary)" : item.safetyConcern ? "4px solid var(--status-critical)" : item.riskLevel === "Critical" ? "4px solid var(--status-critical)" : "1px solid var(--hairline)"
                 }}
               >
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: "12px" }}>
                   <div>
                     <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap" }}>
                       <span style={{ fontSize: "16px", fontWeight: 800, color: "#ffffff" }}>
-                        {item.userAlias}
+                        {item.userAlias} ({item.userEmail || "Anonymous"})
                       </span>
 
                       <span className={`badge badge-${item.riskLevel.toLowerCase()}`}>
                         {item.riskLevel}
                       </span>
 
-                      {item.safetyConcern && (
+                      {isDoctorCallbackRequested && (
+                        <span className="badge" style={{ backgroundColor: "var(--primary)", color: "#ffffff", display: "flex", alignItems: "center", gap: "4px", fontWeight: 800 }}>
+                          <PhoneCall size={12} />
+                          <span>DOCTOR CALLBACK REQUESTED</span>
+                        </span>
+                      )}
+
+                      {item.safetyConcern && !isDoctorCallbackRequested && (
                         <span className="badge badge-critical" style={{ display: "flex", alignItems: "center", gap: "4px" }}>
                           <AlertTriangle size={12} />
                           <span>SAFETY ALERT</span>
@@ -275,8 +288,8 @@ export default function DoctorPortalPage() {
                         fontWeight: 700,
                         padding: "2px 8px",
                         borderRadius: "var(--rounded-pill)",
-                        backgroundColor: item.triageStatus === "RESOLVED" ? "rgba(35, 165, 90, 0.2)" : item.triageStatus === "PENDING" ? "rgba(240, 178, 50, 0.2)" : "rgba(88, 101, 242, 0.2)",
-                        color: item.triageStatus === "RESOLVED" ? "var(--status-stable)" : item.triageStatus === "PENDING" ? "var(--status-elevated)" : "var(--primary)"
+                        backgroundColor: item.triageStatus === "RESOLVED" ? "rgba(35, 165, 90, 0.2)" : item.triageStatus === "PENDING_DOCTOR_CALLBACK" ? "rgba(245, 36, 67, 0.2)" : "rgba(88, 101, 242, 0.2)",
+                        color: item.triageStatus === "RESOLVED" ? "var(--status-stable)" : item.triageStatus === "PENDING_DOCTOR_CALLBACK" ? "var(--primary)" : "var(--text-body)"
                       }}>
                         {item.triageStatus}
                       </span>
@@ -290,9 +303,9 @@ export default function DoctorPortalPage() {
                       <div style={{ display: "flex", gap: "6px", flexWrap: "wrap", marginTop: "10px" }}>
                         {item.aiAnalysis.distressIndicators.slice(0, 3).map((sig, idx) => (
                           <span key={idx} style={{
-                            backgroundColor: "var(--surface-soft)",
+                            backgroundColor: "#1e1f22",
                             fontSize: "12px",
-                            color: "var(--text-body)",
+                            color: "#dbdee1",
                             padding: "3px 8px",
                             borderRadius: "var(--rounded-sm)",
                             border: "1px solid var(--hairline)"
@@ -328,7 +341,7 @@ export default function DoctorPortalPage() {
               <div>
                 <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
                   <h3 style={{ fontSize: "20px", fontWeight: 800, color: "#ffffff" }}>
-                    {selectedCase.userAlias}
+                    {selectedCase.userAlias} ({selectedCase.userEmail})
                   </h3>
                   <span className={`badge badge-${selectedCase.riskLevel.toLowerCase()}`}>
                     {selectedCase.riskLevel}
@@ -343,11 +356,11 @@ export default function DoctorPortalPage() {
               </button>
             </div>
 
-            {selectedCase.safetyConcern && (
-              <div className="safety-banner" style={{ padding: "12px 16px", marginBottom: "16px" }}>
-                <div style={{ display: "flex", alignItems: "center", gap: "8px", color: "var(--status-critical)", fontWeight: 700, fontSize: "14px" }}>
-                  <AlertTriangle size={18} />
-                  <span>Immediate Safety Override Triggered by User Responses</span>
+            {selectedCase.triageStatus === "PENDING_DOCTOR_CALLBACK" && (
+              <div className="safety-banner" style={{ padding: "12px 16px", marginBottom: "16px", backgroundColor: "rgba(245, 36, 67, 0.2)" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "8px", color: "#ffffff", fontWeight: 800, fontSize: "14px" }}>
+                  <PhoneCall size={18} color="var(--primary)" />
+                  <span>USER REQUESTED DOCTOR CONSULTATION & CALLBACK</span>
                 </div>
               </div>
             )}
@@ -372,7 +385,7 @@ export default function DoctorPortalPage() {
                 <div style={{ fontSize: "12px", fontWeight: 700, color: "var(--primary)", textTransform: "uppercase", marginBottom: "6px" }}>
                   AI Distress Extraction
                 </div>
-                <p style={{ fontSize: "13px", color: "var(--text-body)", marginBottom: "8px" }}>
+                <p style={{ fontSize: "13px", color: "#dbdee1", marginBottom: "8px" }}>
                   {selectedCase.aiAnalysis?.summary || "Standard response pattern evaluated."}
                 </p>
                 <div style={{ fontSize: "12px", color: "var(--text-muted)" }}>
@@ -388,7 +401,7 @@ export default function DoctorPortalPage() {
                   User Reflections (Confidential)
                 </div>
                 {Object.entries(selectedCase.writtenResponses).map(([k, v]) => v ? (
-                  <p key={k} style={{ fontSize: "13px", color: "var(--text-body)", fontStyle: "italic" }}>
+                  <p key={k} style={{ fontSize: "13px", color: "#dbdee1", fontStyle: "italic" }}>
                     &ldquo;{v}&rdquo;
                   </p>
                 ) : null)}
@@ -398,17 +411,17 @@ export default function DoctorPortalPage() {
             {/* Referral Dispatcher */}
             <div style={{ marginBottom: "20px" }}>
               <div style={{ fontSize: "12px", fontWeight: 700, color: "var(--text-muted)", textTransform: "uppercase", marginBottom: "8px" }}>
-                Indian Helpline Quick Dispatcher
+                Verified Helpline Quick Dispatcher
               </div>
               <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
                 <a href="tel:14416" className="btn btn-primary btn-sm">
-                  <Phone size={13} /> Refer to Tele-MANAS (14416)
+                  <Phone size={13} /> Call Tele-MANAS (14416)
                 </a>
                 <a href="tel:18005990019" className="btn btn-secondary btn-sm">
-                  <Phone size={13} /> Refer to KIRAN (1800-599-0019)
+                  <Phone size={13} /> Call KIRAN (1800-599-0019)
                 </a>
-                <a href="https://wa.me/919999666555" target="_blank" rel="noopener noreferrer" className="btn btn-success btn-sm">
-                  <MessageSquare size={13} /> Vandrevala WA
+                <a href="tel:+919999666555" className="btn btn-success btn-sm">
+                  <Phone size={13} /> Vandrevala (+91 9999 666 555)
                 </a>
               </div>
             </div>
@@ -422,9 +435,9 @@ export default function DoctorPortalPage() {
                   value={statusInput}
                   onChange={(e) => setStatusInput(e.target.value)}
                 >
-                  <option value="PENDING">PENDING — Needs Review</option>
+                  <option value="PENDING_DOCTOR_CALLBACK">PENDING DOCTOR CALLBACK</option>
                   <option value="IN_PROGRESS">IN PROGRESS — Under Evaluation</option>
-                  <option value="CONTACTED">CONTACTED — Reached out to User/Helpline</option>
+                  <option value="CONTACTED">CONTACTED — Reached out to User</option>
                   <option value="RESOLVED">RESOLVED — Support Provided & Closed</option>
                 </select>
               </div>
@@ -435,7 +448,7 @@ export default function DoctorPortalPage() {
                   className="form-textarea"
                   value={notesInput}
                   onChange={(e) => setNotesInput(e.target.value)}
-                  placeholder="Record internal clinical observations, counselor notes, or helpline referral details..."
+                  placeholder="Record internal clinical observations, counselor notes, or callback details..."
                   style={{ minHeight: "80px" }}
                 />
               </div>

@@ -9,6 +9,42 @@ const router = express.Router();
 // Apply auth to all check-in routes
 router.use(authMiddleware);
 
+// POST /api/checkins/:id/request-doctor - User requests doctor callback / crisis triage
+router.post("/:id/request-doctor", async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const { id } = req.params;
+
+    const checkIn = await prisma.checkIn.findFirst({
+      where: { id, userId }
+    });
+
+    if (!checkIn) {
+      return res.status(404).json({ error: "Check-in record not found." });
+    }
+
+    const updated = await prisma.checkIn.update({
+      where: { id },
+      data: {
+        triageStatus: "PENDING_DOCTOR_CALLBACK",
+        safetyConcern: true
+      }
+    });
+
+    return res.json({
+      message: "Doctor consultation & crisis callback request transmitted successfully!",
+      checkIn: {
+        id: updated.id,
+        triageStatus: updated.triageStatus,
+        safetyConcern: updated.safetyConcern
+      }
+    });
+  } catch (error) {
+    console.error("Request Doctor Callback Error:", error);
+    return res.status(500).json({ error: "Failed to request doctor consultation." });
+  }
+});
+
 // POST /api/checkins - Submit and evaluate a new mental wellbeing check-in
 router.post("/", async (req, res) => {
   try {
@@ -44,7 +80,8 @@ router.post("/", async (req, res) => {
         trend: scoringResult.trend,
         deltaPoints: scoringResult.deltaPoints,
         safetyConcern: scoringResult.safetyConcern,
-        supportRecommendation: scoringResult.supportRecommendation
+        supportRecommendation: scoringResult.supportRecommendation,
+        triageStatus: scoringResult.riskLevel === "Critical" || scoringResult.riskLevel === "High" || scoringResult.safetyConcern ? "PENDING_DOCTOR_CALLBACK" : "PENDING"
       }
     });
 
@@ -58,6 +95,7 @@ router.post("/", async (req, res) => {
         trend: savedCheckIn.trend,
         deltaPoints: savedCheckIn.deltaPoints,
         safetyConcern: savedCheckIn.safetyConcern,
+        triageStatus: savedCheckIn.triageStatus,
         supportRecommendation: savedCheckIn.supportRecommendation,
         noticedItems: scoringResult.noticedItems,
         aiAnalysis,
@@ -88,6 +126,7 @@ router.get("/history", async (req, res) => {
       trend: c.trend,
       deltaPoints: c.deltaPoints,
       safetyConcern: c.safetyConcern,
+      triageStatus: c.triageStatus,
       supportRecommendation: c.supportRecommendation,
       structuredResponses: c.structuredResponses ? JSON.parse(c.structuredResponses) : {},
       writtenResponses: c.writtenResponses ? JSON.parse(c.writtenResponses) : {},
@@ -124,6 +163,7 @@ router.get("/:id", async (req, res) => {
         trend: checkIn.trend,
         deltaPoints: checkIn.deltaPoints,
         safetyConcern: checkIn.safetyConcern,
+        triageStatus: checkIn.triageStatus,
         supportRecommendation: checkIn.supportRecommendation,
         structuredResponses: checkIn.structuredResponses ? JSON.parse(checkIn.structuredResponses) : {},
         writtenResponses: checkIn.writtenResponses ? JSON.parse(checkIn.writtenResponses) : {},
