@@ -10,7 +10,7 @@ import CheckInCalendar from "../../components/CheckInCalendar";
 import TrendChart from "../../components/TrendChart";
 import DisclaimerBanner from "../../components/DisclaimerBanner";
 import BreathingWidget from "../../components/BreathingWidget";
-import { PlusCircle, ArrowRight, ShieldAlert, HeartHandshake, AlertCircle, Sparkles, Send } from "lucide-react";
+import { PlusCircle, ArrowRight, ShieldAlert, HeartHandshake, AlertCircle, Sparkles, Send, MessageSquare } from "lucide-react";
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -115,7 +115,7 @@ export default function DashboardPage() {
         marginBottom: "24px"
       }}>
         <div>
-          <h1 style={{ fontSize: "26px", fontWeight: 800, color: "var(--ink)", marginBottom: "4px" }}>
+          <h1 style={{ fontSize: "26px", fontWeight: 800, color: "#ffffff", marginBottom: "4px" }}>
             Hello, {user?.name || "Friend"}
           </h1>
           <p style={{ fontSize: "14px", color: "var(--text-muted)" }}>
@@ -131,7 +131,7 @@ export default function DashboardPage() {
 
       {error && (
         <div style={{
-          backgroundColor: "rgba(245, 36, 67, 0.12)",
+          backgroundColor: "rgba(245, 36, 67, 0.18)",
           border: "1px solid var(--status-critical)",
           borderRadius: "var(--rounded-md)",
           padding: "12px 16px",
@@ -152,7 +152,7 @@ export default function DashboardPage() {
         <div className="safety-banner">
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "12px" }}>
             <div>
-              <h3 style={{ color: "var(--ink)", fontSize: "16px", fontWeight: 800, marginBottom: "4px" }}>
+              <h3 style={{ color: "#ffffff", fontSize: "16px", fontWeight: 800, marginBottom: "4px" }}>
                 We are here with you
               </h3>
               <p style={{ color: "var(--text-body)", fontSize: "13px" }}>
@@ -173,7 +173,6 @@ export default function DashboardPage() {
         gap: "20px",
         marginBottom: "24px"
       }}>
-        {/* Left Column: Big Dhriti Index Score Display */}
         <DhritiIndexGauge
           score={currentScore?.dhritiIndex || 0}
           riskLevel={currentScore?.riskLevel || "STABLE"}
@@ -182,25 +181,26 @@ export default function DashboardPage() {
           safetyConcern={currentScore?.safetyConcern}
         />
 
-        {/* Right Column: Check-in Calendar Tracker */}
         <CheckInCalendar checkIns={allCheckIns} />
       </div>
 
       {/* ROW 2: DHRITIAI CHATBOT INLINE SECTION */}
       <div className="card" style={{ marginBottom: "24px", padding: "20px" }}>
-        <div style={{ display: "flex", alignItems: "center", justifyBetween: "space-between", marginBottom: "14px" }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "14px" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
             <img src="/logo.png" alt="Dhriti Logo" style={{ height: "24px", width: "auto" }} />
-            <h3 style={{ fontSize: "16px", fontWeight: 800, color: "var(--ink)" }}>
+            <h3 style={{ fontSize: "16px", fontWeight: 800, color: "#ffffff" }}>
               DhritiAi — Mental Health Assistant
             </h3>
           </div>
-          <span className="badge badge-stable" style={{ fontSize: "10px" }}>Active Support</span>
+          <Link href="/chat" className="btn btn-secondary btn-sm">
+            <MessageSquare size={13} /> Full Page Chat
+          </Link>
         </div>
 
-        {/* Chat History Box */}
+        {/* Chat History Container */}
         <div style={{
-          backgroundColor: "var(--surface-soft)",
+          backgroundColor: "#1e1f22",
           border: "1px solid var(--hairline)",
           borderRadius: "var(--rounded-md)",
           padding: "14px",
@@ -221,13 +221,14 @@ export default function DashboardPage() {
             >
               <div style={{
                 maxWidth: "85%",
-                padding: "8px 12px",
+                padding: "10px 14px",
                 borderRadius: "10px",
-                fontSize: "13px",
+                fontSize: "13.5px",
                 lineHeight: "1.45",
-                backgroundColor: m.role === "user" ? "var(--primary)" : "#ffffff",
-                color: m.role === "user" ? "#ffffff" : "var(--ink)",
-                border: m.role === "user" ? "none" : "1px solid var(--hairline)"
+                backgroundColor: m.role === "user" ? "var(--primary)" : "#2b2d31",
+                color: "#ffffff",
+                border: m.role === "user" ? "none" : "1px solid var(--hairline)",
+                whiteSpace: "pre-wrap"
               }}>
                 {m.content}
               </div>
@@ -246,7 +247,7 @@ export default function DashboardPage() {
           <input
             type="text"
             className="form-input"
-            style={{ flex: 1, fontSize: "13.5px" }}
+            style={{ flex: 1, fontSize: "13.5px", backgroundColor: "#1e1f22", color: "#ffffff" }}
             placeholder="Ask DhritiAi anything about mental health or feelings..."
             value={chatInput}
             onChange={(e) => setChatInput(e.target.value)}
@@ -269,10 +270,8 @@ export default function DashboardPage() {
         gap: "20px",
         marginBottom: "24px"
       }}>
-        {/* Trend Graph */}
         <TrendChart trendPoints={trendData} />
 
-        {/* Box Breathing Tool */}
         <BreathingWidget />
       </div>
 
@@ -282,7 +281,7 @@ export default function DashboardPage() {
           <div style={{ display: "flex", alignItems: "flex-start", gap: "12px" }}>
             <HeartHandshake size={20} color="var(--primary)" style={{ flexShrink: 0, marginTop: "2px" }} />
             <div>
-              <h3 style={{ fontSize: "15px", fontWeight: 700, color: "var(--ink)", marginBottom: "4px" }}>
+              <h3 style={{ fontSize: "15px", fontWeight: 700, color: "#ffffff", marginBottom: "4px" }}>
                 Supportive Recommendation
               </h3>
               <p style={{ fontSize: "14px", color: "var(--text-body)", lineHeight: "1.5" }}>
@@ -301,7 +300,7 @@ export default function DashboardPage() {
           alignItems: "center",
           marginBottom: "16px"
         }}>
-          <h3 style={{ fontSize: "15px", fontWeight: 800, color: "var(--ink)" }}>RECENT CHECK-INS</h3>
+          <h3 style={{ fontSize: "15px", fontWeight: 800, color: "#ffffff" }}>RECENT CHECK-INS</h3>
           {allCheckIns.length > 0 && (
             <Link href="/history" style={{ fontSize: "13px", color: "var(--primary)", fontWeight: 700, display: "flex", alignItems: "center", gap: "4px" }}>
               <span>View All</span>
@@ -333,13 +332,13 @@ export default function DashboardPage() {
                   }}
                 >
                   <div>
-                    <div style={{ fontWeight: 700, fontSize: "14px", color: "var(--ink)" }}>{dateStr}</div>
+                    <div style={{ fontWeight: 700, fontSize: "14px", color: "#ffffff" }}>{dateStr}</div>
                     <div style={{ fontSize: "12px", color: "var(--text-muted)" }}>
                       {ci.deltaPoints > 0 ? `↑ ${ci.deltaPoints} pts` : ci.deltaPoints < 0 ? `↓ ${Math.abs(ci.deltaPoints)} pts` : "Stable"}
                     </div>
                   </div>
                   <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-                    <span style={{ fontSize: "18px", fontWeight: 800, color: "var(--ink)" }}>
+                    <span style={{ fontSize: "18px", fontWeight: 800, color: "#ffffff" }}>
                       {Math.round(ci.dhritiIndex)}
                     </span>
                     <span className={`badge badge-${ci.riskLevel.toLowerCase()}`}>

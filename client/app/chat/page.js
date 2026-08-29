@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { apiChat } from "../../lib/api";
-import { Send, Sparkles, Heart, ShieldAlert, Bot } from "lucide-react";
+import { Send, Sparkles, ShieldAlert } from "lucide-react";
 import EmergencyModal from "../../components/EmergencyModal";
 
 export default function DhritiAiPage() {
@@ -76,7 +76,7 @@ export default function DhritiAiPage() {
         <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
           <img src="/logo.png" alt="Dhriti Logo" style={{ height: "32px", width: "auto" }} />
           <div>
-            <h1 style={{ fontSize: "20px", fontWeight: 800, color: "var(--ink)", display: "flex", alignItems: "center", gap: "8px" }}>
+            <h1 style={{ fontSize: "20px", fontWeight: 800, color: "#ffffff", display: "flex", alignItems: "center", gap: "8px" }}>
               <span>DhritiAi</span>
               <span className="badge badge-stable" style={{ fontSize: "10px", padding: "2px 8px" }}>Live AI</span>
             </h1>
@@ -92,14 +92,15 @@ export default function DhritiAiPage() {
       </div>
 
       {/* Main Chat Conversation Container */}
-      <div className="card" style={{ padding: "20px", height: "520px", display: "flex", flexDirection: "column" }}>
+      <div className="card" style={{ padding: "20px", height: "540px", display: "flex", flexDirection: "column" }}>
         <div style={{
           flex: 1,
           overflowY: "auto",
           display: "flex",
           flexDirection: "column",
           gap: "14px",
-          paddingRight: "4px"
+          paddingRight: "4px",
+          backgroundColor: "#2b2d31"
         }}>
           {messages.map((m, idx) => (
             <div
@@ -115,8 +116,8 @@ export default function DhritiAiPage() {
                 borderRadius: "14px",
                 fontSize: "14px",
                 lineHeight: "1.55",
-                backgroundColor: m.role === "user" ? "var(--primary)" : "var(--surface-soft)",
-                color: m.role === "user" ? "#ffffff" : "var(--ink)",
+                backgroundColor: m.role === "user" ? "var(--primary)" : "#1e1f22",
+                color: "#ffffff",
                 border: m.role === "user" ? "none" : "1px solid var(--hairline)",
                 whiteSpace: "pre-wrap"
               }}>
@@ -152,8 +153,8 @@ export default function DhritiAiPage() {
               style={{
                 fontSize: "12px",
                 fontWeight: 600,
-                color: "var(--ink)",
-                backgroundColor: "var(--surface-soft)",
+                color: "#ffffff",
+                backgroundColor: "#1e1f22",
                 border: "1px solid var(--hairline)",
                 borderRadius: "var(--rounded-pill)",
                 padding: "6px 12px",
@@ -170,7 +171,7 @@ export default function DhritiAiPage() {
           <input
             type="text"
             className="form-input"
-            style={{ flex: 1 }}
+            style={{ flex: 1, backgroundColor: "#1e1f22", color: "#ffffff" }}
             placeholder="Type your message about mental health or feelings..."
             value={input}
             onChange={(e) => setInput(e.target.value)}
