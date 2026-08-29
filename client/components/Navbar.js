@@ -58,7 +58,7 @@ export default function Navbar() {
       return (
         <span style={{
           backgroundColor: "rgba(240, 178, 50, 0.2)",
-          color: "var(--status-elevated)",
+          color: "var(--primary)",
           border: "1px solid rgba(240, 178, 50, 0.4)",
           fontSize: "10px",
           fontWeight: 700,
@@ -73,9 +73,9 @@ export default function Navbar() {
     if (isDoctor) {
       return (
         <span style={{
-          backgroundColor: "rgba(88, 101, 242, 0.2)",
-          color: "var(--brand-primary)",
-          border: "1px solid rgba(88, 101, 242, 0.4)",
+          backgroundColor: "rgba(35, 165, 90, 0.2)",
+          color: "var(--status-stable)",
+          border: "1px solid rgba(35, 165, 90, 0.4)",
           fontSize: "10px",
           fontWeight: 700,
           padding: "2px 8px",
@@ -124,7 +124,7 @@ export default function Navbar() {
               justifyContent: "center",
               fontSize: "14px",
               fontWeight: 800,
-              color: "#ffffff"
+              color: "#111111"
             }}>
               d
             </div>
@@ -154,12 +154,12 @@ export default function Navbar() {
                       borderRadius: "var(--rounded-md)",
                       fontSize: "14px",
                       fontWeight: isActive ? 700 : 500,
-                      color: isActive ? "#ffffff" : "var(--text-muted)",
-                      backgroundColor: isActive ? "#35373c" : "transparent",
+                      color: isActive ? "var(--primary)" : "var(--text-muted)",
+                      backgroundColor: isActive ? "rgba(240, 178, 50, 0.12)" : "transparent",
                       transition: "all 0.15s ease"
                     }}
                   >
-                    <Icon size={16} color={isActive ? "#ffffff" : "var(--text-muted)"} />
+                    <Icon size={16} color={isActive ? "var(--primary)" : "var(--text-muted)"} />
                     <span>{link.label}</span>
                   </Link>
                 );
@@ -197,7 +197,7 @@ export default function Navbar() {
                   fontSize: "13px",
                   color: "#ffffff"
                 }}>
-                  <User size={14} color="var(--text-muted)" />
+                  <User size={14} color="var(--primary)" />
                   <span style={{ fontWeight: 600 }}>{user?.name || "User"}</span>
                   {getRoleBadge()}
                 </div>
@@ -257,11 +257,11 @@ export default function Navbar() {
                         borderRadius: "var(--rounded-md)",
                         fontSize: "14px",
                         fontWeight: 600,
-                        color: isActive ? "#ffffff" : "var(--text-muted)",
-                        backgroundColor: isActive ? "#35373c" : "transparent"
+                        color: isActive ? "var(--primary)" : "var(--text-muted)",
+                        backgroundColor: isActive ? "rgba(240, 178, 50, 0.12)" : "transparent"
                       }}
                     >
-                      <Icon size={16} color={isActive ? "#ffffff" : "var(--text-muted)"} />
+                      <Icon size={16} color={isActive ? "var(--primary)" : "var(--text-muted)"} />
                       {link.label}
                     </Link>
                   );

@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { ShieldCheck, Heart } from "lucide-react";
+import { Heart } from "lucide-react";
 
 export default function Footer() {
   return (
@@ -28,7 +28,7 @@ export default function Footer() {
                 height: "28px",
                 borderRadius: "var(--rounded-full)",
                 backgroundColor: "var(--primary)",
-                color: "#ffffff",
+                color: "#111111",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
@@ -46,7 +46,7 @@ export default function Footer() {
 
           {/* Helplines Col */}
           <div>
-            <h4 style={{ fontSize: "13px", fontWeight: 700, color: "#ffffff", marginBottom: "14px", letterSpacing: "0.04em", textTransform: "uppercase" }}>
+            <h4 style={{ fontSize: "13px", fontWeight: 700, color: "var(--primary)", marginBottom: "14px", letterSpacing: "0.04em", textTransform: "uppercase" }}>
               24/7 Verified Helplines (India)
             </h4>
             <ul style={{ listStyle: "none", fontSize: "13px", color: "var(--text-muted)", display: "flex", flexDirection: "column", gap: "8px" }}>
@@ -60,7 +60,7 @@ export default function Footer() {
 
           {/* Navigation Col */}
           <div>
-            <h4 style={{ fontSize: "13px", fontWeight: 700, color: "#ffffff", marginBottom: "14px", letterSpacing: "0.04em", textTransform: "uppercase" }}>
+            <h4 style={{ fontSize: "13px", fontWeight: 700, color: "var(--primary)", marginBottom: "14px", letterSpacing: "0.04em", textTransform: "uppercase" }}>
               Platform Navigation
             </h4>
             <div style={{ display: "flex", flexDirection: "column", gap: "8px", fontSize: "13px", color: "var(--text-muted)" }}>
@@ -89,7 +89,7 @@ export default function Footer() {
           </p>
           <p style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "6px", color: "var(--text-muted)" }}>
             <span>Built with care for survivor safety & resilience</span>
-            <Heart size={12} color="#ec4899" />
+            <Heart size={12} color="var(--primary)" />
           </p>
         </div>
       </div>
