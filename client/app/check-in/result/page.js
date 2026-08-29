@@ -95,18 +95,18 @@ function CheckInResultContent() {
           display: "inline-flex",
           alignItems: "center",
           gap: "8px",
-          backgroundColor: "rgba(16, 185, 129, 0.1)",
-          color: "#059669",
+          backgroundColor: "rgba(35, 165, 90, 0.18)",
+          color: "var(--status-stable)",
           padding: "4px 14px",
           borderRadius: "var(--rounded-pill)",
           fontSize: "13px",
-          fontWeight: 600,
+          fontWeight: 700,
           marginBottom: "12px"
         }}>
           <CheckCircle2 size={16} />
           <span>Check-in Complete</span>
         </div>
-        <h1 style={{ fontSize: "26px", fontWeight: 700, color: "var(--ink)", letterSpacing: "-0.03em" }}>
+        <h1 style={{ fontSize: "26px", fontWeight: 800, color: "#ffffff", letterSpacing: "-0.02em" }}>
           Your Wellbeing Summary
         </h1>
       </div>
@@ -117,7 +117,7 @@ function CheckInResultContent() {
           <div style={{ display: "flex", alignItems: "flex-start", gap: "12px", marginBottom: "16px" }}>
             <ShieldAlert size={24} color="var(--error)" style={{ flexShrink: 0 }} />
             <div>
-              <h2 style={{ fontSize: "18px", fontWeight: 700, color: "var(--ink)", marginBottom: "4px" }}>
+              <h2 style={{ fontSize: "18px", fontWeight: 800, color: "#ffffff", marginBottom: "4px" }}>
                 We&apos;re here with you.
               </h2>
               <p style={{ fontSize: "14px", color: "var(--text-body)", lineHeight: "1.5" }}>
@@ -130,7 +130,7 @@ function CheckInResultContent() {
             <button
               onClick={() => setShowEmergencyModal(true)}
               className="btn btn-danger"
-              style={{ fontWeight: 600 }}
+              style={{ fontWeight: 700 }}
             >
               <Phone size={16} /> Call Emergency Support
             </button>
@@ -159,13 +159,13 @@ function CheckInResultContent() {
           alignItems: "center",
           gap: "8px",
           fontSize: "12px",
-          fontWeight: 700,
+          fontWeight: 800,
           textTransform: "uppercase",
-          letterSpacing: "0.04em",
-          color: "var(--text-muted)",
+          letterSpacing: "0.06em",
+          color: "var(--primary)",
           marginBottom: "14px"
         }}>
-          <Sparkles size={16} color="var(--primary)" />
+          <Sparkles size={16} />
           <span>WHAT WE NOTICED</span>
         </div>
 
@@ -210,13 +210,13 @@ function CheckInResultContent() {
           alignItems: "center",
           gap: "8px",
           fontSize: "12px",
-          fontWeight: 700,
+          fontWeight: 800,
           textTransform: "uppercase",
-          letterSpacing: "0.04em",
-          color: "var(--text-muted)",
+          letterSpacing: "0.06em",
+          color: "var(--status-stable)",
           marginBottom: "12px"
         }}>
-          <HeartHandshake size={16} color="var(--status-stable)" />
+          <HeartHandshake size={16} />
           <span>WHAT MAY HELP</span>
         </div>
 

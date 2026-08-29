@@ -77,7 +77,7 @@ export default function HistoryPage() {
         marginBottom: "24px"
       }}>
         <div>
-          <h1 style={{ fontSize: "24px", fontWeight: 700, color: "var(--ink)", letterSpacing: "-0.03em", marginBottom: "4px" }}>
+          <h1 style={{ fontSize: "24px", fontWeight: 800, color: "#ffffff", marginBottom: "4px" }}>
             Check-in History
           </h1>
           <p style={{ fontSize: "14px", color: "var(--text-muted)" }}>
@@ -93,7 +93,7 @@ export default function HistoryPage() {
       {checkIns.length === 0 ? (
         <div className="card" style={{ textAlign: "center", padding: "60px 20px" }}>
           <HistoryIcon size={40} color="var(--text-muted)" style={{ margin: "0 auto 16px auto" }} />
-          <h2 style={{ fontSize: "18px", color: "var(--ink)", marginBottom: "8px" }}>No past check-ins yet</h2>
+          <h2 style={{ fontSize: "18px", color: "#ffffff", marginBottom: "8px" }}>No past check-ins yet</h2>
           <p style={{ fontSize: "14px", color: "var(--text-muted)", marginBottom: "20px" }}>
             Take your first check-in to begin tracking your wellbeing over time.
           </p>
@@ -128,7 +128,7 @@ export default function HistoryPage() {
                 }}
               >
                 <div>
-                  <div style={{ fontSize: "15px", fontWeight: 600, color: "var(--ink)" }}>
+                  <div style={{ fontSize: "15px", fontWeight: 700, color: "#ffffff" }}>
                     {dateStr}
                   </div>
                   <div style={{ fontSize: "13px", color: "var(--text-muted)", marginTop: "2px" }}>
@@ -139,7 +139,7 @@ export default function HistoryPage() {
 
                 <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
                   <div style={{ textAlign: "right" }}>
-                    <div style={{ fontSize: "24px", fontWeight: 700, color: "var(--ink)", letterSpacing: "-0.03em" }}>
+                    <div style={{ fontSize: "24px", fontWeight: 800, color: "#ffffff" }}>
                       {Math.round(ci.dhritiIndex)}
                       <span style={{ fontSize: "14px", color: "var(--text-muted)", fontWeight: 500 }}>/100</span>
                     </div>
@@ -171,7 +171,7 @@ export default function HistoryPage() {
           <div className="modal-content" onClick={(e) => e.stopPropagation()} style={{ maxWidth: "560px" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
               <div>
-                <h3 style={{ fontSize: "18px", fontWeight: 700, color: "var(--ink)", letterSpacing: "-0.02em" }}>
+                <h3 style={{ fontSize: "18px", fontWeight: 800, color: "#ffffff" }}>
                   Check-in Details
                 </h3>
                 <p style={{ fontSize: "12px", color: "var(--text-muted)" }}>
@@ -190,8 +190,8 @@ export default function HistoryPage() {
                 padding: "16px 24px",
                 textAlign: "center"
               }}>
-                <div style={{ fontSize: "11px", fontWeight: 600, color: "var(--text-muted)", textTransform: "uppercase" }}>Dhriti Index</div>
-                <div style={{ fontSize: "36px", fontWeight: 700, color: "var(--ink)", letterSpacing: "-0.03em" }}>{Math.round(selectedCheckIn.dhritiIndex)}</div>
+                <div style={{ fontSize: "11px", fontWeight: 700, color: "var(--text-muted)", textTransform: "uppercase" }}>Dhriti Index</div>
+                <div style={{ fontSize: "36px", fontWeight: 800, color: "#ffffff" }}>{Math.round(selectedCheckIn.dhritiIndex)}</div>
               </div>
               <div>
                 <span className={`badge badge-${selectedCheckIn.riskLevel.toLowerCase()}`} style={{ fontSize: "13px", padding: "4px 12px" }}>
@@ -204,8 +204,8 @@ export default function HistoryPage() {
             </div>
 
             {selectedCheckIn.supportRecommendation && (
-              <div style={{ backgroundColor: "var(--surface-card)", padding: "14px", borderRadius: "var(--rounded-md)", marginBottom: "16px" }}>
-                <div style={{ fontSize: "12px", fontWeight: 700, color: "var(--ink)", textTransform: "uppercase", marginBottom: "4px" }}>
+              <div style={{ backgroundColor: "var(--surface-soft)", padding: "14px", borderRadius: "var(--rounded-md)", marginBottom: "16px" }}>
+                <div style={{ fontSize: "12px", fontWeight: 700, color: "var(--primary)", textTransform: "uppercase", marginBottom: "4px" }}>
                   Recommendation
                 </div>
                 <p style={{ fontSize: "13px", color: "var(--text-body)" }}>{selectedCheckIn.supportRecommendation}</p>

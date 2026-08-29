@@ -74,7 +74,7 @@ export default function DashboardPage() {
         marginBottom: "24px"
       }}>
         <div>
-          <h1 style={{ fontSize: "26px", fontWeight: 700, color: "var(--ink)", letterSpacing: "-0.03em", marginBottom: "4px" }}>
+          <h1 style={{ fontSize: "26px", fontWeight: 800, color: "#ffffff", marginBottom: "4px" }}>
             Hello, {user?.name || "Friend"}
           </h1>
           <p style={{ fontSize: "14px", color: "var(--text-muted)" }}>
@@ -90,15 +90,15 @@ export default function DashboardPage() {
 
       {error && (
         <div style={{
-          backgroundColor: "rgba(239, 68, 68, 0.08)",
-          border: "1px solid rgba(239, 68, 68, 0.3)",
+          backgroundColor: "rgba(242, 63, 67, 0.15)",
+          border: "1px solid var(--status-critical)",
           borderRadius: "var(--rounded-md)",
           padding: "12px 16px",
           marginBottom: "20px",
           display: "flex",
           alignItems: "center",
           gap: "10px",
-          color: "var(--error)",
+          color: "var(--status-critical)",
           fontSize: "14px"
         }}>
           <AlertCircle size={18} />
@@ -111,7 +111,7 @@ export default function DashboardPage() {
         <div className="safety-banner">
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "12px" }}>
             <div>
-              <h3 style={{ color: "var(--ink)", fontSize: "16px", fontWeight: 700, marginBottom: "4px" }}>
+              <h3 style={{ color: "#ffffff", fontSize: "16px", fontWeight: 800, marginBottom: "4px" }}>
                 We are here with you
               </h3>
               <p style={{ color: "var(--text-body)", fontSize: "13px" }}>
@@ -136,11 +136,11 @@ export default function DashboardPage() {
             alignItems: "center",
             justifyContent: "center",
             margin: "0 auto 16px auto",
-            color: "var(--ink)"
+            color: "var(--primary)"
           }}>
             <PlusCircle size={28} />
           </div>
-          <h2 style={{ fontSize: "20px", fontWeight: 700, color: "var(--ink)", letterSpacing: "-0.02em", marginBottom: "8px" }}>
+          <h2 style={{ fontSize: "20px", fontWeight: 800, color: "#ffffff", marginBottom: "8px" }}>
             No Check-ins Recorded Yet
           </h2>
           <p style={{ color: "var(--text-muted)", fontSize: "14px", maxWidth: "460px", margin: "0 auto 24px auto" }}>
@@ -175,7 +175,7 @@ export default function DashboardPage() {
           <div style={{ display: "flex", alignItems: "flex-start", gap: "12px" }}>
             <HeartHandshake size={20} color="var(--primary)" style={{ flexShrink: 0, marginTop: "2px" }} />
             <div>
-              <h3 style={{ fontSize: "15px", fontWeight: 700, color: "var(--ink)", marginBottom: "4px", letterSpacing: "-0.01em" }}>
+              <h3 style={{ fontSize: "15px", fontWeight: 700, color: "#ffffff", marginBottom: "4px" }}>
                 Supportive Recommendation
               </h3>
               <p style={{ fontSize: "14px", color: "var(--text-body)", lineHeight: "1.5" }}>
@@ -200,9 +200,9 @@ export default function DashboardPage() {
             alignItems: "center",
             marginBottom: "16px"
           }}>
-            <h3 style={{ fontSize: "15px", fontWeight: 700, color: "var(--ink)", letterSpacing: "-0.02em" }}>RECENT CHECK-INS</h3>
+            <h3 style={{ fontSize: "15px", fontWeight: 800, color: "#ffffff" }}>RECENT CHECK-INS</h3>
             {recentCheckIns.length > 0 && (
-              <Link href="/history" style={{ fontSize: "13px", color: "var(--ink)", fontWeight: 600, display: "flex", alignItems: "center", gap: "4px", textDecoration: "underline" }}>
+              <Link href="/history" style={{ fontSize: "13px", color: "var(--primary)", fontWeight: 700, display: "flex", alignItems: "center", gap: "4px" }}>
                 <span>View All</span>
                 <ArrowRight size={13} />
               </Link>
@@ -222,8 +222,8 @@ export default function DashboardPage() {
                   <div
                     key={ci.id}
                     style={{
-                      backgroundColor: "var(--surface-card)",
-                      border: "1px solid var(--hairline-soft)",
+                      backgroundColor: "var(--surface-soft)",
+                      border: "1px solid var(--hairline)",
                       borderRadius: "var(--rounded-md)",
                       padding: "12px 16px",
                       display: "flex",
@@ -232,13 +232,13 @@ export default function DashboardPage() {
                     }}
                   >
                     <div>
-                      <div style={{ fontWeight: 600, fontSize: "14px", color: "var(--ink)" }}>{dateStr}</div>
+                      <div style={{ fontWeight: 700, fontSize: "14px", color: "#ffffff" }}>{dateStr}</div>
                       <div style={{ fontSize: "12px", color: "var(--text-muted)" }}>
                         {ci.deltaPoints > 0 ? `↑ ${ci.deltaPoints} pts` : ci.deltaPoints < 0 ? `↓ ${Math.abs(ci.deltaPoints)} pts` : "Stable"}
                       </div>
                     </div>
                     <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-                      <span style={{ fontSize: "18px", fontWeight: 700, color: "var(--ink)", letterSpacing: "-0.03em" }}>
+                      <span style={{ fontSize: "18px", fontWeight: 800, color: "#ffffff" }}>
                         {Math.round(ci.dhritiIndex)}
                       </span>
                       <span className={`badge badge-${ci.riskLevel.toLowerCase()}`}>

@@ -52,7 +52,7 @@ export default function TrendChart({ trendPoints = [] }) {
         marginBottom: "16px"
       }}>
         <div>
-          <h3 style={{ fontSize: "16px", fontWeight: 700, color: "var(--ink)", letterSpacing: "-0.02em" }}>DHRITI TREND</h3>
+          <h3 style={{ fontSize: "16px", fontWeight: 700, color: "#ffffff", letterSpacing: "-0.02em" }}>DHRITI TREND</h3>
           <p style={{ fontSize: "13px", color: "var(--text-muted)" }}>Wellbeing score progression over time</p>
         </div>
         <div style={{ display: "flex", gap: "12px", fontSize: "12px", color: "var(--text-muted)" }}>
@@ -106,7 +106,7 @@ export default function TrendChart({ trendPoints = [] }) {
             <polyline
               fill="none"
               stroke="var(--primary)"
-              strokeWidth="2.5"
+              strokeWidth="3"
               strokeLinecap="round"
               strokeLinejoin="round"
               points={polylinePoints}
@@ -126,8 +126,8 @@ export default function TrendChart({ trendPoints = [] }) {
                 <circle
                   cx={cx}
                   cy={cy}
-                  r="5"
-                  fill="#ffffff"
+                  r="5.5"
+                  fill="#2b2d31"
                   stroke={color}
                   strokeWidth="2.5"
                 />
@@ -136,9 +136,9 @@ export default function TrendChart({ trendPoints = [] }) {
                 <text
                   x={cx}
                   y={cy - 10}
-                  fill="var(--ink)"
+                  fill="#ffffff"
                   fontSize="11"
-                  fontWeight="600"
+                  fontWeight="700"
                   textAnchor="middle"
                   fontFamily="inherit"
                 >

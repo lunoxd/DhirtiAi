@@ -53,8 +53,8 @@ export default function BreathingWidget() {
   return (
     <div className="card-gray" style={{ textAlign: "center", padding: "28px" }}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", marginBottom: "6px" }}>
-        <Wind size={18} color="var(--ink)" />
-        <h3 style={{ fontSize: "16px", fontWeight: 700, color: "var(--ink)", letterSpacing: "-0.02em" }}>Guided Grounding & Calming Breath</h3>
+        <Wind size={18} color="var(--primary)" />
+        <h3 style={{ fontSize: "16px", fontWeight: 700, color: "#ffffff", letterSpacing: "-0.02em" }}>Guided Grounding & Calming Breath</h3>
       </div>
       <p style={{ fontSize: "13px", color: "var(--text-muted)", marginBottom: "20px" }}>
         Use this pacing tool to calm your nervous system when feeling overwhelmed.
@@ -82,19 +82,19 @@ export default function BreathingWidget() {
         width: "150px",
         height: "150px",
         borderRadius: "var(--rounded-full)",
-        backgroundColor: "var(--canvas)",
+        backgroundColor: "var(--surface-soft)",
         border: "2px solid var(--hairline)",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
         position: "relative",
-        boxShadow: "0 2px 8px rgba(0,0,0,0.04)",
+        boxShadow: "0 4px 16px rgba(0,0,0,0.2)",
         transition: "transform 4s ease-in-out, border-color 0.5s ease",
         transform: isActive && phase.startsWith("Inhale") ? "scale(1.12)" : isActive && phase.startsWith("Exhale") ? "scale(0.92)" : "scale(1)",
         borderColor: isActive ? "var(--primary)" : "var(--hairline)"
       }}>
-        <div style={{ fontSize: "28px", fontWeight: 700, color: "var(--ink)", letterSpacing: "-0.03em" }}>
+        <div style={{ fontSize: "28px", fontWeight: 800, color: "#ffffff", letterSpacing: "-0.03em" }}>
           {isActive ? countdown : <Wind size={30} color="var(--text-muted)" />}
         </div>
         <div style={{ fontSize: "11px", color: "var(--text-muted)", fontWeight: 600, marginTop: "4px", padding: "0 10px" }}>

@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { useAuth } from "../context/AuthContext";
-import { ArrowRight, Sparkles, CheckCircle2, ShieldCheck, HeartHandshake, Activity, Phone } from "lucide-react";
+import { ArrowRight, CheckCircle2 } from "lucide-react";
 import DisclaimerBanner from "../components/DisclaimerBanner";
 
 export default function LandingPage() {
@@ -11,7 +11,7 @@ export default function LandingPage() {
 
   return (
     <div className="container" style={{ paddingTop: "20px" }}>
-      {/* Hero Section - 7/5 Editorial Grid */}
+      {/* Hero Section - 7/5 Grid */}
       <section style={{
         display: "grid",
         gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
@@ -25,17 +25,17 @@ export default function LandingPage() {
             <span className="badge" style={{ backgroundColor: "var(--primary)", color: "#ffffff", padding: "2px 8px" }}>
               New
             </span>
-            <span style={{ fontSize: "13px", fontWeight: 600, color: "var(--text-body)", paddingRight: "8px" }}>
+            <span style={{ fontSize: "13px", fontWeight: 600, color: "#ffffff", paddingRight: "8px" }}>
               AI-Assisted Early Distress Monitoring
             </span>
           </div>
 
           <h1 style={{
             fontSize: "clamp(38px, 5.5vw, 56px)",
-            fontWeight: 700,
+            fontWeight: 800,
             lineHeight: 1.08,
-            color: "var(--ink)",
-            letterSpacing: "-0.04em",
+            color: "#ffffff",
+            letterSpacing: "-0.03em",
             marginBottom: "20px"
           }}>
             Understand your wellbeing.<br />
@@ -82,16 +82,16 @@ export default function LandingPage() {
 
         {/* Right Product Chrome Mockup Card */}
         <div style={{
-          backgroundColor: "var(--canvas)",
+          backgroundColor: "var(--surface-card)",
           border: "1px solid var(--hairline)",
           borderRadius: "var(--rounded-xl)",
           padding: "24px",
-          boxShadow: "0 12px 32px rgba(0, 0, 0, 0.06)"
+          boxShadow: "0 12px 32px rgba(0, 0, 0, 0.3)"
         }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
             <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
               <div style={{ width: "8px", height: "8px", borderRadius: "50%", backgroundColor: "var(--status-stable)" }} />
-              <span style={{ fontSize: "12px", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.04em", color: "var(--text-muted)" }}>
+              <span style={{ fontSize: "12px", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "var(--text-muted)" }}>
                 Live Wellbeing Preview
               </span>
             </div>
@@ -100,8 +100,8 @@ export default function LandingPage() {
 
           {/* Embedded UI Fragment */}
           <div className="card-inner" style={{ marginBottom: "16px", textAlign: "center", padding: "20px" }}>
-            <div style={{ fontSize: "12px", color: "var(--text-muted)", fontWeight: 600 }}>CURRENT STATE</div>
-            <div style={{ fontSize: "44px", fontWeight: 700, color: "var(--ink)", letterSpacing: "-0.04em", margin: "4px 0" }}>
+            <div style={{ fontSize: "12px", color: "var(--text-muted)", fontWeight: 700 }}>CURRENT STATE</div>
+            <div style={{ fontSize: "44px", fontWeight: 800, color: "#ffffff", letterSpacing: "-0.03em", margin: "4px 0" }}>
               24<span style={{ fontSize: "18px", color: "var(--text-muted)" }}>/100</span>
             </div>
             <div style={{ fontSize: "13px", color: "var(--status-stable)", fontWeight: 600 }}>
@@ -111,14 +111,14 @@ export default function LandingPage() {
 
           {/* Stepped Button Question Mockup */}
           <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-            <div style={{ fontSize: "13px", fontWeight: 600, color: "var(--ink)" }}>
+            <div style={{ fontSize: "13px", fontWeight: 600, color: "#ffffff" }}>
               &ldquo;How has your sleep been recently?&rdquo;
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "6px" }}>
-              <div style={{ padding: "8px 12px", backgroundColor: "var(--surface-card)", borderRadius: "var(--rounded-md)", fontSize: "12px", fontWeight: 600, textAlign: "center" }}>
+              <div style={{ padding: "8px 12px", backgroundColor: "var(--surface-soft)", borderRadius: "var(--rounded-md)", fontSize: "12px", fontWeight: 600, textAlign: "center", color: "var(--text-muted)" }}>
                 Good
               </div>
-              <div style={{ padding: "8px 12px", backgroundColor: "var(--primary)", color: "#ffffff", borderRadius: "var(--rounded-md)", fontSize: "12px", fontWeight: 600, textAlign: "center" }}>
+              <div style={{ padding: "8px 12px", backgroundColor: "var(--primary)", color: "#ffffff", borderRadius: "var(--rounded-md)", fontSize: "12px", fontWeight: 700, textAlign: "center" }}>
                 Okay ✓
               </div>
             </div>
@@ -129,7 +129,7 @@ export default function LandingPage() {
       {/* 3-Step Feature Cards Section */}
       <section style={{ padding: "48px 0" }}>
         <div style={{ textAlign: "center", maxWidth: "600px", margin: "0 auto 40px auto" }}>
-          <h2 style={{ fontSize: "28px", fontWeight: 700, letterSpacing: "-0.03em", color: "var(--ink)", marginBottom: "8px" }}>
+          <h2 style={{ fontSize: "28px", fontWeight: 800, letterSpacing: "-0.02em", color: "#ffffff", marginBottom: "8px" }}>
             How Dhriti Works
           </h2>
           <p style={{ color: "var(--text-muted)", fontSize: "15px" }}>
@@ -143,17 +143,17 @@ export default function LandingPage() {
           gap: "24px"
         }}>
           {/* Card 1 */}
-          <div className="card-gray">
+          <div className="card">
             <div style={{
               fontSize: "12px",
               fontWeight: 700,
-              color: "var(--text-muted)",
+              color: "var(--primary)",
               letterSpacing: "0.06em",
               marginBottom: "16px"
             }}>
               01 — CHECK IN
             </div>
-            <h3 style={{ fontSize: "18px", fontWeight: 700, color: "var(--ink)", marginBottom: "8px", letterSpacing: "-0.02em" }}>
+            <h3 style={{ fontSize: "18px", fontWeight: 700, color: "#ffffff", marginBottom: "8px" }}>
               Answer Simple Questions
             </h3>
             <p style={{ color: "var(--text-body)", fontSize: "14px", lineHeight: "1.6" }}>
@@ -162,17 +162,17 @@ export default function LandingPage() {
           </div>
 
           {/* Card 2 */}
-          <div className="card-gray">
+          <div className="card">
             <div style={{
               fontSize: "12px",
               fontWeight: 700,
-              color: "var(--text-muted)",
+              color: "var(--primary)",
               letterSpacing: "0.06em",
               marginBottom: "16px"
             }}>
               02 — UNDERSTAND
             </div>
-            <h3 style={{ fontSize: "18px", fontWeight: 700, color: "var(--ink)", marginBottom: "8px", letterSpacing: "-0.02em" }}>
+            <h3 style={{ fontSize: "18px", fontWeight: 700, color: "#ffffff", marginBottom: "8px" }}>
               Detect Changes Over Time
             </h3>
             <p style={{ color: "var(--text-body)", fontSize: "14px", lineHeight: "1.6" }}>
@@ -181,17 +181,17 @@ export default function LandingPage() {
           </div>
 
           {/* Card 3 */}
-          <div className="card-gray">
+          <div className="card">
             <div style={{
               fontSize: "12px",
               fontWeight: 700,
-              color: "var(--text-muted)",
+              color: "var(--primary)",
               letterSpacing: "0.06em",
               marginBottom: "16px"
             }}>
               03 — CONNECT
             </div>
-            <h3 style={{ fontSize: "18px", fontWeight: 700, color: "var(--ink)", marginBottom: "8px", letterSpacing: "-0.02em" }}>
+            <h3 style={{ fontSize: "18px", fontWeight: 700, color: "#ffffff", marginBottom: "8px" }}>
               Find Appropriate Support
             </h3>
             <p style={{ color: "var(--text-body)", fontSize: "14px", lineHeight: "1.6" }}>
@@ -203,7 +203,7 @@ export default function LandingPage() {
 
       {/* Core Principles */}
       <section className="card" style={{ margin: "24px 0 48px 0", padding: "36px" }}>
-        <h2 style={{ fontSize: "22px", fontWeight: 700, color: "var(--ink)", marginBottom: "24px", letterSpacing: "-0.02em" }}>
+        <h2 style={{ fontSize: "22px", fontWeight: 800, color: "#ffffff", marginBottom: "24px" }}>
           Built for Safety, Dignity & Transparency
         </h2>
 
@@ -213,7 +213,7 @@ export default function LandingPage() {
           gap: "28px"
         }}>
           <div>
-            <div style={{ fontWeight: 700, fontSize: "15px", color: "var(--ink)", marginBottom: "6px" }}>
+            <div style={{ fontWeight: 700, fontSize: "15px", color: "#ffffff", marginBottom: "6px" }}>
               Deterministic Scoring Engine
             </div>
             <p style={{ fontSize: "14px", color: "var(--text-body)", lineHeight: "1.5" }}>
@@ -222,7 +222,7 @@ export default function LandingPage() {
           </div>
 
           <div>
-            <div style={{ fontWeight: 700, fontSize: "15px", color: "var(--ink)", marginBottom: "6px" }}>
+            <div style={{ fontWeight: 700, fontSize: "15px", color: "#ffffff", marginBottom: "6px" }}>
               Immediate Safety Overrides
             </div>
             <p style={{ fontSize: "14px", color: "var(--text-body)", lineHeight: "1.5" }}>
@@ -231,7 +231,7 @@ export default function LandingPage() {
           </div>
 
           <div>
-            <div style={{ fontWeight: 700, fontSize: "15px", color: "var(--ink)", marginBottom: "6px" }}>
+            <div style={{ fontWeight: 700, fontSize: "15px", color: "#ffffff", marginBottom: "6px" }}>
               Full Data Ownership & Privacy
             </div>
             <p style={{ fontSize: "14px", color: "var(--text-body)", lineHeight: "1.5" }}>

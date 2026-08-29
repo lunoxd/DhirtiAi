@@ -124,14 +124,14 @@ export default function AdminPortalPage() {
       }}>
         <div>
           <div className="nav-pill-group" style={{ marginBottom: "12px" }}>
-            <span className="badge" style={{ backgroundColor: "#d97706", color: "#ffffff", padding: "2px 8px" }}>
+            <span className="badge" style={{ backgroundColor: "var(--status-elevated)", color: "#111111", padding: "2px 8px", fontWeight: 800 }}>
               Panel 3
             </span>
-            <span style={{ fontSize: "13px", fontWeight: 600, color: "var(--text-body)", paddingRight: "8px" }}>
+            <span style={{ fontSize: "13px", fontWeight: 600, color: "#ffffff", paddingRight: "8px" }}>
               Platform Admin Command Center
             </span>
           </div>
-          <h1 style={{ fontSize: "28px", fontWeight: 700, color: "var(--ink)", letterSpacing: "-0.03em", marginBottom: "4px" }}>
+          <h1 style={{ fontSize: "28px", fontWeight: 800, color: "#ffffff", letterSpacing: "-0.02em", marginBottom: "4px" }}>
             Operations & Global Oversight
           </h1>
           <p style={{ fontSize: "14px", color: "var(--text-muted)" }}>
@@ -152,10 +152,10 @@ export default function AdminPortalPage() {
         marginBottom: "28px"
       }}>
         <div className="card" style={{ padding: "20px" }}>
-          <div style={{ fontSize: "11px", color: "var(--text-muted)", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.04em" }}>
+          <div style={{ fontSize: "11px", color: "var(--text-muted)", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}>
             Total User Accounts
           </div>
-          <div style={{ fontSize: "30px", fontWeight: 700, color: "var(--ink)", letterSpacing: "-0.03em", marginTop: "4px" }}>
+          <div style={{ fontSize: "30px", fontWeight: 800, color: "#ffffff", marginTop: "4px" }}>
             {metrics.totalAccounts || 0}
           </div>
           <div style={{ fontSize: "12px", color: "var(--text-muted)", marginTop: "4px" }}>
@@ -164,10 +164,10 @@ export default function AdminPortalPage() {
         </div>
 
         <div className="card" style={{ padding: "20px" }}>
-          <div style={{ fontSize: "11px", color: "var(--text-muted)", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.04em" }}>
+          <div style={{ fontSize: "11px", color: "var(--text-muted)", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}>
             Total Check-ins Logged
           </div>
-          <div style={{ fontSize: "30px", fontWeight: 700, color: "var(--ink)", letterSpacing: "-0.03em", marginTop: "4px" }}>
+          <div style={{ fontSize: "30px", fontWeight: 800, color: "var(--primary)", marginTop: "4px" }}>
             {metrics.totalCheckIns || 0}
           </div>
           <div style={{ fontSize: "12px", color: "var(--text-muted)", marginTop: "4px" }}>
@@ -176,10 +176,10 @@ export default function AdminPortalPage() {
         </div>
 
         <div className="card" style={{ padding: "20px" }}>
-          <div style={{ fontSize: "11px", color: "var(--text-muted)", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.04em" }}>
+          <div style={{ fontSize: "11px", color: "var(--text-muted)", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}>
             Active Critical Cases
           </div>
-          <div style={{ fontSize: "30px", fontWeight: 700, color: "var(--error)", letterSpacing: "-0.03em", marginTop: "4px" }}>
+          <div style={{ fontSize: "30px", fontWeight: 800, color: "var(--status-critical)", marginTop: "4px" }}>
             {metrics.activeCritical || 0}
           </div>
           <div style={{ fontSize: "12px", color: "var(--text-muted)", marginTop: "4px" }}>
@@ -188,10 +188,10 @@ export default function AdminPortalPage() {
         </div>
 
         <div className="card" style={{ padding: "20px" }}>
-          <div style={{ fontSize: "11px", color: "var(--text-muted)", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.04em" }}>
+          <div style={{ fontSize: "11px", color: "var(--text-muted)", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}>
             Platform Avg. Index
           </div>
-          <div style={{ fontSize: "30px", fontWeight: 700, color: "var(--status-stable)", letterSpacing: "-0.03em", marginTop: "4px" }}>
+          <div style={{ fontSize: "30px", fontWeight: 800, color: "var(--status-stable)", marginTop: "4px" }}>
             {metrics.averageDhritiIndex || 0}
             <span style={{ fontSize: "14px", color: "var(--text-muted)", fontWeight: 500 }}>/100</span>
           </div>
@@ -201,10 +201,10 @@ export default function AdminPortalPage() {
         </div>
 
         <div className="card" style={{ padding: "20px" }}>
-          <div style={{ fontSize: "11px", color: "var(--text-muted)", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.04em" }}>
+          <div style={{ fontSize: "11px", color: "var(--text-muted)", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}>
             Groq AI Engine
           </div>
-          <div style={{ fontSize: "18px", fontWeight: 700, color: overview?.system?.groqStatus === "ONLINE" ? "var(--status-stable)" : "#d97706", marginTop: "8px" }}>
+          <div style={{ fontSize: "18px", fontWeight: 800, color: overview?.system?.groqStatus === "ONLINE" ? "var(--status-stable)" : "var(--status-elevated)", marginTop: "8px" }}>
             {overview?.system?.groqStatus || "ONLINE"}
           </div>
           <div style={{ fontSize: "12px", color: "var(--text-muted)", marginTop: "4px" }}>
@@ -216,7 +216,7 @@ export default function AdminPortalPage() {
       {/* Risk Distribution Visual Bar */}
       <div className="card" style={{ padding: "24px", marginBottom: "28px" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "14px" }}>
-          <h3 style={{ fontSize: "15px", fontWeight: 700, color: "var(--ink)", letterSpacing: "-0.02em" }}>
+          <h3 style={{ fontSize: "15px", fontWeight: 800, color: "#ffffff" }}>
             Platform Distress Risk Distribution
           </h3>
           <span style={{ fontSize: "12px", color: "var(--text-muted)" }}>
@@ -228,7 +228,7 @@ export default function AdminPortalPage() {
         <div style={{
           height: "10px",
           width: "100%",
-          backgroundColor: "var(--surface-strong)",
+          backgroundColor: "var(--surface-soft)",
           borderRadius: "var(--rounded-pill)",
           overflow: "hidden",
           display: "flex",
@@ -288,7 +288,7 @@ export default function AdminPortalPage() {
       {activeTab === "overview" && (
         <div className="card" style={{ padding: "24px" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "12px", marginBottom: "16px" }}>
-            <h3 style={{ fontSize: "16px", fontWeight: 700, color: "var(--ink)", letterSpacing: "-0.02em" }}>
+            <h3 style={{ fontSize: "16px", fontWeight: 800, color: "#ffffff" }}>
               User Directory & Role Control
             </h3>
 
@@ -323,7 +323,7 @@ export default function AdminPortalPage() {
               <tbody>
                 {usersList.map((u) => (
                   <tr key={u.id} style={{ borderBottom: "1px solid var(--hairline-soft)" }}>
-                    <td style={{ padding: "12px 10px", fontWeight: 600, color: "var(--ink)" }}>
+                    <td style={{ padding: "12px 10px", fontWeight: 700, color: "#ffffff" }}>
                       {u.name}
                     </td>
                     <td style={{ padding: "12px 10px", color: "var(--text-body)" }}>
@@ -332,11 +332,11 @@ export default function AdminPortalPage() {
                     <td style={{ padding: "12px 10px" }}>
                       <span style={{
                         fontSize: "11px",
-                        fontWeight: 700,
+                        fontWeight: 800,
                         padding: "2px 8px",
                         borderRadius: "var(--rounded-pill)",
-                        backgroundColor: u.role === "ADMIN" ? "rgba(245, 158, 11, 0.12)" : u.role === "DOCTOR" ? "rgba(59, 130, 246, 0.12)" : "var(--surface-card)",
-                        color: u.role === "ADMIN" ? "#d97706" : u.role === "DOCTOR" ? "#2563eb" : "var(--text-body)"
+                        backgroundColor: u.role === "ADMIN" ? "rgba(240, 178, 50, 0.2)" : u.role === "DOCTOR" ? "rgba(88, 101, 242, 0.2)" : "var(--surface-soft)",
+                        color: u.role === "ADMIN" ? "var(--status-elevated)" : u.role === "DOCTOR" ? "var(--primary)" : "var(--text-body)"
                       }}>
                         {u.role}
                       </span>
@@ -344,7 +344,7 @@ export default function AdminPortalPage() {
                     <td style={{ padding: "12px 10px", color: "var(--text-muted)", fontSize: "12px" }}>
                       {u.organization || "—"}
                     </td>
-                    <td style={{ padding: "12px 10px", fontWeight: 700, color: "var(--ink)" }}>
+                    <td style={{ padding: "12px 10px", fontWeight: 800, color: "#ffffff" }}>
                       {u.checkInCount || 0}
                     </td>
                     <td style={{ padding: "12px 10px" }}>
@@ -365,7 +365,7 @@ export default function AdminPortalPage() {
                           <button
                             onClick={() => handleDeleteUser(u.id, u.name)}
                             className="btn btn-secondary btn-sm"
-                            style={{ color: "var(--error)" }}
+                            style={{ color: "var(--status-critical)" }}
                             title="Delete User"
                           >
                             <Trash2 size={13} />
@@ -385,7 +385,7 @@ export default function AdminPortalPage() {
       {activeTab === "checkins" && (
         <div className="card" style={{ padding: "24px" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "12px", marginBottom: "16px" }}>
-            <h3 style={{ fontSize: "16px", fontWeight: 700, color: "var(--ink)", letterSpacing: "-0.02em" }}>
+            <h3 style={{ fontSize: "16px", fontWeight: 800, color: "#ffffff" }}>
               Global Check-in Audit Stream
             </h3>
 
@@ -422,13 +422,13 @@ export default function AdminPortalPage() {
               <tbody>
                 {checkInsList.map((ci) => (
                   <tr key={ci.id} style={{ borderBottom: "1px solid var(--hairline-soft)" }}>
-                    <td style={{ padding: "12px 10px", fontWeight: 600, color: "var(--ink)" }}>
+                    <td style={{ padding: "12px 10px", fontWeight: 700, color: "#ffffff" }}>
                       {ci.userName}
                     </td>
                     <td style={{ padding: "12px 10px", color: "var(--text-muted)", fontSize: "12px" }}>
                       {new Date(ci.createdAt).toLocaleString()}
                     </td>
-                    <td style={{ padding: "12px 10px", fontWeight: 700, color: "var(--ink)", fontSize: "15px" }}>
+                    <td style={{ padding: "12px 10px", fontWeight: 800, color: "#ffffff", fontSize: "15px" }}>
                       {Math.round(ci.dhritiIndex)}/100
                     </td>
                     <td style={{ padding: "12px 10px" }}>
@@ -464,7 +464,7 @@ export default function AdminPortalPage() {
         <div className="modal-overlay" onClick={() => setEditingUser(null)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
-              <h3 style={{ fontSize: "18px", fontWeight: 700, color: "var(--ink)", letterSpacing: "-0.02em" }}>
+              <h3 style={{ fontSize: "18px", fontWeight: 800, color: "#ffffff" }}>
                 Edit Role: {editingUser.name}
               </h3>
               <button onClick={() => setEditingUser(null)} style={{ color: "var(--text-muted)" }}>

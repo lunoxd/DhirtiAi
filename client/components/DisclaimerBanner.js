@@ -19,7 +19,7 @@ export default function DisclaimerBanner() {
     }}>
       <Info size={18} color="var(--primary)" style={{ flexShrink: 0 }} />
       <span>
-        <strong style={{ color: "var(--ink)" }}>Medical Disclaimer:</strong> DHRITI is an AI-assisted mental wellbeing monitoring and early distress-support platform. It does not provide medical or psychiatric diagnoses. If you are experiencing an emergency, please connect directly with professional crisis services.
+        <strong style={{ color: "#ffffff" }}>Medical Disclaimer:</strong> DHRITI is an AI-assisted mental wellbeing monitoring and early distress-support platform. It does not provide medical or psychiatric diagnoses. If you are experiencing an emergency, please connect directly with professional crisis services.
       </span>
     </div>
   );

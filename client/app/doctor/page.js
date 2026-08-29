@@ -6,12 +6,10 @@ import { useAuth } from "../../context/AuthContext";
 import { apiDoctor } from "../../lib/api";
 import {
   Stethoscope,
-  ShieldAlert,
   AlertTriangle,
   CheckCircle2,
   Phone,
   MessageSquare,
-  Sparkles,
   X,
   RefreshCw,
   UserCheck
@@ -106,14 +104,14 @@ export default function DoctorPortalPage() {
       }}>
         <div>
           <div className="nav-pill-group" style={{ marginBottom: "12px" }}>
-            <span className="badge" style={{ backgroundColor: "var(--brand-accent)", color: "#ffffff", padding: "2px 8px" }}>
+            <span className="badge" style={{ backgroundColor: "var(--primary)", color: "#ffffff", padding: "2px 8px" }}>
               Panel 2
             </span>
-            <span style={{ fontSize: "13px", fontWeight: 600, color: "var(--text-body)", paddingRight: "8px" }}>
+            <span style={{ fontSize: "13px", fontWeight: 600, color: "#ffffff", paddingRight: "8px" }}>
               Clinical & Helpline Responder Portal
             </span>
           </div>
-          <h1 style={{ fontSize: "28px", fontWeight: 700, color: "var(--ink)", letterSpacing: "-0.03em", marginBottom: "4px" }}>
+          <h1 style={{ fontSize: "28px", fontWeight: 800, color: "#ffffff", letterSpacing: "-0.02em", marginBottom: "4px" }}>
             Distress Triage Queue
           </h1>
           <p style={{ fontSize: "14px", color: "var(--text-muted)" }}>
@@ -134,10 +132,10 @@ export default function DoctorPortalPage() {
         marginBottom: "28px"
       }}>
         <div className="card" style={{ padding: "20px" }}>
-          <div style={{ fontSize: "11px", color: "var(--text-muted)", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.04em" }}>
+          <div style={{ fontSize: "11px", color: "var(--text-muted)", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}>
             Active Critical Inquiries
           </div>
-          <div style={{ fontSize: "32px", fontWeight: 700, color: "var(--error)", letterSpacing: "-0.03em", marginTop: "4px" }}>
+          <div style={{ fontSize: "32px", fontWeight: 800, color: "var(--status-critical)", marginTop: "4px" }}>
             {stats?.activeCritical || 0}
           </div>
           <div style={{ fontSize: "12px", color: "var(--text-muted)", marginTop: "4px" }}>
@@ -146,10 +144,10 @@ export default function DoctorPortalPage() {
         </div>
 
         <div className="card" style={{ padding: "20px" }}>
-          <div style={{ fontSize: "11px", color: "var(--text-muted)", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.04em" }}>
+          <div style={{ fontSize: "11px", color: "var(--text-muted)", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}>
             Pending Triage
           </div>
-          <div style={{ fontSize: "32px", fontWeight: 700, color: "#d97706", letterSpacing: "-0.03em", marginTop: "4px" }}>
+          <div style={{ fontSize: "32px", fontWeight: 800, color: "var(--status-elevated)", marginTop: "4px" }}>
             {stats?.pendingReview || 0}
           </div>
           <div style={{ fontSize: "12px", color: "var(--text-muted)", marginTop: "4px" }}>
@@ -158,10 +156,10 @@ export default function DoctorPortalPage() {
         </div>
 
         <div className="card" style={{ padding: "20px" }}>
-          <div style={{ fontSize: "11px", color: "var(--text-muted)", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.04em" }}>
+          <div style={{ fontSize: "11px", color: "var(--text-muted)", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}>
             Resolved Cases
           </div>
-          <div style={{ fontSize: "32px", fontWeight: 700, color: "var(--status-stable)", letterSpacing: "-0.03em", marginTop: "4px" }}>
+          <div style={{ fontSize: "32px", fontWeight: 800, color: "var(--status-stable)", marginTop: "4px" }}>
             {stats?.resolved || 0}
           </div>
           <div style={{ fontSize: "12px", color: "var(--text-muted)", marginTop: "4px" }}>
@@ -170,10 +168,10 @@ export default function DoctorPortalPage() {
         </div>
 
         <div className="card" style={{ padding: "20px" }}>
-          <div style={{ fontSize: "11px", color: "var(--text-muted)", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.04em" }}>
+          <div style={{ fontSize: "11px", color: "var(--text-muted)", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}>
             Total Monitored
           </div>
-          <div style={{ fontSize: "32px", fontWeight: 700, color: "var(--ink)", letterSpacing: "-0.03em", marginTop: "4px" }}>
+          <div style={{ fontSize: "32px", fontWeight: 800, color: "#ffffff", marginTop: "4px" }}>
             {stats?.totalFlagged || 0}
           </div>
           <div style={{ fontSize: "12px", color: "var(--text-muted)", marginTop: "4px" }}>
@@ -226,7 +224,7 @@ export default function DoctorPortalPage() {
       {queue.length === 0 ? (
         <div className="card" style={{ textAlign: "center", padding: "60px 20px" }}>
           <CheckCircle2 size={40} color="var(--status-stable)" style={{ margin: "0 auto 16px auto" }} />
-          <h2 style={{ fontSize: "18px", fontWeight: 700, color: "var(--ink)", marginBottom: "6px" }}>
+          <h2 style={{ fontSize: "18px", fontWeight: 800, color: "#ffffff", marginBottom: "6px" }}>
             Triage Queue Clear
           </h2>
           <p style={{ color: "var(--text-muted)", fontSize: "14px" }}>
@@ -251,13 +249,13 @@ export default function DoctorPortalPage() {
                 style={{
                   padding: "20px 24px",
                   cursor: "pointer",
-                  borderLeft: item.safetyConcern ? "4px solid var(--error)" : item.riskLevel === "Critical" ? "4px solid var(--error)" : "1px solid var(--hairline)"
+                  borderLeft: item.safetyConcern ? "4px solid var(--status-critical)" : item.riskLevel === "Critical" ? "4px solid var(--status-critical)" : "1px solid var(--hairline)"
                 }}
               >
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: "12px" }}>
                   <div>
                     <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap" }}>
-                      <span style={{ fontSize: "16px", fontWeight: 700, color: "var(--ink)" }}>
+                      <span style={{ fontSize: "16px", fontWeight: 800, color: "#ffffff" }}>
                         {item.userAlias}
                       </span>
 
@@ -277,8 +275,8 @@ export default function DoctorPortalPage() {
                         fontWeight: 700,
                         padding: "2px 8px",
                         borderRadius: "var(--rounded-pill)",
-                        backgroundColor: item.triageStatus === "RESOLVED" ? "rgba(16, 185, 129, 0.12)" : item.triageStatus === "PENDING" ? "rgba(245, 158, 11, 0.12)" : "rgba(59, 130, 246, 0.12)",
-                        color: item.triageStatus === "RESOLVED" ? "#059669" : item.triageStatus === "PENDING" ? "#d97706" : "#2563eb"
+                        backgroundColor: item.triageStatus === "RESOLVED" ? "rgba(35, 165, 90, 0.2)" : item.triageStatus === "PENDING" ? "rgba(240, 178, 50, 0.2)" : "rgba(88, 101, 242, 0.2)",
+                        color: item.triageStatus === "RESOLVED" ? "var(--status-stable)" : item.triageStatus === "PENDING" ? "var(--status-elevated)" : "var(--primary)"
                       }}>
                         {item.triageStatus}
                       </span>
@@ -292,7 +290,7 @@ export default function DoctorPortalPage() {
                       <div style={{ display: "flex", gap: "6px", flexWrap: "wrap", marginTop: "10px" }}>
                         {item.aiAnalysis.distressIndicators.slice(0, 3).map((sig, idx) => (
                           <span key={idx} style={{
-                            backgroundColor: "var(--surface-card)",
+                            backgroundColor: "var(--surface-soft)",
                             fontSize: "12px",
                             color: "var(--text-body)",
                             padding: "3px 8px",
@@ -307,7 +305,7 @@ export default function DoctorPortalPage() {
                   </div>
 
                   <div style={{ textAlign: "right", display: "flex", flexDirection: "column", alignItems: "flex-end", gap: "8px" }}>
-                    <div style={{ fontSize: "28px", fontWeight: 700, color: "var(--ink)", letterSpacing: "-0.03em" }}>
+                    <div style={{ fontSize: "28px", fontWeight: 800, color: "#ffffff" }}>
                       {Math.round(item.dhritiIndex)}
                       <span style={{ fontSize: "14px", color: "var(--text-muted)", fontWeight: 500 }}>/100</span>
                     </div>
@@ -329,7 +327,7 @@ export default function DoctorPortalPage() {
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "18px" }}>
               <div>
                 <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                  <h3 style={{ fontSize: "20px", fontWeight: 700, color: "var(--ink)", letterSpacing: "-0.02em" }}>
+                  <h3 style={{ fontSize: "20px", fontWeight: 800, color: "#ffffff" }}>
                     {selectedCase.userAlias}
                   </h3>
                   <span className={`badge badge-${selectedCase.riskLevel.toLowerCase()}`}>
@@ -347,7 +345,7 @@ export default function DoctorPortalPage() {
 
             {selectedCase.safetyConcern && (
               <div className="safety-banner" style={{ padding: "12px 16px", marginBottom: "16px" }}>
-                <div style={{ display: "flex", alignItems: "center", gap: "8px", color: "var(--error)", fontWeight: 700, fontSize: "14px" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "8px", color: "var(--status-critical)", fontWeight: 700, fontSize: "14px" }}>
                   <AlertTriangle size={18} />
                   <span>Immediate Safety Override Triggered by User Responses</span>
                 </div>
@@ -362,7 +360,7 @@ export default function DoctorPortalPage() {
             }}>
               <div className="card-inner" style={{ textAlign: "center", display: "flex", flexDirection: "column", justifyContent: "center" }}>
                 <div style={{ fontSize: "11px", color: "var(--text-muted)", textTransform: "uppercase", fontWeight: 700 }}>Dhriti Index</div>
-                <div style={{ fontSize: "40px", fontWeight: 700, color: "var(--ink)", letterSpacing: "-0.04em" }}>
+                <div style={{ fontSize: "40px", fontWeight: 800, color: "#ffffff" }}>
                   {Math.round(selectedCase.dhritiIndex)}
                 </div>
                 <div style={{ fontSize: "12px", color: "var(--text-muted)" }}>
@@ -371,7 +369,7 @@ export default function DoctorPortalPage() {
               </div>
 
               <div className="card-inner">
-                <div style={{ fontSize: "12px", fontWeight: 700, color: "var(--ink)", textTransform: "uppercase", marginBottom: "6px" }}>
+                <div style={{ fontSize: "12px", fontWeight: 700, color: "var(--primary)", textTransform: "uppercase", marginBottom: "6px" }}>
                   AI Distress Extraction
                 </div>
                 <p style={{ fontSize: "13px", color: "var(--text-body)", marginBottom: "8px" }}>
@@ -386,7 +384,7 @@ export default function DoctorPortalPage() {
             {/* Written reflections */}
             {selectedCase.writtenResponses && Object.values(selectedCase.writtenResponses).some(t => t && t.trim().length > 0) && (
               <div className="card-inner" style={{ marginBottom: "16px" }}>
-                <div style={{ fontSize: "12px", fontWeight: 700, color: "var(--ink)", textTransform: "uppercase", marginBottom: "6px" }}>
+                <div style={{ fontSize: "12px", fontWeight: 700, color: "#ffffff", textTransform: "uppercase", marginBottom: "6px" }}>
                   User Reflections (Confidential)
                 </div>
                 {Object.entries(selectedCase.writtenResponses).map(([k, v]) => v ? (

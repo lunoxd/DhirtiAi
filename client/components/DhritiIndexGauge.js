@@ -34,8 +34,8 @@ export default function DhritiIndexGauge({ score, riskLevel, delta = 0, trend = 
     <div className="card" style={{ textAlign: "center", position: "relative", overflow: "hidden" }}>
       {safetyConcern && (
         <div style={{
-          backgroundColor: "rgba(239, 68, 68, 0.08)",
-          borderBottom: "1px solid rgba(239, 68, 68, 0.3)",
+          backgroundColor: "rgba(242, 63, 67, 0.15)",
+          borderBottom: "1px solid rgba(242, 63, 67, 0.35)",
           padding: "8px 12px",
           margin: "-28px -28px 20px -28px",
           display: "flex",
@@ -53,8 +53,8 @@ export default function DhritiIndexGauge({ score, riskLevel, delta = 0, trend = 
 
       <div style={{
         fontSize: "12px",
-        fontWeight: 600,
-        letterSpacing: "0.04em",
+        fontWeight: 700,
+        letterSpacing: "0.06em",
         textTransform: "uppercase",
         color: "var(--text-muted)",
         marginBottom: "8px"
@@ -72,10 +72,10 @@ export default function DhritiIndexGauge({ score, riskLevel, delta = 0, trend = 
       }}>
         <span style={{
           fontSize: "56px",
-          fontWeight: 700,
+          fontWeight: 800,
           lineHeight: 1,
-          color: "var(--ink)",
-          letterSpacing: "-0.04em",
+          color: "#ffffff",
+          letterSpacing: "-0.03em",
           fontVariantNumeric: "tabular-nums"
         }}>
           {numScore}
@@ -99,8 +99,8 @@ export default function DhritiIndexGauge({ score, riskLevel, delta = 0, trend = 
       {/* Progress Track */}
       <div style={{
         width: "100%",
-        height: "6px",
-        backgroundColor: "var(--surface-strong)",
+        height: "8px",
+        backgroundColor: "var(--surface-soft)",
         borderRadius: "var(--rounded-pill)",
         overflow: "hidden",
         marginBottom: "16px"
@@ -126,12 +126,12 @@ export default function DhritiIndexGauge({ score, riskLevel, delta = 0, trend = 
         {delta > 0 ? (
           <>
             <TrendingUp size={16} color="var(--status-critical)" />
-            <span><strong style={{ color: "var(--ink)" }}>↑ {Math.abs(delta)} points</strong> from previous check-in</span>
+            <span><strong style={{ color: "#ffffff" }}>↑ {Math.abs(delta)} points</strong> from previous check-in</span>
           </>
         ) : delta < 0 ? (
           <>
             <TrendingDown size={16} color="var(--status-stable)" />
-            <span><strong style={{ color: "var(--ink)" }}>↓ {Math.abs(delta)} points</strong> from previous check-in</span>
+            <span><strong style={{ color: "#ffffff" }}>↓ {Math.abs(delta)} points</strong> from previous check-in</span>
           </>
         ) : (
           <>

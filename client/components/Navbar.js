@@ -57,9 +57,9 @@ export default function Navbar() {
     if (isAdmin) {
       return (
         <span style={{
-          backgroundColor: "rgba(245, 158, 11, 0.1)",
-          color: "#d97706",
-          border: "1px solid rgba(245, 158, 11, 0.3)",
+          backgroundColor: "rgba(240, 178, 50, 0.2)",
+          color: "var(--status-elevated)",
+          border: "1px solid rgba(240, 178, 50, 0.4)",
           fontSize: "10px",
           fontWeight: 700,
           padding: "2px 8px",
@@ -73,9 +73,9 @@ export default function Navbar() {
     if (isDoctor) {
       return (
         <span style={{
-          backgroundColor: "rgba(59, 130, 246, 0.1)",
-          color: "#2563eb",
-          border: "1px solid rgba(59, 130, 246, 0.3)",
+          backgroundColor: "rgba(88, 101, 242, 0.2)",
+          color: "var(--brand-primary)",
+          border: "1px solid rgba(88, 101, 242, 0.4)",
           fontSize: "10px",
           fontWeight: 700,
           padding: "2px 8px",
@@ -92,7 +92,7 @@ export default function Navbar() {
   return (
     <>
       <nav style={{
-        backgroundColor: "var(--canvas)",
+        backgroundColor: "#1e1f22",
         borderBottom: "1px solid var(--hairline)",
         position: "sticky",
         top: 0,
@@ -110,20 +110,20 @@ export default function Navbar() {
             alignItems: "center",
             gap: "10px",
             fontSize: "18px",
-            fontWeight: 700,
-            letterSpacing: "-0.03em",
-            color: "var(--ink)"
+            fontWeight: 800,
+            letterSpacing: "-0.02em",
+            color: "#ffffff"
           }}>
             <div style={{
-              width: "28px",
-              height: "28px",
+              width: "30px",
+              height: "30px",
               borderRadius: "var(--rounded-full)",
               backgroundColor: "var(--primary)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
               fontSize: "14px",
-              fontWeight: 700,
+              fontWeight: 800,
               color: "#ffffff"
             }}>
               d
@@ -135,7 +135,7 @@ export default function Navbar() {
           <div style={{
             display: "flex",
             alignItems: "center",
-            gap: "2px"
+            gap: "4px"
           }} className="desktop-only">
             {navLinks
               .filter(link => !link.authRequired || isAuthenticated)
@@ -153,13 +153,13 @@ export default function Navbar() {
                       padding: "8px 14px",
                       borderRadius: "var(--rounded-md)",
                       fontSize: "14px",
-                      fontWeight: isActive ? 600 : 500,
-                      color: isActive ? "var(--ink)" : "var(--text-muted)",
-                      backgroundColor: isActive ? "var(--surface-soft)" : "transparent",
+                      fontWeight: isActive ? 700 : 500,
+                      color: isActive ? "#ffffff" : "var(--text-muted)",
+                      backgroundColor: isActive ? "#35373c" : "transparent",
                       transition: "all 0.15s ease"
                     }}
                   >
-                    <Icon size={15} color={isActive ? "var(--ink)" : "var(--text-muted)"} />
+                    <Icon size={16} color={isActive ? "#ffffff" : "var(--text-muted)"} />
                     <span>{link.label}</span>
                   </Link>
                 );
@@ -173,11 +173,11 @@ export default function Navbar() {
               onClick={() => setEmergencyOpen(true)}
               className="btn btn-secondary btn-sm"
               style={{
-                borderColor: "rgba(239, 68, 68, 0.3)",
+                borderColor: "rgba(242, 63, 67, 0.4)",
                 color: "var(--error)",
                 fontSize: "13px",
-                fontWeight: 600,
-                backgroundColor: "rgba(239, 68, 68, 0.04)"
+                fontWeight: 700,
+                backgroundColor: "rgba(242, 63, 67, 0.1)"
               }}
             >
               <ShieldAlert size={14} />
@@ -191,11 +191,11 @@ export default function Navbar() {
                   alignItems: "center",
                   gap: "6px",
                   padding: "6px 12px",
-                  backgroundColor: "var(--surface-card)",
+                  backgroundColor: "var(--surface-soft)",
                   borderRadius: "var(--rounded-md)",
                   border: "1px solid var(--hairline)",
                   fontSize: "13px",
-                  color: "var(--ink)"
+                  color: "#ffffff"
                 }}>
                   <User size={14} color="var(--text-muted)" />
                   <span style={{ fontWeight: 600 }}>{user?.name || "User"}</span>
@@ -221,7 +221,7 @@ export default function Navbar() {
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="mobile-only"
               style={{
-                color: "var(--ink)",
+                color: "#ffffff",
                 padding: "6px",
                 display: "none"
               }}
@@ -234,7 +234,7 @@ export default function Navbar() {
         {/* Mobile Dropdown Menu */}
         {mobileMenuOpen && (
           <div style={{
-            backgroundColor: "var(--canvas)",
+            backgroundColor: "#1e1f22",
             borderBottom: "1px solid var(--hairline)",
             padding: "16px"
           }}>
@@ -257,11 +257,11 @@ export default function Navbar() {
                         borderRadius: "var(--rounded-md)",
                         fontSize: "14px",
                         fontWeight: 600,
-                        color: isActive ? "var(--ink)" : "var(--text-muted)",
-                        backgroundColor: isActive ? "var(--surface-soft)" : "transparent"
+                        color: isActive ? "#ffffff" : "var(--text-muted)",
+                        backgroundColor: isActive ? "#35373c" : "transparent"
                       }}
                     >
-                      <Icon size={16} color={isActive ? "var(--ink)" : "var(--text-muted)"} />
+                      <Icon size={16} color={isActive ? "#ffffff" : "var(--text-muted)"} />
                       {link.label}
                     </Link>
                   );
@@ -272,7 +272,7 @@ export default function Navbar() {
               {isAuthenticated ? (
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "4px 0" }}>
                   <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-                    <span style={{ fontSize: "13px", fontWeight: 600, color: "var(--ink)" }}>{user?.name}</span>
+                    <span style={{ fontSize: "13px", fontWeight: 600, color: "#ffffff" }}>{user?.name}</span>
                     {getRoleBadge()}
                   </div>
                   <button onClick={logout} className="btn btn-secondary btn-sm">

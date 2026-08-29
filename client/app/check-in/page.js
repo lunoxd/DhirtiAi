@@ -259,7 +259,7 @@ export default function CheckInPage() {
             animation: "spin 0.8s linear infinite"
           }} />
 
-          <h2 style={{ fontSize: "20px", fontWeight: 700, color: "var(--ink)", letterSpacing: "-0.02em", marginBottom: "8px" }}>
+          <h2 style={{ fontSize: "20px", fontWeight: 800, color: "#ffffff", marginBottom: "8px" }}>
             {loadingMessages[loadingMessageIndex]}
           </h2>
           <p style={{ fontSize: "14px", color: "var(--text-muted)" }}>
@@ -295,14 +295,14 @@ export default function CheckInPage() {
               gap: "4px",
               color: currentStep === 0 ? "transparent" : "var(--text-muted)",
               fontSize: "13px",
-              fontWeight: 600,
+              fontWeight: 700,
               cursor: currentStep === 0 ? "default" : "pointer"
             }}
           >
             <ArrowLeft size={16} /> Back
           </button>
 
-          <span style={{ fontSize: "13px", fontWeight: 600, color: "var(--text-muted)" }}>
+          <span style={{ fontSize: "13px", fontWeight: 700, color: "var(--text-muted)" }}>
             Question {currentStep + 1} of {totalSteps}
           </span>
         </div>
@@ -310,8 +310,8 @@ export default function CheckInPage() {
         {/* Hairline Progress Track */}
         <div style={{
           width: "100%",
-          height: "4px",
-          backgroundColor: "var(--surface-strong)",
+          height: "6px",
+          backgroundColor: "var(--surface-soft)",
           borderRadius: "var(--rounded-pill)",
           overflow: "hidden"
         }}>
@@ -334,8 +334,8 @@ export default function CheckInPage() {
               gap: "6px",
               padding: "4px 12px",
               borderRadius: "var(--rounded-pill)",
-              backgroundColor: "rgba(239, 68, 68, 0.1)",
-              color: "var(--error)",
+              backgroundColor: "rgba(242, 63, 67, 0.18)",
+              color: "var(--status-critical)",
               fontSize: "12px",
               fontWeight: 700,
               marginBottom: "16px"
@@ -345,15 +345,15 @@ export default function CheckInPage() {
             </div>
           )}
 
-          <div style={{ fontSize: "12px", textTransform: "uppercase", letterSpacing: "0.04em", color: "var(--text-muted)", marginBottom: "8px", fontWeight: 700 }}>
+          <div style={{ fontSize: "12px", textTransform: "uppercase", letterSpacing: "0.06em", color: "var(--text-muted)", marginBottom: "8px", fontWeight: 700 }}>
             {currentStructuredQ.category}
           </div>
 
           <h2 style={{
             fontSize: "clamp(22px, 4vw, 26px)",
-            fontWeight: 700,
-            color: "var(--ink)",
-            letterSpacing: "-0.03em",
+            fontWeight: 800,
+            color: "#ffffff",
+            letterSpacing: "-0.02em",
             marginBottom: "28px",
             lineHeight: "1.3"
           }}>
@@ -369,7 +369,7 @@ export default function CheckInPage() {
                   onClick={() => handleSelectOption(currentStructuredQ.id, opt.key)}
                   className={`option-button ${isSelected ? "selected" : ""}`}
                 >
-                  <span style={{ fontWeight: isSelected ? 600 : 500 }}>{opt.label}</span>
+                  <span style={{ fontWeight: isSelected ? 700 : 500 }}>{opt.label}</span>
                   {isSelected && <Check size={18} color="#ffffff" />}
                 </button>
               );
@@ -388,20 +388,20 @@ export default function CheckInPage() {
             padding: "4px 12px",
             borderRadius: "var(--rounded-pill)",
             backgroundColor: "var(--surface-soft)",
-            color: "var(--text-muted)",
+            color: "var(--primary)",
             fontSize: "12px",
-            fontWeight: 600,
+            fontWeight: 700,
             marginBottom: "16px"
           }}>
-            <Sparkles size={14} color="var(--ink)" />
+            <Sparkles size={14} />
             <span>{currentWrittenQ.title}</span>
           </div>
 
           <h2 style={{
             fontSize: "clamp(20px, 3.5vw, 24px)",
-            fontWeight: 700,
-            color: "var(--ink)",
-            letterSpacing: "-0.03em",
+            fontWeight: 800,
+            color: "#ffffff",
+            letterSpacing: "-0.02em",
             marginBottom: "8px",
             lineHeight: "1.3"
           }}>
