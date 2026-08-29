@@ -40,10 +40,20 @@ export async function fetchApi(endpoint, options = {}) {
 
 // Authentication API
 export const apiAuth = {
-  register: (name, email, password, role = "USER", organization = "", specialization = "") =>
+  register: (name, email, password, role = "USER", organization = "", specialization = "", otp = "") =>
     fetchApi("/auth/register", {
       method: "POST",
-      body: JSON.stringify({ name, email, password, role, organization, specialization })
+      body: JSON.stringify({ name, email, password, role, organization, specialization, otp })
+    }),
+  sendOTP: (email) =>
+    fetchApi("/auth/send-otp", {
+      method: "POST",
+      body: JSON.stringify({ email })
+    }),
+  verifyOTP: (email, otp) =>
+    fetchApi("/auth/verify-otp", {
+      method: "POST",
+      body: JSON.stringify({ email, otp })
     }),
   login: (email, password) =>
     fetchApi("/auth/login", {

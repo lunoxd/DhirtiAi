@@ -8,17 +8,20 @@ generator client {
 }
 
 model User {
-  id             String    @id @default(uuid())
-  email          String    @unique
-  name           String
-  passwordHash   String
-  role           String    @default("USER") // "USER" | "DOCTOR" | "ADMIN"
-  organization   String?   // e.g. "Tele-MANAS Volunteer", "NIMHANS Clinician"
-  specialization String?   // e.g. "Trauma Counselor", "Psychologist"
-  status         String    @default("ACTIVE") // "ACTIVE" | "SUSPENDED"
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
-  checkIns       CheckIn[]
+  id                   String    @id @default(uuid())
+  email                String    @unique
+  name                 String
+  passwordHash         String
+  role                 String    @default("USER") // "USER" | "DOCTOR" | "ADMIN"
+  organization         String?   // e.g. "Tele-MANAS Volunteer", "NIMHANS Clinician"
+  specialization       String?   // e.g. "Trauma Counselor", "Psychologist"
+  status               String    @default("ACTIVE") // "ACTIVE" | "SUSPENDED"
+  isEmailVerified      Boolean   @default(false)
+  emailVerificationOtp String?
+  otpExpiresAt         DateTime?
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
+  checkIns             CheckIn[]
 }
 
 model CheckIn {
