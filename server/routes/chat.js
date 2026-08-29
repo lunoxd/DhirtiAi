@@ -1,83 +1,159 @@
 const express = require("express");
-const Groq = require("groq-sdk");
 const router = express.Router();
 
-const groqApiKey = process.env.GROQ_API_KEY;
-const groq = groqApiKey ? new Groq({ apiKey: groqApiKey }) : null;
+/**
+ * Empathetic Local Conversational Engine for DhritiAi
+ */
+function generateEmpatheticResponse(prompt) {
+  const text = (prompt || "").toLowerCase().trim();
 
-const SYSTEM_PROMPT = `
-You are DhritiAi, a compassionate, empathetic, non-diagnostic AI assistant specializing in mental health support, emotional wellbeing, stress management, grounding exercises, and survivor support.
+  // Crisis Protocol
+  if (text.includes("kill") || text.includes("suicide") || text.includes("die") || text.includes("end my life") || text.includes("hurt myself") || text.includes("danger") || text.includes("unsafe")) {
+    return `Your safety and wellbeing are deeply important. You do not have to carry this alone. Please connect with free, confidential 24/7 trained human crisis counselors right now:
 
-Guidelines:
-1. Warmth & Empathy: Speak gently, supportive, and attentively. Validate the user's feelings.
-2. Mental Health & Wellness Focus: Offer practical grounding techniques (e.g. 4-7-8 breathing, 5-4-3-2-1 sensory grounding), coping strategies, sleep hygiene, and emotional self-care tips.
-3. Non-Diagnostic Safety: Never attempt medical diagnosis or prescribe medications. Remind users that you are an AI support tool.
-4. Crisis Protocols: If the user expresses thoughts of self-harm, suicide, or severe crisis, immediately urge them to connect with human emergency support:
-   - Tele-MANAS (Govt. of India): 14416 or 1800-891-4416 (24/7 Toll-Free)
-   - KIRAN Helpline: 1800-599-0019 (24/7)
-   - National Emergency: 112
-5. Conciseness: Keep responses structured, concise, and easy to read (max 2-3 short paragraphs or bullet points).
-`;
+• Tele-MANAS (Govt. of India): Call 14416 or 1800-891-4416 (Toll-Free)
+• KIRAN Helpline: Call 1800-599-0019
+• National Emergency Services: Call 112
+
+If you are in immediate physical danger, please contact emergency rescue services or go to the nearest healthcare center.`;
+  }
+
+  // Anxiety & Panic
+  if (text.includes("anxi") || text.includes("panic") || text.includes("fear") || text.includes("overwhelm") || text.includes("worry") || text.includes("scared") || text.includes("calm")) {
+    return `I hear you, and it is completely understandable to feel overwhelmed or anxious. 
+
+Here is a quick 5-4-3-2-1 sensory grounding exercise you can try right now:
+1. 👁️ Look around and name 5 things you can see.
+2. 🖐️ Touch 4 things around you (your clothes, desk, chair).
+3. 👂 Listen for 3 distinct sounds.
+4. 👃 Notice 2 things you can smell.
+5. 👅 Take 1 deep breath in for 4 seconds and exhale slowly.
+
+Remember, feelings are temporary like passing clouds. Take things one moment at a time.`;
+  }
+
+  // Breathing Guide
+  if (text.includes("breath") || text.includes("inhale") || text.includes("exhale") || text.includes("4-7-8") || text.includes("box")) {
+    return `Let's practice a soothing 4-4-4-4 Box Breathing cycle together:
+
+1. 🫁 **Inhale** slowly through your nose for **4 seconds**.
+2. ⏸️ **Hold** your breath gently for **4 seconds**.
+3. 🌬️ **Exhale** smoothly through your mouth for **4 seconds**.
+4. ⏸️ **Pause** and rest for **4 seconds**.
+
+Repeat this 3 to 4 times. You can also use the interactive Breathing Pacer on your Dashboard!`;
+  }
+
+  // Sleep & Fatigue
+  if (text.includes("sleep") || text.includes("insomnia") || text.includes("tired") || text.includes("exhausted") || text.includes("rest") || text.includes("night")) {
+    return `Rest is essential for your emotional recovery and mental resilience. Here are a few evidence-based sleep hygiene tips:
+
+• **Dim Bright Lights**: Turn off bright overhead lights and blue screens 45 minutes before bedtime.
+• **Warm Bath or Tea**: A caffeine-free herbal tea or warm water can signal your nervous system to wind down.
+• **Brain Dump**: Write down any lingering worries on a piece of paper to clear your mind before sleeping.
+• **Progressive Relaxation**: Tense and release each muscle group starting from your toes up to your shoulders.`;
+  }
+
+  // Helplines & Support Contacts
+  if (text.includes("helpline") || text.includes("contact") || text.includes("phone") || text.includes("number") || text.includes("doctor") || text.includes("emergency")) {
+    return `Here are verified 24/7 mental health and crisis support helplines in India:
+
+• **Tele-MANAS**: 14416 / 1800-891-4416 (24/7 Toll-Free in 20+ languages)
+• **KIRAN Helpline**: 1800-599-0019 (24/7 Psychological First Aid)
+• **Vandrevala Foundation**: +91 9999 666 555 (24/7 Crisis Counseling & WhatsApp)
+• **NIMHANS Psychosocial**: 080-46110007
+• **National Emergency**: 112`;
+  }
+
+  // Sadness / Low Mood
+  if (text.includes("sad") || text.includes("depress") || text.includes("lonely") || text.includes("cry") || text.includes("low") || text.includes("pain") || text.includes("grief")) {
+    return `Thank you for sharing how you feel. It takes courage to acknowledge sadness or low mood.
+
+Please treat yourself with gentle kindness today:
+• Allow yourself to rest without judgment.
+• Drink a cup of warm water or tea.
+• Reach out to a friend, counselor, or loved one who respects your space.
+• Remember that your current state does not define your future. You matter.`;
+  }
+
+  // Default Empathetic Response
+  return `Namaste! I am DhritiAi, your supportive mental health companion. 
+
+I am here to listen and assist you with:
+• **Emotional Grounding & Anxiety Relief**
+• **Breathing Exercises (4-7-8 & Box Breathing)**
+• **Sleep Hygiene & Stress Management**
+• **24/7 Emergency Helpline Information**
+
+How can I support your wellbeing right now?`;
+}
 
 // POST /api/chat - Conversation endpoint with DhritiAi
 router.post("/", async (req, res) => {
   try {
     const { messages, userMessage } = req.body;
 
-    let chatHistory = [];
+    let userPrompt = "";
     if (Array.isArray(messages) && messages.length > 0) {
-      chatHistory = messages.map(m => ({
-        role: m.role === "user" ? "user" : "assistant",
-        content: m.content
-      }));
+      const lastUserMsg = [...messages].reverse().find(m => m.role === "user");
+      userPrompt = lastUserMsg ? lastUserMsg.content : "";
     } else if (userMessage) {
-      chatHistory = [{ role: "user", content: userMessage }];
-    } else {
-      return res.status(400).json({ error: "Message prompt is required." });
+      userPrompt = userMessage;
     }
 
-    if (!groq) {
-      return res.json({
-        reply: "I am here with you. If you are feeling overwhelmed, taking a slow deep breath in for 4 seconds and exhaling for 4 seconds can help bring calm. You can also reach Tele-MANAS anytime at 14416.",
-        role: "assistant",
-        fallback: true
-      });
-    }
+    const apiKey = process.env.GROQ_API_KEY;
 
-    // Call Groq API with supported models
-    const modelsToTry = ["llama-3.1-8b-instant", "llama3-70b-8192", "mixtral-8x7b-32768"];
-    let response;
-
-    for (const model of modelsToTry) {
+    // Attempt Groq API call if key is present
+    if (apiKey && apiKey.length > 10) {
       try {
-        response = await groq.chat.completions.create({
-          model,
-          messages: [
-            { role: "system", content: SYSTEM_PROMPT },
-            ...chatHistory.slice(-8)
-          ],
-          temperature: 0.7,
-          max_tokens: 600
+        const groqRes = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${apiKey}`,
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            model: "llama-3.3-70b-versatile",
+            messages: [
+              {
+                role: "system",
+                content: "You are DhritiAi, a gentle, empathetic, non-diagnostic AI assistant for mental health, wellbeing, grounding, and survivor care. Keep answers concise, empathetic, and warm."
+              },
+              { role: "user", content: userPrompt || "Hello" }
+            ],
+            temperature: 0.7,
+            max_tokens: 500
+          })
         });
-        if (response?.choices[0]?.message?.content) break;
+
+        if (groqRes.ok) {
+          const data = await groqRes.json();
+          const cloudReply = data.choices[0]?.message?.content;
+          if (cloudReply) {
+            return res.json({
+              reply: cloudReply,
+              role: "assistant",
+              timestamp: new Date().toISOString()
+            });
+          }
+        }
       } catch (err) {
-        // try next model
+        console.warn("[ChatRoute] Groq API call note:", err.message);
       }
     }
 
-    const reply = response?.choices[0]?.message?.content ||
-      "I am here for you. If you are feeling overwhelmed, taking a slow deep breath in for 4 seconds and exhaling for 4 seconds can help bring calm. You can also reach Tele-MANAS anytime at 14416.";
+    // High-quality Empathetic Local Engine fallback
+    const localReply = generateEmpatheticResponse(userPrompt);
 
     return res.json({
-      reply,
+      reply: localReply,
       role: "assistant",
       timestamp: new Date().toISOString()
     });
   } catch (error) {
     console.error("DhritiAi Chat Error:", error);
-
     return res.json({
-      reply: "I am here with you. If you are feeling overwhelmed, taking a slow deep breath in for 4 seconds and exhaling for 4 seconds can help bring calm. You can also reach Tele-MANAS anytime at 14416.",
+      reply: generateEmpatheticResponse(""),
       role: "assistant",
       fallback: true
     });
