@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../../context/AuthContext";
 import { apiCheckIns } from "../../lib/api";
-import { History as HistoryIcon, Trash2, ArrowLeft, PlusCircle, AlertTriangle, X } from "lucide-react";
+import { History as HistoryIcon, Trash2, PlusCircle, X } from "lucide-react";
 import DisclaimerBanner from "../../components/DisclaimerBanner";
 
 export default function HistoryPage() {
@@ -60,7 +60,7 @@ export default function HistoryPage() {
   if (authLoading || loading) {
     return (
       <div className="container" style={{ textAlign: "center", padding: "80px 20px" }}>
-        <p style={{ color: "var(--text-muted)" }}>Loading your history...</p>
+        <p style={{ color: "var(--text-muted)", fontSize: "15px" }}>Loading your history...</p>
       </div>
     );
   }
@@ -77,7 +77,7 @@ export default function HistoryPage() {
         marginBottom: "24px"
       }}>
         <div>
-          <h1 style={{ fontSize: "24px", fontWeight: 800, color: "#ffffff", marginBottom: "4px" }}>
+          <h1 style={{ fontSize: "24px", fontWeight: 700, color: "var(--ink)", letterSpacing: "-0.03em", marginBottom: "4px" }}>
             Check-in History
           </h1>
           <p style={{ fontSize: "14px", color: "var(--text-muted)" }}>
@@ -93,14 +93,14 @@ export default function HistoryPage() {
       {checkIns.length === 0 ? (
         <div className="card" style={{ textAlign: "center", padding: "60px 20px" }}>
           <HistoryIcon size={40} color="var(--text-muted)" style={{ margin: "0 auto 16px auto" }} />
-          <h2 style={{ fontSize: "18px", color: "#ffffff", marginBottom: "8px" }}>No past check-ins yet</h2>
+          <h2 style={{ fontSize: "18px", color: "var(--ink)", marginBottom: "8px" }}>No past check-ins yet</h2>
           <p style={{ fontSize: "14px", color: "var(--text-muted)", marginBottom: "20px" }}>
             Take your first check-in to begin tracking your wellbeing over time.
           </p>
           <Link href="/check-in" className="btn btn-primary">Start First Check-in</Link>
         </div>
       ) : (
-        <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
           {checkIns.map((ci) => {
             const dateStr = new Date(ci.createdAt).toLocaleDateString("en-US", {
               weekday: "short",
@@ -128,18 +128,18 @@ export default function HistoryPage() {
                 }}
               >
                 <div>
-                  <div style={{ fontSize: "15px", fontWeight: 700, color: "#ffffff" }}>
+                  <div style={{ fontSize: "15px", fontWeight: 600, color: "var(--ink)" }}>
                     {dateStr}
                   </div>
-                  <div style={{ fontSize: "13px", color: "var(--text-muted)", marginTop: "4px" }}>
-                    Trend: <strong style={{ color: "var(--text-normal)" }}>{ci.trend}</strong>
+                  <div style={{ fontSize: "13px", color: "var(--text-muted)", marginTop: "2px" }}>
+                    Trend: <strong style={{ color: "var(--text-body)" }}>{ci.trend}</strong>
                     {ci.deltaPoints !== 0 && ` (${ci.deltaPoints > 0 ? `+${ci.deltaPoints}` : ci.deltaPoints} pts)`}
                   </div>
                 </div>
 
                 <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
                   <div style={{ textAlign: "right" }}>
-                    <div style={{ fontSize: "24px", fontWeight: 900, color: "#ffffff" }}>
+                    <div style={{ fontSize: "24px", fontWeight: 700, color: "var(--ink)", letterSpacing: "-0.03em" }}>
                       {Math.round(ci.dhritiIndex)}
                       <span style={{ fontSize: "14px", color: "var(--text-muted)", fontWeight: 500 }}>/100</span>
                     </div>
@@ -156,7 +156,7 @@ export default function HistoryPage() {
                     style={{ padding: "8px", color: "var(--text-muted)" }}
                     title="Delete this record"
                   >
-                    <Trash2 size={16} />
+                    <Trash2 size={15} />
                   </button>
                 </div>
               </div>
@@ -168,10 +168,10 @@ export default function HistoryPage() {
       {/* Detailed Check-in Modal */}
       {selectedCheckIn && (
         <div className="modal-overlay" onClick={() => setSelectedCheckIn(null)}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()} style={{ maxWidth: "600px" }}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()} style={{ maxWidth: "560px" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
               <div>
-                <h3 style={{ fontSize: "18px", fontWeight: 800, color: "#ffffff" }}>
+                <h3 style={{ fontSize: "18px", fontWeight: 700, color: "var(--ink)", letterSpacing: "-0.02em" }}>
                   Check-in Details
                 </h3>
                 <p style={{ fontSize: "12px", color: "var(--text-muted)" }}>
@@ -185,16 +185,16 @@ export default function HistoryPage() {
 
             <div style={{ display: "flex", alignItems: "center", gap: "16px", marginBottom: "20px" }}>
               <div style={{
-                backgroundColor: "var(--bg-tertiary)",
-                borderRadius: "var(--radius-md)",
+                backgroundColor: "var(--surface-soft)",
+                borderRadius: "var(--rounded-md)",
                 padding: "16px 24px",
                 textAlign: "center"
               }}>
-                <div style={{ fontSize: "11px", fontWeight: 700, color: "var(--text-muted)", textTransform: "uppercase" }}>Dhriti Index</div>
-                <div style={{ fontSize: "36px", fontWeight: 900, color: "#ffffff" }}>{Math.round(selectedCheckIn.dhritiIndex)}</div>
+                <div style={{ fontSize: "11px", fontWeight: 600, color: "var(--text-muted)", textTransform: "uppercase" }}>Dhriti Index</div>
+                <div style={{ fontSize: "36px", fontWeight: 700, color: "var(--ink)", letterSpacing: "-0.03em" }}>{Math.round(selectedCheckIn.dhritiIndex)}</div>
               </div>
               <div>
-                <span className={`badge badge-${selectedCheckIn.riskLevel.toLowerCase()}`} style={{ fontSize: "13px", padding: "6px 12px" }}>
+                <span className={`badge badge-${selectedCheckIn.riskLevel.toLowerCase()}`} style={{ fontSize: "13px", padding: "4px 12px" }}>
                   {selectedCheckIn.riskLevel}
                 </span>
                 <p style={{ fontSize: "13px", color: "var(--text-muted)", marginTop: "8px" }}>
@@ -204,11 +204,11 @@ export default function HistoryPage() {
             </div>
 
             {selectedCheckIn.supportRecommendation && (
-              <div style={{ backgroundColor: "var(--bg-tertiary)", padding: "14px", borderRadius: "var(--radius-md)", marginBottom: "16px" }}>
-                <div style={{ fontSize: "12px", fontWeight: 700, color: "var(--brand-primary)", textTransform: "uppercase", marginBottom: "4px" }}>
+              <div style={{ backgroundColor: "var(--surface-card)", padding: "14px", borderRadius: "var(--rounded-md)", marginBottom: "16px" }}>
+                <div style={{ fontSize: "12px", fontWeight: 700, color: "var(--ink)", textTransform: "uppercase", marginBottom: "4px" }}>
                   Recommendation
                 </div>
-                <p style={{ fontSize: "13px", color: "var(--text-normal)" }}>{selectedCheckIn.supportRecommendation}</p>
+                <p style={{ fontSize: "13px", color: "var(--text-body)" }}>{selectedCheckIn.supportRecommendation}</p>
               </div>
             )}
 

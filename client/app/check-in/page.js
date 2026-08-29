@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../../context/AuthContext";
 import { apiCheckIns } from "../../lib/api";
-import { ArrowLeft, ArrowRight, ShieldAlert, Sparkles, Check, Heart } from "lucide-react";
+import { ArrowLeft, ArrowRight, ShieldAlert, Sparkles, Check } from "lucide-react";
 import EmergencyModal from "../../components/EmergencyModal";
 
 const STRUCTURED_QUESTIONS = [
@@ -148,7 +148,6 @@ export default function CheckInPage() {
   const router = useRouter();
   const { isAuthenticated, loading: authLoading } = useAuth();
 
-  // Current step: 0 to 9 = structured questions, 10 to 11 = written questions
   const [currentStep, setCurrentStep] = useState(0);
   const [answers, setAnswers] = useState({});
   const [writtenAnswers, setWrittenAnswers] = useState({});
@@ -164,7 +163,6 @@ export default function CheckInPage() {
     }
   }, [authLoading, isAuthenticated, router]);
 
-  // Loading animation step messages
   useEffect(() => {
     let interval;
     if (submitting) {
@@ -176,7 +174,7 @@ export default function CheckInPage() {
       ];
       interval = setInterval(() => {
         setLoadingMessageIndex((prev) => (prev + 1) % messages.length);
-      }, 900);
+      }, 850);
     }
     return () => clearInterval(interval);
   }, [submitting]);
@@ -185,17 +183,15 @@ export default function CheckInPage() {
     const nextAnswers = { ...answers, [questionId]: optionKey };
     setAnswers(nextAnswers);
 
-    // If safety question answer is 'no', alert modal trigger
     if (questionId === "sense_of_safety" && optionKey === "no") {
       setShowEmergencyModal(true);
     }
 
-    // Smooth automatic advance to next question
     setTimeout(() => {
       if (currentStep < totalSteps - 1) {
         setCurrentStep((prev) => prev + 1);
       }
-    }, 200);
+    }, 180);
   };
 
   const handleNext = () => {
@@ -225,7 +221,6 @@ export default function CheckInPage() {
     try {
       const res = await apiCheckIns.submit(answers, writtenAnswers);
       const checkInId = res.checkIn.id;
-      // Redirect to the result view
       router.push(`/check-in/result?id=${checkInId}`);
     } catch (err) {
       console.error("Submission failed:", err);
@@ -242,7 +237,7 @@ export default function CheckInPage() {
     );
   }
 
-  // Loading Screen during AI & Deterministic Processing
+  // Loading Screen
   if (submitting) {
     const loadingMessages = [
       "Analyzing your check-in...",
@@ -255,20 +250,19 @@ export default function CheckInPage() {
       <div className="container-narrow" style={{ paddingTop: "80px", paddingBottom: "100px", textAlign: "center" }}>
         <div className="card" style={{ padding: "48px 24px", maxWidth: "480px", margin: "0 auto" }}>
           <div style={{
-            width: "56px",
-            height: "56px",
-            borderRadius: "50%",
-            backgroundColor: "var(--bg-tertiary)",
-            border: "3px solid var(--border-subtle)",
-            borderTopColor: "var(--brand-primary)",
+            width: "48px",
+            height: "48px",
+            borderRadius: "var(--rounded-full)",
+            border: "3px solid var(--hairline)",
+            borderTopColor: "var(--primary)",
             margin: "0 auto 24px auto",
-            animation: "spin 1s linear infinite"
+            animation: "spin 0.8s linear infinite"
           }} />
 
-          <h2 style={{ fontSize: "20px", fontWeight: 700, color: "#ffffff", marginBottom: "8px" }}>
+          <h2 style={{ fontSize: "20px", fontWeight: 700, color: "var(--ink)", letterSpacing: "-0.02em", marginBottom: "8px" }}>
             {loadingMessages[loadingMessageIndex]}
           </h2>
-          <p style={{ fontSize: "13px", color: "var(--text-muted)" }}>
+          <p style={{ fontSize: "14px", color: "var(--text-muted)" }}>
             Processing your check-in securely and deterministically.
           </p>
         </div>
@@ -289,9 +283,9 @@ export default function CheckInPage() {
 
   return (
     <div className="container-narrow" style={{ paddingTop: "20px", paddingBottom: "60px" }}>
-      {/* Top Navigation & Progress */}
-      <div style={{ marginBottom: "20px" }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px" }}>
+      {/* Navigation & Progress */}
+      <div style={{ marginBottom: "24px" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "12px" }}>
           <button
             onClick={handleBack}
             disabled={currentStep === 0}
@@ -301,46 +295,47 @@ export default function CheckInPage() {
               gap: "4px",
               color: currentStep === 0 ? "transparent" : "var(--text-muted)",
               fontSize: "13px",
+              fontWeight: 600,
               cursor: currentStep === 0 ? "default" : "pointer"
             }}
           >
             <ArrowLeft size={16} /> Back
           </button>
 
-          <span style={{ fontSize: "13px", fontWeight: 700, color: "var(--text-muted)" }}>
+          <span style={{ fontSize: "13px", fontWeight: 600, color: "var(--text-muted)" }}>
             Question {currentStep + 1} of {totalSteps}
           </span>
         </div>
 
-        {/* Progress Bar */}
+        {/* Hairline Progress Track */}
         <div style={{
           width: "100%",
-          height: "6px",
-          backgroundColor: "var(--bg-tertiary)",
-          borderRadius: "3px",
+          height: "4px",
+          backgroundColor: "var(--surface-strong)",
+          borderRadius: "var(--rounded-pill)",
           overflow: "hidden"
         }}>
           <div style={{
             height: "100%",
             width: `${((currentStep + 1) / totalSteps) * 100}%`,
-            backgroundColor: "var(--brand-primary)",
-            transition: "width 0.25s ease"
+            backgroundColor: "var(--primary)",
+            transition: "width 0.2s ease"
           }} />
         </div>
       </div>
 
-      {/* Structured Single Question Card */}
+      {/* Structured Question Card */}
       {isStructuredStep && currentStructuredQ && (
-        <div className="card" style={{ padding: "32px 24px" }}>
+        <div className="card" style={{ padding: "36px 28px" }}>
           {currentStructuredQ.isSafetyQuestion && (
             <div style={{
               display: "inline-flex",
               alignItems: "center",
               gap: "6px",
-              padding: "4px 10px",
-              borderRadius: "var(--radius-sm)",
-              backgroundColor: "rgba(242, 63, 67, 0.15)",
-              color: "var(--status-critical)",
+              padding: "4px 12px",
+              borderRadius: "var(--rounded-pill)",
+              backgroundColor: "rgba(239, 68, 68, 0.1)",
+              color: "var(--error)",
               fontSize: "12px",
               fontWeight: 700,
               marginBottom: "16px"
@@ -350,21 +345,21 @@ export default function CheckInPage() {
             </div>
           )}
 
-          <div style={{ fontSize: "12px", textTransform: "uppercase", letterSpacing: "0.06em", color: "var(--text-muted)", marginBottom: "8px", fontWeight: 700 }}>
+          <div style={{ fontSize: "12px", textTransform: "uppercase", letterSpacing: "0.04em", color: "var(--text-muted)", marginBottom: "8px", fontWeight: 700 }}>
             {currentStructuredQ.category}
           </div>
 
           <h2 style={{
-            fontSize: "clamp(20px, 4vw, 24px)",
-            fontWeight: 800,
-            color: "#ffffff",
+            fontSize: "clamp(22px, 4vw, 26px)",
+            fontWeight: 700,
+            color: "var(--ink)",
+            letterSpacing: "-0.03em",
             marginBottom: "28px",
             lineHeight: "1.3"
           }}>
             {currentStructuredQ.question}
           </h2>
 
-          {/* Button Options List */}
           <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
             {currentStructuredQ.options.map((opt) => {
               const isSelected = answers[currentStructuredQ.id] === opt.key;
@@ -374,7 +369,7 @@ export default function CheckInPage() {
                   onClick={() => handleSelectOption(currentStructuredQ.id, opt.key)}
                   className={`option-button ${isSelected ? "selected" : ""}`}
                 >
-                  <span>{opt.label}</span>
+                  <span style={{ fontWeight: isSelected ? 600 : 500 }}>{opt.label}</span>
                   {isSelected && <Check size={18} color="#ffffff" />}
                 </button>
               );
@@ -385,34 +380,35 @@ export default function CheckInPage() {
 
       {/* Optional Written Reflection Card */}
       {!isStructuredStep && currentWrittenQ && (
-        <div className="card" style={{ padding: "32px 24px" }}>
+        <div className="card" style={{ padding: "36px 28px" }}>
           <div style={{
             display: "inline-flex",
             alignItems: "center",
             gap: "6px",
-            padding: "4px 10px",
-            borderRadius: "var(--radius-sm)",
-            backgroundColor: "var(--bg-tertiary)",
+            padding: "4px 12px",
+            borderRadius: "var(--rounded-pill)",
+            backgroundColor: "var(--surface-soft)",
             color: "var(--text-muted)",
             fontSize: "12px",
-            fontWeight: 700,
+            fontWeight: 600,
             marginBottom: "16px"
           }}>
-            <Sparkles size={14} color="var(--brand-primary)" />
+            <Sparkles size={14} color="var(--ink)" />
             <span>{currentWrittenQ.title}</span>
           </div>
 
           <h2 style={{
-            fontSize: "clamp(19px, 3.5vw, 22px)",
-            fontWeight: 800,
-            color: "#ffffff",
+            fontSize: "clamp(20px, 3.5vw, 24px)",
+            fontWeight: 700,
+            color: "var(--ink)",
+            letterSpacing: "-0.03em",
             marginBottom: "8px",
             lineHeight: "1.3"
           }}>
             {currentWrittenQ.question}
           </h2>
 
-          <p style={{ fontSize: "13px", color: "var(--text-muted)", marginBottom: "20px" }}>
+          <p style={{ fontSize: "14px", color: "var(--text-muted)", marginBottom: "20px" }}>
             You can write as little or as much as you like, or skip this entirely.
           </p>
 
@@ -447,7 +443,6 @@ export default function CheckInPage() {
         </div>
       )}
 
-      {/* Emergency Modal trigger if safety was marked 'no' */}
       {showEmergencyModal && (
         <EmergencyModal
           isCritical={true}

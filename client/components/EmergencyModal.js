@@ -11,9 +11,9 @@ export default function EmergencyModal({ onClose, isCritical = false }) {
       id: "tele-manas",
       name: "Tele-MANAS (Govt. of India)",
       tel: "14416",
-      display: "14416 (or 1800-891-4416)",
-      tag: "National Mental Health Programme",
-      desc: "Free 24/7 tele-mental health support across India in 20+ regional languages"
+      display: "14416 / 1800-891-4416",
+      tag: "National Mental Health",
+      desc: "Free 24/7 tele-mental health support across India in 20+ languages"
     },
     {
       id: "kiran",
@@ -28,25 +28,25 @@ export default function EmergencyModal({ onClose, isCritical = false }) {
       name: "Vandrevala Foundation",
       tel: "+919999666555",
       display: "+91 9999 666 555",
-      tag: "Call & WhatsApp Counseling",
+      tag: "Call & WhatsApp",
       desc: "24/7 free counseling in Hindi, English, Gujarati, Marathi, Tamil & Bengali",
       whatsapp: "919999666555"
     },
     {
       id: "nimhans",
-      name: "NIMHANS Psychosocial Support",
+      name: "NIMHANS Psychosocial",
       tel: "08046110007",
       display: "080-46110007",
-      tag: "Bengaluru Center of Excellence",
-      desc: "Expert psychological support for trauma, severe distress and mental health"
+      tag: "Center of Excellence",
+      desc: "Expert psychological support for trauma and severe distress"
     },
     {
       id: "emergency-112",
-      name: "National Emergency Response (ERSS)",
+      name: "National Emergency (ERSS)",
       tel: "112",
       display: "112",
-      tag: "Police, Medical & Rescue",
-      desc: "Immediate pan-India emergency response for safety and medical help"
+      tag: "Emergency",
+      desc: "Immediate pan-India police, ambulance, and rescue support"
     }
   ];
 
@@ -58,28 +58,28 @@ export default function EmergencyModal({ onClose, isCritical = false }) {
 
   return (
     <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()} style={{ maxWidth: "580px" }}>
+      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         {/* Header */}
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "16px" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "18px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
             <div style={{
               width: "36px",
               height: "36px",
-              borderRadius: "8px",
-              backgroundColor: "rgba(242, 63, 67, 0.18)",
+              borderRadius: "var(--rounded-full)",
+              backgroundColor: "rgba(239, 68, 68, 0.1)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              color: "var(--status-critical)"
+              color: "var(--error)"
             }}>
-              <ShieldAlert size={22} />
+              <ShieldAlert size={20} />
             </div>
             <div>
-              <h3 style={{ fontSize: "17px", fontWeight: 800, color: "#ffffff" }}>
+              <h3 style={{ fontSize: "18px", fontWeight: 700, color: "var(--ink)", letterSpacing: "-0.02em" }}>
                 {isCritical ? "Immediate Safety & Crisis Support" : "24/7 Verified Indian Helplines"}
               </h3>
               <p style={{ fontSize: "13px", color: "var(--text-muted)" }}>
-                Free, confidential support from trained professionals is available now.
+                Confidential help from trained human counselors is available right now.
               </p>
             </div>
           </div>
@@ -88,7 +88,7 @@ export default function EmergencyModal({ onClose, isCritical = false }) {
             style={{
               color: "var(--text-muted)",
               padding: "4px",
-              borderRadius: "4px",
+              borderRadius: "var(--rounded-sm)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center"
@@ -100,30 +100,30 @@ export default function EmergencyModal({ onClose, isCritical = false }) {
 
         {/* Supportive Note */}
         <div style={{
-          backgroundColor: "var(--bg-tertiary)",
-          border: "1px solid var(--border-card)",
-          borderRadius: "var(--radius-md)",
+          backgroundColor: "var(--surface-soft)",
+          border: "1px solid var(--hairline)",
+          borderRadius: "var(--rounded-md)",
           padding: "10px 14px",
           marginBottom: "16px",
           display: "flex",
           gap: "10px",
           alignItems: "center"
         }}>
-          <Heart size={16} color="var(--brand-primary)" style={{ flexShrink: 0 }} />
-          <span style={{ fontSize: "13px", color: "var(--text-normal)" }}>
-            These official helplines are toll-free and operate 24 hours a day across all Indian states.
+          <Heart size={16} color="var(--primary)" style={{ flexShrink: 0 }} />
+          <span style={{ fontSize: "13px", color: "var(--text-body)" }}>
+            These official helplines are free, confidential, and operate 24 hours a day.
           </span>
         </div>
 
         {/* Hotlines List */}
-        <div style={{ display: "flex", flexDirection: "column", gap: "10px", maxHeight: "380px", overflowY: "auto", paddingRight: "4px" }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: "10px", maxHeight: "360px", overflowY: "auto", paddingRight: "4px" }}>
           {hotlines.map((item) => (
             <div
               key={item.id}
               style={{
-                backgroundColor: "var(--bg-tertiary)",
-                border: "1px solid var(--border-subtle)",
-                borderRadius: "var(--radius-md)",
+                backgroundColor: "var(--surface-card)",
+                border: "1px solid var(--hairline)",
+                borderRadius: "var(--rounded-md)",
                 padding: "14px",
                 display: "flex",
                 justifyContent: "space-between",
@@ -133,11 +133,11 @@ export default function EmergencyModal({ onClose, isCritical = false }) {
             >
               <div>
                 <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
-                  <span style={{ fontWeight: 700, fontSize: "14px", color: "#ffffff" }}>{item.name}</span>
-                  <span className="badge badge-stable" style={{ fontSize: "10px", padding: "2px 6px" }}>{item.tag}</span>
+                  <span style={{ fontWeight: 600, fontSize: "14px", color: "var(--ink)" }}>{item.name}</span>
+                  <span className="badge badge-stable" style={{ fontSize: "10px", padding: "1px 6px" }}>{item.tag}</span>
                 </div>
                 <div style={{ fontSize: "12px", color: "var(--text-muted)", marginTop: "2px" }}>{item.desc}</div>
-                <div style={{ fontSize: "13px", fontWeight: 800, color: "var(--brand-primary)", marginTop: "4px" }}>
+                <div style={{ fontSize: "13px", fontWeight: 700, color: "var(--ink)", marginTop: "4px" }}>
                   {item.display}
                 </div>
               </div>
@@ -160,7 +160,7 @@ export default function EmergencyModal({ onClose, isCritical = false }) {
                     className="btn btn-success btn-sm"
                     style={{ padding: "6px 10px" }}
                   >
-                    <MessageSquare size={13} /> WA
+                    <MessageSquare size={13} />
                   </a>
                 )}
 
@@ -177,9 +177,9 @@ export default function EmergencyModal({ onClose, isCritical = false }) {
         </div>
 
         {/* Modal Actions */}
-        <div style={{ marginTop: "18px", display: "flex", justifyContent: "flex-end" }}>
+        <div style={{ marginTop: "20px", display: "flex", justifyContent: "flex-end" }}>
           <button onClick={onClose} className="btn btn-secondary btn-sm">
-            Close Window
+            Close
           </button>
         </div>
       </div>

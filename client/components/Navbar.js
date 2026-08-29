@@ -16,9 +16,7 @@ import {
   X,
   PlusCircle,
   Stethoscope,
-  LayoutDashboard,
-  Users,
-  Settings
+  LayoutDashboard
 } from "lucide-react";
 import EmergencyModal from "./EmergencyModal";
 
@@ -28,7 +26,6 @@ export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [emergencyOpen, setEmergencyOpen] = useState(false);
 
-  // Dynamic Navigation based on Role
   let navLinks = [];
 
   if (isAdmin) {
@@ -36,23 +33,22 @@ export default function Navbar() {
       { href: "/admin", label: "Admin Center", icon: LayoutDashboard },
       { href: "/doctor", label: "Doctor Triage", icon: Stethoscope },
       { href: "/dashboard", label: "User View", icon: Activity },
-      { href: "/support", label: "Indian Helplines", icon: HeartHandshake },
+      { href: "/support", label: "Helplines", icon: HeartHandshake },
       { href: "/privacy", label: "Privacy", icon: Shield }
     ];
   } else if (isDoctor) {
     navLinks = [
       { href: "/doctor", label: "Distress Triage Queue", icon: Stethoscope },
       { href: "/dashboard", label: "Self Check-in", icon: PlusCircle },
-      { href: "/support", label: "Helpline Resources", icon: HeartHandshake },
+      { href: "/support", label: "Helpline Directory", icon: HeartHandshake },
       { href: "/privacy", label: "Privacy", icon: Shield }
     ];
   } else {
-    // Normal User / Survivor
     navLinks = [
       { href: "/dashboard", label: "Dashboard", icon: Activity, authRequired: true },
       { href: "/check-in", label: "Check In", icon: PlusCircle, authRequired: true },
       { href: "/history", label: "History", icon: History, authRequired: true },
-      { href: "/support", label: "Support & Helplines", icon: HeartHandshake, authRequired: false },
+      { href: "/support", label: "Indian Helplines", icon: HeartHandshake, authRequired: false },
       { href: "/privacy", label: "Privacy", icon: Shield, authRequired: false }
     ];
   }
@@ -61,13 +57,13 @@ export default function Navbar() {
     if (isAdmin) {
       return (
         <span style={{
-          backgroundColor: "rgba(240, 178, 50, 0.2)",
-          color: "var(--status-elevated)",
-          border: "1px solid var(--status-elevated)",
+          backgroundColor: "rgba(245, 158, 11, 0.1)",
+          color: "#d97706",
+          border: "1px solid rgba(245, 158, 11, 0.3)",
           fontSize: "10px",
-          fontWeight: 800,
-          padding: "2px 6px",
-          borderRadius: "4px",
+          fontWeight: 700,
+          padding: "2px 8px",
+          borderRadius: "var(--rounded-pill)",
           textTransform: "uppercase"
         }}>
           Admin
@@ -77,16 +73,16 @@ export default function Navbar() {
     if (isDoctor) {
       return (
         <span style={{
-          backgroundColor: "rgba(88, 101, 242, 0.2)",
-          color: "var(--brand-primary)",
-          border: "1px solid var(--brand-primary)",
+          backgroundColor: "rgba(59, 130, 246, 0.1)",
+          color: "#2563eb",
+          border: "1px solid rgba(59, 130, 246, 0.3)",
           fontSize: "10px",
-          fontWeight: 800,
-          padding: "2px 6px",
-          borderRadius: "4px",
+          fontWeight: 700,
+          padding: "2px 8px",
+          borderRadius: "var(--rounded-pill)",
           textTransform: "uppercase"
         }}>
-          Doctor / Helpline
+          Doctor / Responder
         </span>
       );
     }
@@ -96,51 +92,50 @@ export default function Navbar() {
   return (
     <>
       <nav style={{
-        backgroundColor: "var(--bg-secondary)",
-        borderBottom: "1px solid var(--border-subtle)",
+        backgroundColor: "var(--canvas)",
+        borderBottom: "1px solid var(--hairline)",
         position: "sticky",
         top: 0,
-        zIndex: 100,
-        boxShadow: "0 1px 2px rgba(0,0,0,0.2)"
+        zIndex: 100
       }}>
         <div className="container" style={{
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          height: "60px"
+          height: "64px"
         }}>
-          {/* Brand Logo */}
+          {/* Brand Wordmark */}
           <Link href={isAdmin ? "/admin" : isDoctor ? "/doctor" : (isAuthenticated ? "/dashboard" : "/")} style={{
             display: "flex",
             alignItems: "center",
             gap: "10px",
-            fontSize: "17px",
-            fontWeight: 800,
-            letterSpacing: "0.04em",
-            color: "#ffffff"
+            fontSize: "18px",
+            fontWeight: 700,
+            letterSpacing: "-0.03em",
+            color: "var(--ink)"
           }}>
             <div style={{
-              width: "30px",
-              height: "30px",
-              borderRadius: "8px",
-              backgroundColor: "var(--brand-primary)",
+              width: "28px",
+              height: "28px",
+              borderRadius: "var(--rounded-full)",
+              backgroundColor: "var(--primary)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              fontSize: "15px",
-              fontWeight: 900,
+              fontSize: "14px",
+              fontWeight: 700,
               color: "#ffffff"
             }}>
-              D
+              d
             </div>
-            <span>DHRITI</span>
+            <span>Dhriti</span>
           </Link>
 
-          {/* Desktop Nav Links */}
+          {/* Center Navigation Links */}
           <div style={{
             display: "flex",
             alignItems: "center",
-            gap: "4px"
+            gap: "2px"
           }} className="desktop-only">
             {navLinks
               .filter(link => !link.authRequired || isAuthenticated)
@@ -155,30 +150,35 @@ export default function Navbar() {
                       display: "flex",
                       alignItems: "center",
                       gap: "6px",
-                      padding: "8px 12px",
-                      borderRadius: "var(--radius-md)",
-                      fontSize: "13px",
-                      fontWeight: 600,
-                      color: isActive ? "#ffffff" : "var(--text-muted)",
-                      backgroundColor: isActive ? "var(--bg-active)" : "transparent",
+                      padding: "8px 14px",
+                      borderRadius: "var(--rounded-md)",
+                      fontSize: "14px",
+                      fontWeight: isActive ? 600 : 500,
+                      color: isActive ? "var(--ink)" : "var(--text-muted)",
+                      backgroundColor: isActive ? "var(--surface-soft)" : "transparent",
                       transition: "all 0.15s ease"
                     }}
                   >
-                    <Icon size={15} color={isActive ? "var(--brand-primary)" : "var(--text-muted)"} />
-                    {link.label}
+                    <Icon size={15} color={isActive ? "var(--ink)" : "var(--text-muted)"} />
+                    <span>{link.label}</span>
                   </Link>
                 );
               })}
           </div>
 
-          {/* Right Action Area */}
+          {/* Right Action Cluster */}
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-            {/* Urgent Crisis Quick Action (Tele-MANAS & 112) */}
+            {/* Urgent Crisis Quick Action */}
             <button
               onClick={() => setEmergencyOpen(true)}
-              className="btn btn-danger btn-sm"
-              title="Immediate Crisis Support"
-              style={{ padding: "6px 12px", fontSize: "12px", fontWeight: 700 }}
+              className="btn btn-secondary btn-sm"
+              style={{
+                borderColor: "rgba(239, 68, 68, 0.3)",
+                color: "var(--error)",
+                fontSize: "13px",
+                fontWeight: 600,
+                backgroundColor: "rgba(239, 68, 68, 0.04)"
+              }}
             >
               <ShieldAlert size={14} />
               <span>24/7 Helpline</span>
@@ -191,14 +191,14 @@ export default function Navbar() {
                   alignItems: "center",
                   gap: "6px",
                   padding: "6px 12px",
-                  backgroundColor: "var(--bg-tertiary)",
-                  borderRadius: "var(--radius-md)",
-                  border: "1px solid var(--border-card)",
+                  backgroundColor: "var(--surface-card)",
+                  borderRadius: "var(--rounded-md)",
+                  border: "1px solid var(--hairline)",
                   fontSize: "13px",
-                  color: "var(--text-header)"
+                  color: "var(--ink)"
                 }}>
-                  <User size={14} color="var(--brand-primary)" />
-                  <span>{user?.name || "User"}</span>
+                  <User size={14} color="var(--text-muted)" />
+                  <span style={{ fontWeight: 600 }}>{user?.name || "User"}</span>
                   {getRoleBadge()}
                 </div>
                 <button
@@ -207,13 +207,12 @@ export default function Navbar() {
                   title="Sign Out"
                 >
                   <LogOut size={14} />
-                  <span>Sign Out</span>
                 </button>
               </div>
             ) : (
               <div style={{ display: "flex", alignItems: "center", gap: "8px" }} className="desktop-only">
-                <Link href="/login" className="btn btn-secondary btn-sm">Log In</Link>
-                <Link href="/register" className="btn btn-primary btn-sm">Get Started</Link>
+                <Link href="/login" className="btn btn-secondary btn-sm">Sign in</Link>
+                <Link href="/register" className="btn btn-primary btn-sm">Sign up free</Link>
               </div>
             )}
 
@@ -222,7 +221,7 @@ export default function Navbar() {
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="mobile-only"
               style={{
-                color: "var(--text-normal)",
+                color: "var(--ink)",
                 padding: "6px",
                 display: "none"
               }}
@@ -235,8 +234,8 @@ export default function Navbar() {
         {/* Mobile Dropdown Menu */}
         {mobileMenuOpen && (
           <div style={{
-            backgroundColor: "var(--bg-secondary)",
-            borderBottom: "1px solid var(--border-subtle)",
+            backgroundColor: "var(--canvas)",
+            borderBottom: "1px solid var(--hairline)",
             padding: "16px"
           }}>
             <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
@@ -254,26 +253,26 @@ export default function Navbar() {
                         display: "flex",
                         alignItems: "center",
                         gap: "10px",
-                        padding: "10px 12px",
-                        borderRadius: "var(--radius-md)",
+                        padding: "10px 14px",
+                        borderRadius: "var(--rounded-md)",
                         fontSize: "14px",
                         fontWeight: 600,
-                        color: isActive ? "#ffffff" : "var(--text-normal)",
-                        backgroundColor: isActive ? "var(--bg-active)" : "transparent"
+                        color: isActive ? "var(--ink)" : "var(--text-muted)",
+                        backgroundColor: isActive ? "var(--surface-soft)" : "transparent"
                       }}
                     >
-                      <Icon size={16} color={isActive ? "var(--brand-primary)" : "var(--text-muted)"} />
+                      <Icon size={16} color={isActive ? "var(--ink)" : "var(--text-muted)"} />
                       {link.label}
                     </Link>
                   );
                 })}
 
-              <div style={{ height: "1px", backgroundColor: "var(--border-subtle)", margin: "8px 0" }} />
+              <div style={{ height: "1px", backgroundColor: "var(--hairline)", margin: "8px 0" }} />
 
               {isAuthenticated ? (
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "4px 0" }}>
                   <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-                    <span style={{ fontSize: "13px", color: "var(--text-muted)" }}>{user?.name}</span>
+                    <span style={{ fontSize: "13px", fontWeight: 600, color: "var(--ink)" }}>{user?.name}</span>
                     {getRoleBadge()}
                   </div>
                   <button onClick={logout} className="btn btn-secondary btn-sm">
@@ -282,8 +281,8 @@ export default function Navbar() {
                 </div>
               ) : (
                 <div style={{ display: "flex", gap: "8px" }}>
-                  <Link href="/login" onClick={() => setMobileMenuOpen(false)} className="btn btn-secondary btn-block btn-sm">Log In</Link>
-                  <Link href="/register" onClick={() => setMobileMenuOpen(false)} className="btn btn-primary btn-block btn-sm">Register</Link>
+                  <Link href="/login" onClick={() => setMobileMenuOpen(false)} className="btn btn-secondary btn-block btn-sm">Sign in</Link>
+                  <Link href="/register" onClick={() => setMobileMenuOpen(false)} className="btn btn-primary btn-block btn-sm">Sign up free</Link>
                 </div>
               )}
             </div>
@@ -291,7 +290,6 @@ export default function Navbar() {
         )}
       </nav>
 
-      {/* Emergency Helpline Modal */}
       {emergencyOpen && (
         <EmergencyModal onClose={() => setEmergencyOpen(false)} />
       )}

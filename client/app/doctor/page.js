@@ -9,17 +9,12 @@ import {
   ShieldAlert,
   AlertTriangle,
   CheckCircle2,
-  Clock,
   Phone,
   MessageSquare,
   Sparkles,
-  TrendingUp,
-  TrendingDown,
-  Minus,
   X,
-  FileText,
-  UserCheck,
-  RefreshCw
+  RefreshCw,
+  UserCheck
 } from "lucide-react";
 import DisclaimerBanner from "../../components/DisclaimerBanner";
 
@@ -93,7 +88,7 @@ export default function DoctorPortalPage() {
   if (authLoading || (loading && !stats)) {
     return (
       <div className="container" style={{ textAlign: "center", padding: "80px 20px" }}>
-        <p style={{ color: "var(--text-muted)", fontSize: "16px" }}>Loading clinical triage dashboard...</p>
+        <p style={{ color: "var(--text-muted)", fontSize: "15px" }}>Loading clinical triage dashboard...</p>
       </div>
     );
   }
@@ -107,29 +102,22 @@ export default function DoctorPortalPage() {
         alignItems: "center",
         flexWrap: "wrap",
         gap: "16px",
-        marginBottom: "24px"
+        marginBottom: "28px"
       }}>
         <div>
-          <div style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: "8px",
-            backgroundColor: "rgba(88, 101, 242, 0.18)",
-            color: "var(--brand-primary)",
-            padding: "4px 12px",
-            borderRadius: "20px",
-            fontSize: "12px",
-            fontWeight: 800,
-            marginBottom: "8px"
-          }}>
-            <Stethoscope size={14} />
-            <span>PANEL 2 — CLINICAL & HELPLINE RESPONDER PORTAL</span>
+          <div className="nav-pill-group" style={{ marginBottom: "12px" }}>
+            <span className="badge" style={{ backgroundColor: "var(--brand-accent)", color: "#ffffff", padding: "2px 8px" }}>
+              Panel 2
+            </span>
+            <span style={{ fontSize: "13px", fontWeight: 600, color: "var(--text-body)", paddingRight: "8px" }}>
+              Clinical & Helpline Responder Portal
+            </span>
           </div>
-          <h1 style={{ fontSize: "26px", fontWeight: 800, color: "#ffffff", marginBottom: "4px" }}>
+          <h1 style={{ fontSize: "28px", fontWeight: 700, color: "var(--ink)", letterSpacing: "-0.03em", marginBottom: "4px" }}>
             Distress Triage Queue
           </h1>
           <p style={{ fontSize: "14px", color: "var(--text-muted)" }}>
-            Review survivor check-ins, assess distress indices, and coordinate interventions.
+            Review survivor check-ins, evaluate distress patterns, and coordinate helpline referrals.
           </p>
         </div>
 
@@ -145,35 +133,35 @@ export default function DoctorPortalPage() {
         gap: "16px",
         marginBottom: "28px"
       }}>
-        <div className="card" style={{ padding: "18px" }}>
-          <div style={{ fontSize: "12px", color: "var(--text-muted)", fontWeight: 700, textTransform: "uppercase" }}>
-            Active Critical Alerts
+        <div className="card" style={{ padding: "20px" }}>
+          <div style={{ fontSize: "11px", color: "var(--text-muted)", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.04em" }}>
+            Active Critical Inquiries
           </div>
-          <div style={{ fontSize: "32px", fontWeight: 900, color: "var(--status-critical)", marginTop: "4px" }}>
+          <div style={{ fontSize: "32px", fontWeight: 700, color: "var(--error)", letterSpacing: "-0.03em", marginTop: "4px" }}>
             {stats?.activeCritical || 0}
           </div>
           <div style={{ fontSize: "12px", color: "var(--text-muted)", marginTop: "4px" }}>
-            Immediate review needed
+            Immediate review recommended
           </div>
         </div>
 
-        <div className="card" style={{ padding: "18px" }}>
-          <div style={{ fontSize: "12px", color: "var(--text-muted)", fontWeight: 700, textTransform: "uppercase" }}>
+        <div className="card" style={{ padding: "20px" }}>
+          <div style={{ fontSize: "11px", color: "var(--text-muted)", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.04em" }}>
             Pending Triage
           </div>
-          <div style={{ fontSize: "32px", fontWeight: 900, color: "var(--status-elevated)", marginTop: "4px" }}>
+          <div style={{ fontSize: "32px", fontWeight: 700, color: "#d97706", letterSpacing: "-0.03em", marginTop: "4px" }}>
             {stats?.pendingReview || 0}
           </div>
           <div style={{ fontSize: "12px", color: "var(--text-muted)", marginTop: "4px" }}>
-            Awaiting response
+            Awaiting responder action
           </div>
         </div>
 
-        <div className="card" style={{ padding: "18px" }}>
-          <div style={{ fontSize: "12px", color: "var(--text-muted)", fontWeight: 700, textTransform: "uppercase" }}>
-            Resolved Interventions
+        <div className="card" style={{ padding: "20px" }}>
+          <div style={{ fontSize: "11px", color: "var(--text-muted)", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.04em" }}>
+            Resolved Cases
           </div>
-          <div style={{ fontSize: "32px", fontWeight: 900, color: "var(--status-stable)", marginTop: "4px" }}>
+          <div style={{ fontSize: "32px", fontWeight: 700, color: "var(--status-stable)", letterSpacing: "-0.03em", marginTop: "4px" }}>
             {stats?.resolved || 0}
           </div>
           <div style={{ fontSize: "12px", color: "var(--text-muted)", marginTop: "4px" }}>
@@ -181,40 +169,35 @@ export default function DoctorPortalPage() {
           </div>
         </div>
 
-        <div className="card" style={{ padding: "18px" }}>
-          <div style={{ fontSize: "12px", color: "var(--text-muted)", fontWeight: 700, textTransform: "uppercase" }}>
-            Total Monitored Queue
+        <div className="card" style={{ padding: "20px" }}>
+          <div style={{ fontSize: "11px", color: "var(--text-muted)", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.04em" }}>
+            Total Monitored
           </div>
-          <div style={{ fontSize: "32px", fontWeight: 900, color: "#ffffff", marginTop: "4px" }}>
+          <div style={{ fontSize: "32px", fontWeight: 700, color: "var(--ink)", letterSpacing: "-0.03em", marginTop: "4px" }}>
             {stats?.totalFlagged || 0}
           </div>
           <div style={{ fontSize: "12px", color: "var(--text-muted)", marginTop: "4px" }}>
-            Total flagged check-ins
+            Flagged check-ins
           </div>
         </div>
       </div>
 
-      {/* Filters Bar */}
+      {/* Filter Pill Group Bar */}
       <div style={{
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
         flexWrap: "wrap",
         gap: "12px",
-        backgroundColor: "var(--bg-secondary)",
-        padding: "14px 18px",
-        borderRadius: "var(--radius-lg)",
-        border: "1px solid var(--border-subtle)",
-        marginBottom: "20px"
+        marginBottom: "24px"
       }}>
-        {/* Status Filter */}
-        <div style={{ display: "flex", gap: "6px", flexWrap: "wrap" }}>
+        {/* Status Pill Group */}
+        <div className="nav-pill-group">
           {["ALL", "PENDING", "IN_PROGRESS", "CONTACTED", "RESOLVED"].map((st) => (
             <button
               key={st}
               onClick={() => setStatusFilter(st)}
-              className={`btn btn-sm ${statusFilter === st ? "btn-primary" : "btn-secondary"}`}
-              style={{ fontSize: "12px", padding: "6px 12px" }}
+              className={`nav-pill-item ${statusFilter === st ? "active" : ""}`}
             >
               {st.replace("_", " ")}
             </button>
@@ -222,18 +205,17 @@ export default function DoctorPortalPage() {
         </div>
 
         {/* Severity Filter */}
-        <div style={{ display: "flex", gap: "6px" }}>
+        <div className="nav-pill-group">
           <button
             onClick={() => setSeverityFilter("ALL")}
-            className={`btn btn-sm ${severityFilter === "ALL" ? "btn-primary" : "btn-secondary"}`}
-            style={{ fontSize: "12px" }}
+            className={`nav-pill-item ${severityFilter === "ALL" ? "active" : ""}`}
           >
             All Severities
           </button>
           <button
             onClick={() => setSeverityFilter("CRITICAL")}
-            className={`btn btn-sm ${severityFilter === "CRITICAL" ? "btn-danger" : "btn-secondary"}`}
-            style={{ fontSize: "12px" }}
+            className={`nav-pill-item ${severityFilter === "CRITICAL" ? "active" : ""}`}
+            style={{ color: severityFilter === "CRITICAL" ? "var(--error)" : undefined }}
           >
             Critical Only
           </button>
@@ -244,7 +226,7 @@ export default function DoctorPortalPage() {
       {queue.length === 0 ? (
         <div className="card" style={{ textAlign: "center", padding: "60px 20px" }}>
           <CheckCircle2 size={40} color="var(--status-stable)" style={{ margin: "0 auto 16px auto" }} />
-          <h2 style={{ fontSize: "18px", fontWeight: 700, color: "#ffffff", marginBottom: "6px" }}>
+          <h2 style={{ fontSize: "18px", fontWeight: 700, color: "var(--ink)", marginBottom: "6px" }}>
             Triage Queue Clear
           </h2>
           <p style={{ color: "var(--text-muted)", fontSize: "14px" }}>
@@ -267,15 +249,15 @@ export default function DoctorPortalPage() {
                 onClick={() => handleOpenCase(item)}
                 className="card"
                 style={{
-                  padding: "18px 24px",
+                  padding: "20px 24px",
                   cursor: "pointer",
-                  borderLeft: item.safetyConcern ? "4px solid var(--status-critical)" : item.riskLevel === "Critical" ? "4px solid var(--status-critical)" : "4px solid var(--border-subtle)"
+                  borderLeft: item.safetyConcern ? "4px solid var(--error)" : item.riskLevel === "Critical" ? "4px solid var(--error)" : "1px solid var(--hairline)"
                 }}
               >
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: "12px" }}>
                   <div>
                     <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap" }}>
-                      <span style={{ fontSize: "16px", fontWeight: 800, color: "#ffffff" }}>
+                      <span style={{ fontSize: "16px", fontWeight: 700, color: "var(--ink)" }}>
                         {item.userAlias}
                       </span>
 
@@ -294,29 +276,28 @@ export default function DoctorPortalPage() {
                         fontSize: "11px",
                         fontWeight: 700,
                         padding: "2px 8px",
-                        borderRadius: "4px",
-                        backgroundColor: item.triageStatus === "RESOLVED" ? "rgba(35, 165, 90, 0.2)" : item.triageStatus === "PENDING" ? "rgba(240, 178, 50, 0.2)" : "rgba(88, 101, 242, 0.2)",
-                        color: item.triageStatus === "RESOLVED" ? "var(--status-stable)" : item.triageStatus === "PENDING" ? "var(--status-elevated)" : "var(--brand-primary)"
+                        borderRadius: "var(--rounded-pill)",
+                        backgroundColor: item.triageStatus === "RESOLVED" ? "rgba(16, 185, 129, 0.12)" : item.triageStatus === "PENDING" ? "rgba(245, 158, 11, 0.12)" : "rgba(59, 130, 246, 0.12)",
+                        color: item.triageStatus === "RESOLVED" ? "#059669" : item.triageStatus === "PENDING" ? "#d97706" : "#2563eb"
                       }}>
                         {item.triageStatus}
                       </span>
                     </div>
 
-                    <div style={{ fontSize: "12px", color: "var(--text-muted)", marginTop: "6px" }}>
+                    <div style={{ fontSize: "13px", color: "var(--text-muted)", marginTop: "4px" }}>
                       Submitted: <strong>{dateStr}</strong> • Trend: <strong>{item.trend}</strong> ({item.deltaPoints > 0 ? `+${item.deltaPoints}` : item.deltaPoints} pts)
                     </div>
 
-                    {/* AI distress signal summary */}
                     {item.aiAnalysis?.distressIndicators && (
                       <div style={{ display: "flex", gap: "6px", flexWrap: "wrap", marginTop: "10px" }}>
                         {item.aiAnalysis.distressIndicators.slice(0, 3).map((sig, idx) => (
                           <span key={idx} style={{
-                            backgroundColor: "var(--bg-tertiary)",
+                            backgroundColor: "var(--surface-card)",
                             fontSize: "12px",
-                            color: "var(--text-normal)",
+                            color: "var(--text-body)",
                             padding: "3px 8px",
-                            borderRadius: "4px",
-                            border: "1px solid var(--border-card)"
+                            borderRadius: "var(--rounded-sm)",
+                            border: "1px solid var(--hairline)"
                           }}>
                             • {sig}
                           </span>
@@ -326,11 +307,11 @@ export default function DoctorPortalPage() {
                   </div>
 
                   <div style={{ textAlign: "right", display: "flex", flexDirection: "column", alignItems: "flex-end", gap: "8px" }}>
-                    <div style={{ fontSize: "28px", fontWeight: 900, color: "#ffffff" }}>
+                    <div style={{ fontSize: "28px", fontWeight: 700, color: "var(--ink)", letterSpacing: "-0.03em" }}>
                       {Math.round(item.dhritiIndex)}
                       <span style={{ fontSize: "14px", color: "var(--text-muted)", fontWeight: 500 }}>/100</span>
                     </div>
-                    <button className="btn btn-primary btn-sm" style={{ padding: "6px 14px" }}>
+                    <button className="btn btn-primary btn-sm">
                       Review Case & Respond
                     </button>
                   </div>
@@ -341,14 +322,14 @@ export default function DoctorPortalPage() {
         </div>
       )}
 
-      {/* Detailed Triage & Clinical Response Modal */}
+      {/* Detailed Triage Modal */}
       {selectedCase && (
         <div className="modal-overlay" onClick={() => setSelectedCase(null)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()} style={{ maxWidth: "680px", maxHeight: "90vh", overflowY: "auto" }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "16px" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "18px" }}>
               <div>
                 <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                  <h3 style={{ fontSize: "20px", fontWeight: 800, color: "#ffffff" }}>
+                  <h3 style={{ fontSize: "20px", fontWeight: 700, color: "var(--ink)", letterSpacing: "-0.02em" }}>
                     {selectedCase.userAlias}
                   </h3>
                   <span className={`badge badge-${selectedCase.riskLevel.toLowerCase()}`}>
@@ -364,17 +345,15 @@ export default function DoctorPortalPage() {
               </button>
             </div>
 
-            {/* Safety Warning */}
             {selectedCase.safetyConcern && (
               <div className="safety-banner" style={{ padding: "12px 16px", marginBottom: "16px" }}>
-                <div style={{ display: "flex", alignItems: "center", gap: "8px", color: "var(--status-critical)", fontWeight: 700, fontSize: "14px" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "8px", color: "var(--error)", fontWeight: 700, fontSize: "14px" }}>
                   <AlertTriangle size={18} />
                   <span>Immediate Safety Override Triggered by User Responses</span>
                 </div>
               </div>
             )}
 
-            {/* Score & AI Signals */}
             <div style={{
               display: "grid",
               gridTemplateColumns: "1fr 2fr",
@@ -383,7 +362,7 @@ export default function DoctorPortalPage() {
             }}>
               <div className="card-inner" style={{ textAlign: "center", display: "flex", flexDirection: "column", justifyContent: "center" }}>
                 <div style={{ fontSize: "11px", color: "var(--text-muted)", textTransform: "uppercase", fontWeight: 700 }}>Dhriti Index</div>
-                <div style={{ fontSize: "40px", fontWeight: 900, color: "#ffffff" }}>
+                <div style={{ fontSize: "40px", fontWeight: 700, color: "var(--ink)", letterSpacing: "-0.04em" }}>
                   {Math.round(selectedCase.dhritiIndex)}
                 </div>
                 <div style={{ fontSize: "12px", color: "var(--text-muted)" }}>
@@ -392,10 +371,10 @@ export default function DoctorPortalPage() {
               </div>
 
               <div className="card-inner">
-                <div style={{ fontSize: "12px", fontWeight: 700, color: "var(--brand-primary)", textTransform: "uppercase", marginBottom: "6px" }}>
+                <div style={{ fontSize: "12px", fontWeight: 700, color: "var(--ink)", textTransform: "uppercase", marginBottom: "6px" }}>
                   AI Distress Extraction
                 </div>
-                <p style={{ fontSize: "13px", color: "var(--text-normal)", marginBottom: "8px" }}>
+                <p style={{ fontSize: "13px", color: "var(--text-body)", marginBottom: "8px" }}>
                   {selectedCase.aiAnalysis?.summary || "Standard response pattern evaluated."}
                 </p>
                 <div style={{ fontSize: "12px", color: "var(--text-muted)" }}>
@@ -404,24 +383,24 @@ export default function DoctorPortalPage() {
               </div>
             </div>
 
-            {/* Written Responses if any */}
+            {/* Written reflections */}
             {selectedCase.writtenResponses && Object.values(selectedCase.writtenResponses).some(t => t && t.trim().length > 0) && (
               <div className="card-inner" style={{ marginBottom: "16px" }}>
-                <div style={{ fontSize: "12px", fontWeight: 700, color: "var(--text-header)", textTransform: "uppercase", marginBottom: "6px" }}>
+                <div style={{ fontSize: "12px", fontWeight: 700, color: "var(--ink)", textTransform: "uppercase", marginBottom: "6px" }}>
                   User Reflections (Confidential)
                 </div>
                 {Object.entries(selectedCase.writtenResponses).map(([k, v]) => v ? (
-                  <p key={k} style={{ fontSize: "13px", color: "var(--text-normal)", fontStyle: "italic" }}>
+                  <p key={k} style={{ fontSize: "13px", color: "var(--text-body)", fontStyle: "italic" }}>
                     &ldquo;{v}&rdquo;
                   </p>
                 ) : null)}
               </div>
             )}
 
-            {/* Referral Quick Connect Tools */}
+            {/* Referral Dispatcher */}
             <div style={{ marginBottom: "20px" }}>
               <div style={{ fontSize: "12px", fontWeight: 700, color: "var(--text-muted)", textTransform: "uppercase", marginBottom: "8px" }}>
-                Intervention & Indian Helpline Dispatcher
+                Indian Helpline Quick Dispatcher
               </div>
               <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
                 <a href="tel:14416" className="btn btn-primary btn-sm">
@@ -431,13 +410,13 @@ export default function DoctorPortalPage() {
                   <Phone size={13} /> Refer to KIRAN (1800-599-0019)
                 </a>
                 <a href="https://wa.me/919999666555" target="_blank" rel="noopener noreferrer" className="btn btn-success btn-sm">
-                  <MessageSquare size={13} /> Connect via Vandrevala
+                  <MessageSquare size={13} /> Vandrevala WA
                 </a>
               </div>
             </div>
 
             {/* Clinical Notes & Status Updater */}
-            <div style={{ borderTop: "1px solid var(--border-subtle)", paddingTop: "16px" }}>
+            <div style={{ borderTop: "1px solid var(--hairline)", paddingTop: "16px" }}>
               <div className="form-group">
                 <label className="form-label">Triage Resolution Status</label>
                 <select

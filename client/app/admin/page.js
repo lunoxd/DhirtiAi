@@ -8,17 +8,10 @@ import {
   ShieldCheck,
   Users,
   Activity,
-  AlertTriangle,
-  Server,
-  Cpu,
   Trash2,
   Edit3,
-  Search,
-  CheckCircle2,
   RefreshCw,
-  X,
-  Stethoscope,
-  UserCheck
+  X
 } from "lucide-react";
 import DisclaimerBanner from "../../components/DisclaimerBanner";
 
@@ -26,7 +19,7 @@ export default function AdminPortalPage() {
   const router = useRouter();
   const { user, isAdmin, loading: authLoading, isAuthenticated } = useAuth();
 
-  const [activeTab, setActiveTab] = useState("overview"); // "overview" | "users" | "checkins" | "system"
+  const [activeTab, setActiveTab] = useState("overview");
   const [overview, setOverview] = useState(null);
   const [usersList, setUsersList] = useState([]);
   const [checkInsList, setCheckInsList] = useState([]);
@@ -75,16 +68,6 @@ export default function AdminPortalPage() {
     }
   };
 
-  const handleSearch = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await apiAdmin.getUsers(roleFilter, searchQuery);
-      setUsersList(res.users || []);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
   const handleEditUser = (u) => {
     setEditingUser(u);
     setEditRole(u.role);
@@ -119,7 +102,7 @@ export default function AdminPortalPage() {
   if (authLoading || (loading && !overview)) {
     return (
       <div className="container" style={{ textAlign: "center", padding: "80px 20px" }}>
-        <p style={{ color: "var(--text-muted)", fontSize: "16px" }}>Loading platform admin command center...</p>
+        <p style={{ color: "var(--text-muted)", fontSize: "15px" }}>Loading platform admin command center...</p>
       </div>
     );
   }
@@ -130,36 +113,29 @@ export default function AdminPortalPage() {
 
   return (
     <div className="container" style={{ paddingBottom: "60px" }}>
-      {/* Top Header */}
+      {/* Header */}
       <div style={{
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
         flexWrap: "wrap",
         gap: "16px",
-        marginBottom: "24px"
+        marginBottom: "28px"
       }}>
         <div>
-          <div style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: "8px",
-            backgroundColor: "rgba(240, 178, 50, 0.18)",
-            color: "var(--status-elevated)",
-            padding: "4px 12px",
-            borderRadius: "20px",
-            fontSize: "12px",
-            fontWeight: 800,
-            marginBottom: "8px"
-          }}>
-            <ShieldCheck size={14} />
-            <span>PANEL 3 — PLATFORM ADMIN COMMAND CENTER</span>
+          <div className="nav-pill-group" style={{ marginBottom: "12px" }}>
+            <span className="badge" style={{ backgroundColor: "#d97706", color: "#ffffff", padding: "2px 8px" }}>
+              Panel 3
+            </span>
+            <span style={{ fontSize: "13px", fontWeight: 600, color: "var(--text-body)", paddingRight: "8px" }}>
+              Platform Admin Command Center
+            </span>
           </div>
-          <h1 style={{ fontSize: "26px", fontWeight: 800, color: "#ffffff", marginBottom: "4px" }}>
-            DHRITI Operations & Control
+          <h1 style={{ fontSize: "28px", fontWeight: 700, color: "var(--ink)", letterSpacing: "-0.03em", marginBottom: "4px" }}>
+            Operations & Global Oversight
           </h1>
           <p style={{ fontSize: "14px", color: "var(--text-muted)" }}>
-            Global analytics, multi-role user management, scoring audit feed, and system health.
+            Global analytics, role assignment, triage audit logs, and Groq engine health.
           </p>
         </div>
 
@@ -168,18 +144,18 @@ export default function AdminPortalPage() {
         </button>
       </div>
 
-      {/* KPI Metrics Cards */}
+      {/* KPI Cards */}
       <div style={{
         display: "grid",
         gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
-        gap: "14px",
+        gap: "16px",
         marginBottom: "28px"
       }}>
-        <div className="card" style={{ padding: "18px" }}>
-          <div style={{ fontSize: "11px", color: "var(--text-muted)", fontWeight: 700, textTransform: "uppercase" }}>
+        <div className="card" style={{ padding: "20px" }}>
+          <div style={{ fontSize: "11px", color: "var(--text-muted)", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.04em" }}>
             Total User Accounts
           </div>
-          <div style={{ fontSize: "30px", fontWeight: 900, color: "#ffffff", marginTop: "4px" }}>
+          <div style={{ fontSize: "30px", fontWeight: 700, color: "var(--ink)", letterSpacing: "-0.03em", marginTop: "4px" }}>
             {metrics.totalAccounts || 0}
           </div>
           <div style={{ fontSize: "12px", color: "var(--text-muted)", marginTop: "4px" }}>
@@ -187,11 +163,11 @@ export default function AdminPortalPage() {
           </div>
         </div>
 
-        <div className="card" style={{ padding: "18px" }}>
-          <div style={{ fontSize: "11px", color: "var(--text-muted)", fontWeight: 700, textTransform: "uppercase" }}>
+        <div className="card" style={{ padding: "20px" }}>
+          <div style={{ fontSize: "11px", color: "var(--text-muted)", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.04em" }}>
             Total Check-ins Logged
           </div>
-          <div style={{ fontSize: "30px", fontWeight: 900, color: "var(--brand-primary)", marginTop: "4px" }}>
+          <div style={{ fontSize: "30px", fontWeight: 700, color: "var(--ink)", letterSpacing: "-0.03em", marginTop: "4px" }}>
             {metrics.totalCheckIns || 0}
           </div>
           <div style={{ fontSize: "12px", color: "var(--text-muted)", marginTop: "4px" }}>
@@ -199,11 +175,11 @@ export default function AdminPortalPage() {
           </div>
         </div>
 
-        <div className="card" style={{ padding: "18px" }}>
-          <div style={{ fontSize: "11px", color: "var(--text-muted)", fontWeight: 700, textTransform: "uppercase" }}>
+        <div className="card" style={{ padding: "20px" }}>
+          <div style={{ fontSize: "11px", color: "var(--text-muted)", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.04em" }}>
             Active Critical Cases
           </div>
-          <div style={{ fontSize: "30px", fontWeight: 900, color: "var(--status-critical)", marginTop: "4px" }}>
+          <div style={{ fontSize: "30px", fontWeight: 700, color: "var(--error)", letterSpacing: "-0.03em", marginTop: "4px" }}>
             {metrics.activeCritical || 0}
           </div>
           <div style={{ fontSize: "12px", color: "var(--text-muted)", marginTop: "4px" }}>
@@ -211,24 +187,24 @@ export default function AdminPortalPage() {
           </div>
         </div>
 
-        <div className="card" style={{ padding: "18px" }}>
-          <div style={{ fontSize: "11px", color: "var(--text-muted)", fontWeight: 700, textTransform: "uppercase" }}>
+        <div className="card" style={{ padding: "20px" }}>
+          <div style={{ fontSize: "11px", color: "var(--text-muted)", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.04em" }}>
             Platform Avg. Index
           </div>
-          <div style={{ fontSize: "30px", fontWeight: 900, color: "var(--status-mild)", marginTop: "4px" }}>
+          <div style={{ fontSize: "30px", fontWeight: 700, color: "var(--status-stable)", letterSpacing: "-0.03em", marginTop: "4px" }}>
             {metrics.averageDhritiIndex || 0}
             <span style={{ fontSize: "14px", color: "var(--text-muted)", fontWeight: 500 }}>/100</span>
           </div>
           <div style={{ fontSize: "12px", color: "var(--text-muted)", marginTop: "4px" }}>
-            Overall population indicator
+            Overall population score
           </div>
         </div>
 
-        <div className="card" style={{ padding: "18px" }}>
-          <div style={{ fontSize: "11px", color: "var(--text-muted)", fontWeight: 700, textTransform: "uppercase" }}>
+        <div className="card" style={{ padding: "20px" }}>
+          <div style={{ fontSize: "11px", color: "var(--text-muted)", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.04em" }}>
             Groq AI Engine
           </div>
-          <div style={{ fontSize: "20px", fontWeight: 900, color: overview?.system?.groqStatus === "ONLINE" ? "var(--status-stable)" : "var(--status-elevated)", marginTop: "8px" }}>
+          <div style={{ fontSize: "18px", fontWeight: 700, color: overview?.system?.groqStatus === "ONLINE" ? "var(--status-stable)" : "#d97706", marginTop: "8px" }}>
             {overview?.system?.groqStatus || "ONLINE"}
           </div>
           <div style={{ fontSize: "12px", color: "var(--text-muted)", marginTop: "4px" }}>
@@ -238,9 +214,9 @@ export default function AdminPortalPage() {
       </div>
 
       {/* Risk Distribution Visual Bar */}
-      <div className="card" style={{ padding: "20px", marginBottom: "28px" }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "12px" }}>
-          <h3 style={{ fontSize: "15px", fontWeight: 700, color: "#ffffff" }}>
+      <div className="card" style={{ padding: "24px", marginBottom: "28px" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "14px" }}>
+          <h3 style={{ fontSize: "15px", fontWeight: 700, color: "var(--ink)", letterSpacing: "-0.02em" }}>
             Platform Distress Risk Distribution
           </h3>
           <span style={{ fontSize: "12px", color: "var(--text-muted)" }}>
@@ -248,15 +224,15 @@ export default function AdminPortalPage() {
           </span>
         </div>
 
-        {/* Progress distribution bar */}
+        {/* Progress bar */}
         <div style={{
-          height: "14px",
+          height: "10px",
           width: "100%",
-          backgroundColor: "var(--bg-tertiary)",
-          borderRadius: "7px",
+          backgroundColor: "var(--surface-strong)",
+          borderRadius: "var(--rounded-pill)",
           overflow: "hidden",
           display: "flex",
-          marginBottom: "12px"
+          marginBottom: "14px"
         }}>
           <div style={{ width: `${(distribution.Stable / totalDist) * 100}%`, backgroundColor: "var(--status-stable)" }} title={`Stable: ${distribution.Stable}`} />
           <div style={{ width: `${(distribution.Mild / totalDist) * 100}%`, backgroundColor: "var(--status-mild)" }} title={`Mild: ${distribution.Mild}`} />
@@ -290,27 +266,29 @@ export default function AdminPortalPage() {
         </div>
       </div>
 
-      {/* Tabs Switcher */}
-      <div style={{ display: "flex", gap: "8px", marginBottom: "20px" }}>
-        <button
-          onClick={() => setActiveTab("overview")}
-          className={`btn btn-sm ${activeTab === "overview" ? "btn-primary" : "btn-secondary"}`}
-        >
-          <Users size={14} /> User Accounts ({usersList.length})
-        </button>
-        <button
-          onClick={() => setActiveTab("checkins")}
-          className={`btn btn-sm ${activeTab === "checkins" ? "btn-primary" : "btn-secondary"}`}
-        >
-          <Activity size={14} /> Global Check-ins Feed ({checkInsList.length})
-        </button>
+      {/* Tabs Pill Group */}
+      <div style={{ display: "flex", gap: "8px", marginBottom: "24px" }}>
+        <div className="nav-pill-group">
+          <button
+            onClick={() => setActiveTab("overview")}
+            className={`nav-pill-item ${activeTab === "overview" ? "active" : ""}`}
+          >
+            <Users size={14} style={{ display: "inline", marginRight: "4px" }} /> User Accounts ({usersList.length})
+          </button>
+          <button
+            onClick={() => setActiveTab("checkins")}
+            className={`nav-pill-item ${activeTab === "checkins" ? "active" : ""}`}
+          >
+            <Activity size={14} style={{ display: "inline", marginRight: "4px" }} /> Global Check-ins Feed ({checkInsList.length})
+          </button>
+        </div>
       </div>
 
       {/* TAB 1: User Management */}
       {activeTab === "overview" && (
-        <div className="card" style={{ padding: "20px" }}>
+        <div className="card" style={{ padding: "24px" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "12px", marginBottom: "16px" }}>
-            <h3 style={{ fontSize: "16px", fontWeight: 700, color: "#ffffff" }}>
+            <h3 style={{ fontSize: "16px", fontWeight: 700, color: "var(--ink)", letterSpacing: "-0.02em" }}>
               User Directory & Role Control
             </h3>
 
@@ -332,7 +310,7 @@ export default function AdminPortalPage() {
           <div style={{ overflowX: "auto" }}>
             <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "13px" }}>
               <thead>
-                <tr style={{ borderBottom: "1px solid var(--border-subtle)", textAlign: "left", color: "var(--text-muted)" }}>
+                <tr style={{ borderBottom: "1px solid var(--hairline)", textAlign: "left", color: "var(--text-muted)" }}>
                   <th style={{ padding: "10px" }}>Name / Alias</th>
                   <th style={{ padding: "10px" }}>Email</th>
                   <th style={{ padding: "10px" }}>Role</th>
@@ -344,21 +322,21 @@ export default function AdminPortalPage() {
               </thead>
               <tbody>
                 {usersList.map((u) => (
-                  <tr key={u.id} style={{ borderBottom: "1px solid var(--border-card)" }}>
-                    <td style={{ padding: "12px 10px", fontWeight: 600, color: "#ffffff" }}>
+                  <tr key={u.id} style={{ borderBottom: "1px solid var(--hairline-soft)" }}>
+                    <td style={{ padding: "12px 10px", fontWeight: 600, color: "var(--ink)" }}>
                       {u.name}
                     </td>
-                    <td style={{ padding: "12px 10px", color: "var(--text-normal)" }}>
+                    <td style={{ padding: "12px 10px", color: "var(--text-body)" }}>
                       {u.email}
                     </td>
                     <td style={{ padding: "12px 10px" }}>
                       <span style={{
                         fontSize: "11px",
-                        fontWeight: 800,
-                        padding: "3px 8px",
-                        borderRadius: "4px",
-                        backgroundColor: u.role === "ADMIN" ? "rgba(240, 178, 50, 0.2)" : u.role === "DOCTOR" ? "rgba(88, 101, 242, 0.2)" : "rgba(255, 255, 255, 0.08)",
-                        color: u.role === "ADMIN" ? "var(--status-elevated)" : u.role === "DOCTOR" ? "var(--brand-primary)" : "var(--text-normal)"
+                        fontWeight: 700,
+                        padding: "2px 8px",
+                        borderRadius: "var(--rounded-pill)",
+                        backgroundColor: u.role === "ADMIN" ? "rgba(245, 158, 11, 0.12)" : u.role === "DOCTOR" ? "rgba(59, 130, 246, 0.12)" : "var(--surface-card)",
+                        color: u.role === "ADMIN" ? "#d97706" : u.role === "DOCTOR" ? "#2563eb" : "var(--text-body)"
                       }}>
                         {u.role}
                       </span>
@@ -366,7 +344,7 @@ export default function AdminPortalPage() {
                     <td style={{ padding: "12px 10px", color: "var(--text-muted)", fontSize: "12px" }}>
                       {u.organization || "—"}
                     </td>
-                    <td style={{ padding: "12px 10px", fontWeight: 700, color: "#ffffff" }}>
+                    <td style={{ padding: "12px 10px", fontWeight: 700, color: "var(--ink)" }}>
                       {u.checkInCount || 0}
                     </td>
                     <td style={{ padding: "12px 10px" }}>
@@ -379,7 +357,7 @@ export default function AdminPortalPage() {
                         <button
                           onClick={() => handleEditUser(u)}
                           className="btn btn-secondary btn-sm"
-                          title="Edit Role & Status"
+                          title="Edit Role & Permissions"
                         >
                           <Edit3 size={13} /> Edit
                         </button>
@@ -387,7 +365,7 @@ export default function AdminPortalPage() {
                           <button
                             onClick={() => handleDeleteUser(u.id, u.name)}
                             className="btn btn-secondary btn-sm"
-                            style={{ color: "var(--status-critical)" }}
+                            style={{ color: "var(--error)" }}
                             title="Delete User"
                           >
                             <Trash2 size={13} />
@@ -405,9 +383,9 @@ export default function AdminPortalPage() {
 
       {/* TAB 2: Global Check-ins Feed */}
       {activeTab === "checkins" && (
-        <div className="card" style={{ padding: "20px" }}>
+        <div className="card" style={{ padding: "24px" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "12px", marginBottom: "16px" }}>
-            <h3 style={{ fontSize: "16px", fontWeight: 700, color: "#ffffff" }}>
+            <h3 style={{ fontSize: "16px", fontWeight: 700, color: "var(--ink)", letterSpacing: "-0.02em" }}>
               Global Check-in Audit Stream
             </h3>
 
@@ -431,7 +409,7 @@ export default function AdminPortalPage() {
           <div style={{ overflowX: "auto" }}>
             <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "13px" }}>
               <thead>
-                <tr style={{ borderBottom: "1px solid var(--border-subtle)", textAlign: "left", color: "var(--text-muted)" }}>
+                <tr style={{ borderBottom: "1px solid var(--hairline)", textAlign: "left", color: "var(--text-muted)" }}>
                   <th style={{ padding: "10px" }}>User</th>
                   <th style={{ padding: "10px" }}>Timestamp</th>
                   <th style={{ padding: "10px" }}>Dhriti Index</th>
@@ -443,14 +421,14 @@ export default function AdminPortalPage() {
               </thead>
               <tbody>
                 {checkInsList.map((ci) => (
-                  <tr key={ci.id} style={{ borderBottom: "1px solid var(--border-card)" }}>
-                    <td style={{ padding: "12px 10px", fontWeight: 600, color: "#ffffff" }}>
+                  <tr key={ci.id} style={{ borderBottom: "1px solid var(--hairline-soft)" }}>
+                    <td style={{ padding: "12px 10px", fontWeight: 600, color: "var(--ink)" }}>
                       {ci.userName}
                     </td>
                     <td style={{ padding: "12px 10px", color: "var(--text-muted)", fontSize: "12px" }}>
                       {new Date(ci.createdAt).toLocaleString()}
                     </td>
-                    <td style={{ padding: "12px 10px", fontWeight: 800, color: "#ffffff", fontSize: "15px" }}>
+                    <td style={{ padding: "12px 10px", fontWeight: 700, color: "var(--ink)", fontSize: "15px" }}>
                       {Math.round(ci.dhritiIndex)}/100
                     </td>
                     <td style={{ padding: "12px 10px" }}>
@@ -458,7 +436,7 @@ export default function AdminPortalPage() {
                         {ci.riskLevel}
                       </span>
                     </td>
-                    <td style={{ padding: "12px 10px", color: "var(--text-normal)" }}>
+                    <td style={{ padding: "12px 10px", color: "var(--text-body)" }}>
                       {ci.trend} ({ci.deltaPoints > 0 ? `+${ci.deltaPoints}` : ci.deltaPoints})
                     </td>
                     <td style={{ padding: "12px 10px" }}>
@@ -486,8 +464,8 @@ export default function AdminPortalPage() {
         <div className="modal-overlay" onClick={() => setEditingUser(null)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
-              <h3 style={{ fontSize: "18px", fontWeight: 800, color: "#ffffff" }}>
-                Edit Role & Permissions: {editingUser.name}
+              <h3 style={{ fontSize: "18px", fontWeight: 700, color: "var(--ink)", letterSpacing: "-0.02em" }}>
+                Edit Role: {editingUser.name}
               </h3>
               <button onClick={() => setEditingUser(null)} style={{ color: "var(--text-muted)" }}>
                 <X size={20} />

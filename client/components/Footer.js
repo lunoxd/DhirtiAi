@@ -7,86 +7,88 @@ import { ShieldCheck, Heart } from "lucide-react";
 export default function Footer() {
   return (
     <footer style={{
-      backgroundColor: "var(--bg-secondary)",
-      borderTop: "1px solid var(--border-subtle)",
-      padding: "36px 0 24px 0",
-      marginTop: "60px"
+      backgroundColor: "var(--surface-dark)",
+      color: "var(--on-dark)",
+      padding: "64px 0 36px 0",
+      marginTop: "80px"
     }}>
       <div className="container">
         <div style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
-          gap: "24px",
-          marginBottom: "28px"
+          gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+          gap: "36px",
+          marginBottom: "48px"
         }}>
-          {/* Brand & Purpose */}
+          {/* Brand Col */}
           <div>
-            <div style={{ display: "flex", alignItems: "center", gap: "8px", fontWeight: 800, color: "#ffffff", fontSize: "16px", marginBottom: "8px" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "10px", fontWeight: 700, color: "#ffffff", fontSize: "18px", marginBottom: "12px", letterSpacing: "-0.03em" }}>
               <div style={{
-                width: "24px",
-                height: "24px",
-                borderRadius: "6px",
-                backgroundColor: "var(--brand-primary)",
+                width: "26px",
+                height: "26px",
+                borderRadius: "var(--rounded-full)",
+                backgroundColor: "#ffffff",
+                color: "#101010",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                fontSize: "12px",
-                fontWeight: 900
+                fontSize: "13px",
+                fontWeight: 800
               }}>
-                D
+                d
               </div>
-              DHRITI
+              <span>Dhriti</span>
             </div>
-            <p style={{ fontSize: "13px", color: "var(--text-muted)", lineHeight: "1.6" }}>
+            <p style={{ fontSize: "14px", color: "var(--on-dark-soft)", lineHeight: "1.6" }}>
               AI-assisted mental wellbeing monitoring and early distress-support platform for survivors and individuals in acute distress.
             </p>
           </div>
 
-          {/* Quick Helplines */}
+          {/* Helplines Col */}
           <div>
-            <h4 style={{ fontSize: "12px", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.05em", color: "#ffffff", marginBottom: "10px" }}>
-              Official 24/7 Indian Helplines
+            <h4 style={{ fontSize: "13px", fontWeight: 600, color: "#ffffff", marginBottom: "14px", letterSpacing: "0.02em" }}>
+              24/7 Verified Helplines (India)
             </h4>
-            <ul style={{ listStyle: "none", fontSize: "13px", color: "var(--text-muted)", display: "flex", flexDirection: "column", gap: "6px" }}>
-              <li><strong>Tele-MANAS:</strong> <a href="tel:14416" style={{ color: "var(--text-link)", fontWeight: 600 }}>14416</a> (Toll-Free, Govt. of India)</li>
-              <li><strong>KIRAN Helpline:</strong> <a href="tel:18005990019" style={{ color: "var(--text-link)", fontWeight: 600 }}>1800-599-0019</a> (Toll-Free)</li>
-              <li><strong>Vandrevala Crisis:</strong> <a href="tel:+919999666555" style={{ color: "var(--text-link)", fontWeight: 600 }}>+91 9999 666 555</a> (Call / WA)</li>
-              <li><strong>NIMHANS Support:</strong> <a href="tel:08046110007" style={{ color: "var(--text-link)", fontWeight: 600 }}>080-46110007</a></li>
-              <li><strong>Emergency Response:</strong> <a href="tel:112" style={{ color: "var(--status-critical)", fontWeight: 700 }}>112</a></li>
+            <ul style={{ listStyle: "none", fontSize: "13px", color: "var(--on-dark-soft)", display: "flex", flexDirection: "column", gap: "8px" }}>
+              <li><strong>Tele-MANAS:</strong> <a href="tel:14416" style={{ color: "#ffffff", textDecoration: "underline" }}>14416</a> (Toll-Free)</li>
+              <li><strong>KIRAN Helpline:</strong> <a href="tel:18005990019" style={{ color: "#ffffff", textDecoration: "underline" }}>1800-599-0019</a></li>
+              <li><strong>Vandrevala Crisis:</strong> <a href="tel:+919999666555" style={{ color: "#ffffff", textDecoration: "underline" }}>+91 9999 666 555</a></li>
+              <li><strong>NIMHANS Support:</strong> <a href="tel:08046110007" style={{ color: "#ffffff", textDecoration: "underline" }}>080-46110007</a></li>
+              <li><strong>Emergency Services:</strong> <a href="tel:112" style={{ color: "#ef4444", fontWeight: 700 }}>112</a></li>
             </ul>
           </div>
 
-          {/* Platform & Privacy */}
+          {/* Navigation Col */}
           <div>
-            <h4 style={{ fontSize: "12px", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.05em", color: "#ffffff", marginBottom: "10px" }}>
-              Quick Navigation
+            <h4 style={{ fontSize: "13px", fontWeight: 600, color: "#ffffff", marginBottom: "14px", letterSpacing: "0.02em" }}>
+              Platform Navigation
             </h4>
-            <div style={{ display: "flex", flexDirection: "column", gap: "6px", fontSize: "13px", color: "var(--text-muted)" }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: "8px", fontSize: "13px", color: "var(--on-dark-soft)" }}>
               <Link href="/dashboard" style={{ transition: "color 0.15s" }}>Dashboard</Link>
-              <Link href="/check-in" style={{ transition: "color 0.15s" }}>Take Check-In</Link>
-              <Link href="/support" style={{ transition: "color 0.15s" }}>Indian Helplines & Resources</Link>
+              <Link href="/check-in" style={{ transition: "color 0.15s" }}>Start Check-in</Link>
+              <Link href="/doctor" style={{ transition: "color 0.15s" }}>Doctor Triage</Link>
+              <Link href="/support" style={{ transition: "color 0.15s" }}>Helplines & Resources</Link>
               <Link href="/privacy" style={{ transition: "color 0.15s" }}>Privacy & Data Rights</Link>
             </div>
           </div>
         </div>
 
-        {/* Disclaimer Bar */}
+        {/* Bottom Disclaimer */}
         <div style={{
-          borderTop: "1px solid var(--border-card)",
-          paddingTop: "20px",
+          borderTop: "1px solid #242424",
+          paddingTop: "24px",
           display: "flex",
           flexDirection: "column",
-          gap: "8px",
+          gap: "10px",
           fontSize: "12px",
-          color: "var(--text-muted)",
+          color: "var(--on-dark-soft)",
           textAlign: "center"
         }}>
           <p>
-            <strong>Medical Disclaimer:</strong> DHRITI is designed to assist in monitoring wellbeing and recognizing changes early. The Dhriti Index is a wellbeing indicator, not a medical or psychiatric diagnosis.
+            <strong>Medical Disclaimer:</strong> DHRITI is designed to assist in monitoring wellbeing and recognizing changes early. The Dhriti Index is a distress-risk indicator, not a medical diagnosis or clinical prescription.
           </p>
-          <p style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "6px" }}>
-            <span>Built for survivor safety, empowerment & resilience</span>
-            <Heart size={12} color="var(--brand-primary)" />
+          <p style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "6px", color: "var(--on-dark-soft)" }}>
+            <span>Built with care for survivor safety & resilience</span>
+            <Heart size={12} color="#ec4899" />
           </p>
         </div>
       </div>

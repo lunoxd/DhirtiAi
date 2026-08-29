@@ -9,7 +9,7 @@ import DhritiIndexGauge from "../../components/DhritiIndexGauge";
 import TrendChart from "../../components/TrendChart";
 import DisclaimerBanner from "../../components/DisclaimerBanner";
 import BreathingWidget from "../../components/BreathingWidget";
-import { PlusCircle, History, ArrowRight, ShieldAlert, HeartHandshake, AlertCircle } from "lucide-react";
+import { PlusCircle, ArrowRight, ShieldAlert, HeartHandshake, AlertCircle } from "lucide-react";
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -55,7 +55,7 @@ export default function DashboardPage() {
   if (authLoading || (loading && !currentScore)) {
     return (
       <div className="container" style={{ textAlign: "center", padding: "80px 20px" }}>
-        <p style={{ color: "var(--text-muted)", fontSize: "16px" }}>Loading your wellbeing dashboard...</p>
+        <p style={{ color: "var(--text-muted)", fontSize: "15px" }}>Loading your wellbeing dashboard...</p>
       </div>
     );
   }
@@ -64,7 +64,7 @@ export default function DashboardPage() {
 
   return (
     <div className="container" style={{ paddingBottom: "60px" }}>
-      {/* Top Welcome Header */}
+      {/* Top Header */}
       <div style={{
         display: "flex",
         justifyContent: "space-between",
@@ -74,31 +74,31 @@ export default function DashboardPage() {
         marginBottom: "24px"
       }}>
         <div>
-          <h1 style={{ fontSize: "26px", fontWeight: 800, color: "#ffffff", marginBottom: "4px" }}>
+          <h1 style={{ fontSize: "26px", fontWeight: 700, color: "var(--ink)", letterSpacing: "-0.03em", marginBottom: "4px" }}>
             Hello, {user?.name || "Friend"}
           </h1>
           <p style={{ fontSize: "14px", color: "var(--text-muted)" }}>
-            Welcome to your confidential mental wellbeing overview.
+            Welcome to your personal wellbeing overview.
           </p>
         </div>
 
         <Link href="/check-in" className="btn btn-primary btn-lg">
-          <PlusCircle size={18} />
+          <PlusCircle size={16} />
           <span>Start New Check-in</span>
         </Link>
       </div>
 
       {error && (
         <div style={{
-          backgroundColor: "rgba(242, 63, 67, 0.15)",
-          border: "1px solid var(--status-critical)",
-          borderRadius: "var(--radius-md)",
+          backgroundColor: "rgba(239, 68, 68, 0.08)",
+          border: "1px solid rgba(239, 68, 68, 0.3)",
+          borderRadius: "var(--rounded-md)",
           padding: "12px 16px",
           marginBottom: "20px",
           display: "flex",
           alignItems: "center",
           gap: "10px",
-          color: "var(--status-critical)",
+          color: "var(--error)",
           fontSize: "14px"
         }}>
           <AlertCircle size={18} />
@@ -106,42 +106,41 @@ export default function DashboardPage() {
         </div>
       )}
 
-      {/* Safety Alert if safety override was flagged */}
+      {/* Safety Alert if flagged */}
       {currentScore?.safetyConcern && (
         <div className="safety-banner">
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "12px" }}>
             <div>
-              <h3 style={{ color: "#ffffff", fontSize: "16px", fontWeight: 700, marginBottom: "4px" }}>
+              <h3 style={{ color: "var(--ink)", fontSize: "16px", fontWeight: 700, marginBottom: "4px" }}>
                 We are here with you
               </h3>
-              <p style={{ color: "var(--text-normal)", fontSize: "13px" }}>
-                Your recent check-in indicated safety or severe distress concerns. Trained human professionals are standing by.
+              <p style={{ color: "var(--text-body)", fontSize: "13px" }}>
+                Your recent check-in indicated safety or severe distress concerns. Trained professionals are available 24/7.
               </p>
             </div>
             <Link href="/support" className="btn btn-danger btn-sm">
-              <ShieldAlert size={14} /> Immediate Support Helplines
+              <ShieldAlert size={14} /> Immediate Helplines
             </Link>
           </div>
         </div>
       )}
 
       {!hasData ? (
-        /* Empty State */
         <div className="card" style={{ textAlign: "center", padding: "60px 24px", marginBottom: "30px" }}>
           <div style={{
             width: "56px",
             height: "56px",
-            borderRadius: "50%",
-            backgroundColor: "var(--bg-tertiary)",
+            borderRadius: "var(--rounded-full)",
+            backgroundColor: "var(--surface-soft)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             margin: "0 auto 16px auto",
-            color: "var(--brand-primary)"
+            color: "var(--ink)"
           }}>
             <PlusCircle size={28} />
           </div>
-          <h2 style={{ fontSize: "20px", fontWeight: 700, color: "#ffffff", marginBottom: "8px" }}>
+          <h2 style={{ fontSize: "20px", fontWeight: 700, color: "var(--ink)", letterSpacing: "-0.02em", marginBottom: "8px" }}>
             No Check-ins Recorded Yet
           </h2>
           <p style={{ color: "var(--text-muted)", fontSize: "14px", maxWidth: "460px", margin: "0 auto 24px auto" }}>
@@ -152,14 +151,12 @@ export default function DashboardPage() {
           </Link>
         </div>
       ) : (
-        /* Grid of Score + Trend */
         <div style={{
           display: "grid",
           gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
           gap: "20px",
           marginBottom: "24px"
         }}>
-          {/* Dhriti Index Current Score Gauge */}
           <DhritiIndexGauge
             score={currentScore.dhritiIndex}
             riskLevel={currentScore.riskLevel}
@@ -168,7 +165,6 @@ export default function DashboardPage() {
             safetyConcern={currentScore.safetyConcern}
           />
 
-          {/* Trend Chart */}
           <TrendChart trendPoints={trendData} />
         </div>
       )}
@@ -177,12 +173,12 @@ export default function DashboardPage() {
       {hasData && (
         <div className="card" style={{ marginBottom: "24px" }}>
           <div style={{ display: "flex", alignItems: "flex-start", gap: "12px" }}>
-            <HeartHandshake size={20} color="var(--brand-primary)" style={{ flexShrink: 0, marginTop: "2px" }} />
+            <HeartHandshake size={20} color="var(--primary)" style={{ flexShrink: 0, marginTop: "2px" }} />
             <div>
-              <h3 style={{ fontSize: "15px", fontWeight: 700, color: "#ffffff", marginBottom: "4px" }}>
+              <h3 style={{ fontSize: "15px", fontWeight: 700, color: "var(--ink)", marginBottom: "4px", letterSpacing: "-0.01em" }}>
                 Supportive Recommendation
               </h3>
-              <p style={{ fontSize: "14px", color: "var(--text-normal)", lineHeight: "1.5" }}>
+              <p style={{ fontSize: "14px", color: "var(--text-body)", lineHeight: "1.5" }}>
                 {currentScore.supportRecommendation}
               </p>
             </div>
@@ -196,7 +192,7 @@ export default function DashboardPage() {
         gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
         gap: "20px"
       }}>
-        {/* Recent Check-ins List */}
+        {/* Recent Check-ins */}
         <div className="card">
           <div style={{
             display: "flex",
@@ -204,11 +200,11 @@ export default function DashboardPage() {
             alignItems: "center",
             marginBottom: "16px"
           }}>
-            <h3 style={{ fontSize: "16px", fontWeight: 700, color: "#ffffff" }}>RECENT CHECK-INS</h3>
+            <h3 style={{ fontSize: "15px", fontWeight: 700, color: "var(--ink)", letterSpacing: "-0.02em" }}>RECENT CHECK-INS</h3>
             {recentCheckIns.length > 0 && (
-              <Link href="/history" style={{ fontSize: "13px", color: "var(--brand-primary)", fontWeight: 600, display: "flex", alignItems: "center", gap: "4px" }}>
+              <Link href="/history" style={{ fontSize: "13px", color: "var(--ink)", fontWeight: 600, display: "flex", alignItems: "center", gap: "4px", textDecoration: "underline" }}>
                 <span>View All</span>
-                <ArrowRight size={14} />
+                <ArrowRight size={13} />
               </Link>
             )}
           </div>
@@ -216,7 +212,7 @@ export default function DashboardPage() {
           {recentCheckIns.length === 0 ? (
             <p style={{ color: "var(--text-muted)", fontSize: "13px" }}>No recent records found.</p>
           ) : (
-            <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
               {recentCheckIns.map((ci) => {
                 const dateStr = new Date(ci.createdAt).toLocaleDateString("en-US", {
                   month: "short",
@@ -226,9 +222,9 @@ export default function DashboardPage() {
                   <div
                     key={ci.id}
                     style={{
-                      backgroundColor: "var(--bg-primary)",
-                      border: "1px solid var(--border-subtle)",
-                      borderRadius: "var(--radius-md)",
+                      backgroundColor: "var(--surface-card)",
+                      border: "1px solid var(--hairline-soft)",
+                      borderRadius: "var(--rounded-md)",
                       padding: "12px 16px",
                       display: "flex",
                       justifyContent: "space-between",
@@ -236,13 +232,13 @@ export default function DashboardPage() {
                     }}
                   >
                     <div>
-                      <div style={{ fontWeight: 600, fontSize: "14px", color: "#ffffff" }}>{dateStr}</div>
+                      <div style={{ fontWeight: 600, fontSize: "14px", color: "var(--ink)" }}>{dateStr}</div>
                       <div style={{ fontSize: "12px", color: "var(--text-muted)" }}>
                         {ci.deltaPoints > 0 ? `↑ ${ci.deltaPoints} pts` : ci.deltaPoints < 0 ? `↓ ${Math.abs(ci.deltaPoints)} pts` : "Stable"}
                       </div>
                     </div>
                     <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-                      <span style={{ fontSize: "18px", fontWeight: 800, color: "#ffffff" }}>
+                      <span style={{ fontSize: "18px", fontWeight: 700, color: "var(--ink)", letterSpacing: "-0.03em" }}>
                         {Math.round(ci.dhritiIndex)}
                       </span>
                       <span className={`badge badge-${ci.riskLevel.toLowerCase()}`}>
@@ -256,7 +252,7 @@ export default function DashboardPage() {
           )}
         </div>
 
-        {/* Breathing & Grounding Quick Tool */}
+        {/* Breathing Widget */}
         <BreathingWidget />
       </div>
 

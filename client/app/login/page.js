@@ -55,35 +55,35 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="container-narrow" style={{ paddingTop: "30px", paddingBottom: "60px" }}>
+    <div className="container-narrow" style={{ paddingTop: "32px", paddingBottom: "64px" }}>
       <div className="card" style={{ padding: "36px" }}>
         <div style={{ textAlign: "center", marginBottom: "24px" }}>
-          <h1 style={{ fontSize: "24px", fontWeight: 800, color: "#ffffff", marginBottom: "6px" }}>
-            Sign In to DHRITI
+          <h1 style={{ fontSize: "24px", fontWeight: 700, color: "var(--ink)", letterSpacing: "-0.03em", marginBottom: "6px" }}>
+            Sign in to Dhriti
           </h1>
           <p style={{ fontSize: "14px", color: "var(--text-muted)" }}>
-            Select your role or enter your credentials
+            Select your role for live testing or enter your credentials
           </p>
         </div>
 
-        {/* 1-Click Role Demonstrator Bar */}
+        {/* 1-Click Role Switcher */}
         <div style={{
-          backgroundColor: "var(--bg-tertiary)",
-          border: "1px solid var(--border-card)",
-          borderRadius: "var(--radius-lg)",
+          backgroundColor: "var(--surface-soft)",
+          border: "1px solid var(--hairline)",
+          borderRadius: "var(--rounded-lg)",
           padding: "16px",
           marginBottom: "24px"
         }}>
           <div style={{
             fontSize: "11px",
-            fontWeight: 800,
+            fontWeight: 700,
             textTransform: "uppercase",
-            letterSpacing: "0.06em",
+            letterSpacing: "0.04em",
             color: "var(--text-muted)",
             marginBottom: "10px",
             textAlign: "center"
           }}>
-            ⚡ 1-Click Panel Access (Live Demo)
+            ⚡ 1-Click Role Access (Evaluation Demo)
           </div>
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "8px" }}>
@@ -94,7 +94,7 @@ export default function LoginPage() {
               className="btn btn-secondary btn-sm"
               style={{ display: "flex", flexDirection: "column", padding: "10px 6px", height: "auto", gap: "4px" }}
             >
-              <User size={18} color="var(--brand-primary)" />
+              <User size={16} color="var(--ink)" />
               <span style={{ fontSize: "12px", fontWeight: 700 }}>1. User Panel</span>
               <span style={{ fontSize: "10px", color: "var(--text-muted)" }}>Survivor Check-in</span>
             </button>
@@ -104,9 +104,9 @@ export default function LoginPage() {
               onClick={() => handleQuickRoleLogin("DOCTOR")}
               disabled={loading}
               className="btn btn-secondary btn-sm"
-              style={{ display: "flex", flexDirection: "column", padding: "10px 6px", height: "auto", gap: "4px", borderColor: "rgba(88, 101, 242, 0.4)" }}
+              style={{ display: "flex", flexDirection: "column", padding: "10px 6px", height: "auto", gap: "4px" }}
             >
-              <Stethoscope size={18} color="var(--status-stable)" />
+              <Stethoscope size={16} color="var(--brand-accent)" />
               <span style={{ fontSize: "12px", fontWeight: 700 }}>2. Doctor / Helpline</span>
               <span style={{ fontSize: "10px", color: "var(--text-muted)" }}>Distress Triage</span>
             </button>
@@ -116,9 +116,9 @@ export default function LoginPage() {
               onClick={() => handleQuickRoleLogin("ADMIN")}
               disabled={loading}
               className="btn btn-secondary btn-sm"
-              style={{ display: "flex", flexDirection: "column", padding: "10px 6px", height: "auto", gap: "4px", borderColor: "rgba(240, 178, 50, 0.4)" }}
+              style={{ display: "flex", flexDirection: "column", padding: "10px 6px", height: "auto", gap: "4px" }}
             >
-              <ShieldCheck size={18} color="var(--status-elevated)" />
+              <ShieldCheck size={16} color="#d97706" />
               <span style={{ fontSize: "12px", fontWeight: 700 }}>3. Admin Panel</span>
               <span style={{ fontSize: "10px", color: "var(--text-muted)" }}>Full Overview</span>
             </button>
@@ -126,22 +126,22 @@ export default function LoginPage() {
         </div>
 
         <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "20px" }}>
-          <div style={{ flex: 1, height: "1px", backgroundColor: "var(--border-subtle)" }} />
-          <span style={{ fontSize: "12px", color: "var(--text-muted)", textTransform: "uppercase", fontWeight: 700 }}>Or Manual Login</span>
-          <div style={{ flex: 1, height: "1px", backgroundColor: "var(--border-subtle)" }} />
+          <div style={{ flex: 1, height: "1px", backgroundColor: "var(--hairline)" }} />
+          <span style={{ fontSize: "12px", color: "var(--text-muted)", fontWeight: 600 }}>OR SIGN IN WITH EMAIL</span>
+          <div style={{ flex: 1, height: "1px", backgroundColor: "var(--hairline)" }} />
         </div>
 
         {error && (
           <div style={{
-            backgroundColor: "rgba(242, 63, 67, 0.15)",
-            border: "1px solid var(--status-critical)",
-            borderRadius: "var(--radius-md)",
+            backgroundColor: "rgba(239, 68, 68, 0.08)",
+            border: "1px solid rgba(239, 68, 68, 0.3)",
+            borderRadius: "var(--rounded-md)",
             padding: "12px 16px",
             marginBottom: "20px",
             display: "flex",
             alignItems: "center",
             gap: "10px",
-            color: "var(--status-critical)",
+            color: "var(--error)",
             fontSize: "13px"
           }}>
             <AlertCircle size={16} />
@@ -181,14 +181,14 @@ export default function LoginPage() {
             style={{ marginTop: "12px" }}
           >
             <LogIn size={16} />
-            <span>{loading ? "Signing in..." : "Sign In"}</span>
+            <span>{loading ? "Signing in..." : "Sign in"}</span>
           </button>
         </form>
 
         <div style={{ textAlign: "center", marginTop: "24px", fontSize: "14px", color: "var(--text-muted)" }}>
           Don&apos;t have an account?{" "}
-          <Link href="/register" style={{ color: "var(--brand-primary)", fontWeight: 600 }}>
-            Register here
+          <Link href="/register" style={{ color: "var(--ink)", fontWeight: 600, textDecoration: "underline" }}>
+            Sign up free
           </Link>
         </div>
       </div>

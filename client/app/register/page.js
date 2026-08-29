@@ -31,28 +31,28 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="container-narrow" style={{ paddingTop: "40px", paddingBottom: "60px" }}>
+    <div className="container-narrow" style={{ paddingTop: "32px", paddingBottom: "64px" }}>
       <div className="card" style={{ padding: "36px" }}>
-        <div style={{ textAlign: "center", marginBottom: "28px" }}>
-          <h1 style={{ fontSize: "24px", fontWeight: 800, color: "#ffffff", marginBottom: "6px" }}>
-            Create Your Private Account
+        <div style={{ textAlign: "center", marginBottom: "24px" }}>
+          <h1 style={{ fontSize: "24px", fontWeight: 700, color: "var(--ink)", letterSpacing: "-0.03em", marginBottom: "6px" }}>
+            Create Your Account
           </h1>
           <p style={{ fontSize: "14px", color: "var(--text-muted)" }}>
-            Your check-ins are strictly private and protected
+            Your check-ins are strictly confidential and protected
           </p>
         </div>
 
         {error && (
           <div style={{
-            backgroundColor: "rgba(242, 63, 67, 0.15)",
-            border: "1px solid var(--status-critical)",
-            borderRadius: "var(--radius-md)",
+            backgroundColor: "rgba(239, 68, 68, 0.08)",
+            border: "1px solid rgba(239, 68, 68, 0.3)",
+            borderRadius: "var(--rounded-md)",
             padding: "12px 16px",
             marginBottom: "20px",
             display: "flex",
             alignItems: "center",
             gap: "10px",
-            color: "var(--status-critical)",
+            color: "var(--error)",
             fontSize: "13px"
           }}>
             <AlertCircle size={16} />
@@ -124,8 +124,8 @@ export default function RegisterPage() {
 
         <div style={{ textAlign: "center", marginTop: "24px", fontSize: "14px", color: "var(--text-muted)" }}>
           Already have an account?{" "}
-          <Link href="/login" style={{ color: "var(--brand-primary)", fontWeight: 600 }}>
-            Log in here
+          <Link href="/login" style={{ color: "var(--ink)", fontWeight: 600, textDecoration: "underline" }}>
+            Sign in here
           </Link>
         </div>
       </div>

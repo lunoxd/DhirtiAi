@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { useAuth } from "../context/AuthContext";
-import { ArrowRight, ShieldCheck, HeartHandshake, Activity, Sparkles, CheckCircle2 } from "lucide-react";
+import { ArrowRight, Sparkles, CheckCircle2, ShieldCheck, HeartHandshake, Activity, Phone } from "lucide-react";
 import DisclaimerBanner from "../components/DisclaimerBanner";
 
 export default function LandingPage() {
@@ -11,83 +11,128 @@ export default function LandingPage() {
 
   return (
     <div className="container" style={{ paddingTop: "20px" }}>
-      {/* Hero Section */}
+      {/* Hero Section - 7/5 Editorial Grid */}
       <section style={{
-        textAlign: "center",
-        maxWidth: "760px",
-        margin: "40px auto 60px auto"
+        display: "grid",
+        gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+        gap: "48px",
+        alignItems: "center",
+        padding: "48px 0 64px 0"
       }}>
+        {/* Left Headline Column */}
+        <div>
+          <div className="nav-pill-group" style={{ marginBottom: "20px" }}>
+            <span className="badge" style={{ backgroundColor: "var(--primary)", color: "#ffffff", padding: "2px 8px" }}>
+              New
+            </span>
+            <span style={{ fontSize: "13px", fontWeight: 600, color: "var(--text-body)", paddingRight: "8px" }}>
+              AI-Assisted Early Distress Monitoring
+            </span>
+          </div>
+
+          <h1 style={{
+            fontSize: "clamp(38px, 5.5vw, 56px)",
+            fontWeight: 700,
+            lineHeight: 1.08,
+            color: "var(--ink)",
+            letterSpacing: "-0.04em",
+            marginBottom: "20px"
+          }}>
+            Understand your wellbeing.<br />
+            Recognize changes early.
+          </h1>
+
+          <p style={{
+            fontSize: "18px",
+            color: "var(--text-muted)",
+            lineHeight: "1.5",
+            marginBottom: "32px",
+            fontWeight: 400
+          }}>
+            A calm, accessible platform for survivors and individuals in acute distress. Track changes over time with a deterministic 0–100 Dhriti Index and verified 24/7 human crisis support.
+          </p>
+
+          {/* Action Row */}
+          <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
+            <Link
+              href={isAuthenticated ? "/check-in" : "/register"}
+              className="btn btn-primary btn-lg"
+              style={{ minWidth: "180px" }}
+            >
+              <span>Start Check-in</span>
+              <ArrowRight size={16} />
+            </Link>
+            <Link
+              href="/login"
+              className="btn btn-secondary btn-lg"
+            >
+              Live Demo Access
+            </Link>
+          </div>
+
+          <div style={{ display: "flex", alignItems: "center", gap: "16px", marginTop: "24px", fontSize: "13px", color: "var(--text-muted)" }}>
+            <span style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+              <CheckCircle2 size={15} color="var(--status-stable)" /> 100% Free & Private
+            </span>
+            <span style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+              <CheckCircle2 size={15} color="var(--status-stable)" /> Non-Diagnostic
+            </span>
+          </div>
+        </div>
+
+        {/* Right Product Chrome Mockup Card */}
         <div style={{
-          display: "inline-flex",
-          alignItems: "center",
-          gap: "8px",
-          backgroundColor: "var(--bg-secondary)",
-          border: "1px solid var(--border-subtle)",
-          padding: "6px 14px",
-          borderRadius: "20px",
-          fontSize: "13px",
-          fontWeight: 600,
-          color: "var(--brand-primary)",
-          marginBottom: "24px"
+          backgroundColor: "var(--canvas)",
+          border: "1px solid var(--hairline)",
+          borderRadius: "var(--rounded-xl)",
+          padding: "24px",
+          boxShadow: "0 12px 32px rgba(0, 0, 0, 0.06)"
         }}>
-          <Sparkles size={14} />
-          <span>AI-Assisted Early Distress Monitoring</span>
-        </div>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+              <div style={{ width: "8px", height: "8px", borderRadius: "50%", backgroundColor: "var(--status-stable)" }} />
+              <span style={{ fontSize: "12px", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.04em", color: "var(--text-muted)" }}>
+                Live Wellbeing Preview
+              </span>
+            </div>
+            <span className="badge badge-mild">Dhriti Index 24</span>
+          </div>
 
-        <h1 style={{
-          fontSize: "clamp(34px, 6vw, 54px)",
-          fontWeight: 900,
-          lineHeight: 1.15,
-          color: "#ffffff",
-          letterSpacing: "-0.02em",
-          marginBottom: "20px"
-        }}>
-          DHRITI
-        </h1>
+          {/* Embedded UI Fragment */}
+          <div className="card-inner" style={{ marginBottom: "16px", textAlign: "center", padding: "20px" }}>
+            <div style={{ fontSize: "12px", color: "var(--text-muted)", fontWeight: 600 }}>CURRENT STATE</div>
+            <div style={{ fontSize: "44px", fontWeight: 700, color: "var(--ink)", letterSpacing: "-0.04em", margin: "4px 0" }}>
+              24<span style={{ fontSize: "18px", color: "var(--text-muted)" }}>/100</span>
+            </div>
+            <div style={{ fontSize: "13px", color: "var(--status-stable)", fontWeight: 600 }}>
+              ↓ 6 points from previous check-in (Improving)
+            </div>
+          </div>
 
-        <p style={{
-          fontSize: "clamp(18px, 3vw, 22px)",
-          color: "var(--text-normal)",
-          lineHeight: "1.5",
-          marginBottom: "32px",
-          fontWeight: 400
-        }}>
-          Understand your wellbeing.<br />
-          Recognize changes early.<br />
-          Find support when it matters.
-        </p>
-
-        {/* Action Buttons */}
-        <div style={{ display: "flex", justifyContent: "center", gap: "14px", flexWrap: "wrap" }}>
-          <Link
-            href={isAuthenticated ? "/check-in" : "/login"}
-            className="btn btn-primary btn-lg"
-            style={{ minWidth: "190px" }}
-          >
-            <span>Start Check-in</span>
-            <ArrowRight size={18} />
-          </Link>
-          <a
-            href="#how-it-works"
-            className="btn btn-secondary btn-lg"
-            style={{ minWidth: "150px" }}
-          >
-            Learn More
-          </a>
-        </div>
-
-        <div style={{ marginTop: "32px" }}>
-          <DisclaimerBanner />
+          {/* Stepped Button Question Mockup */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+            <div style={{ fontSize: "13px", fontWeight: 600, color: "var(--ink)" }}>
+              &ldquo;How has your sleep been recently?&rdquo;
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "6px" }}>
+              <div style={{ padding: "8px 12px", backgroundColor: "var(--surface-card)", borderRadius: "var(--rounded-md)", fontSize: "12px", fontWeight: 600, textAlign: "center" }}>
+                Good
+              </div>
+              <div style={{ padding: "8px 12px", backgroundColor: "var(--primary)", color: "#ffffff", borderRadius: "var(--rounded-md)", fontSize: "12px", fontWeight: 600, textAlign: "center" }}>
+                Okay ✓
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* 3-Step Process Section */}
-      <section id="how-it-works" style={{ marginBottom: "60px" }}>
-        <div style={{ textAlign: "center", marginBottom: "36px" }}>
-          <h2 style={{ fontSize: "24px", fontWeight: 800, color: "#ffffff", marginBottom: "8px" }}>
-            How DHRITI Works
+      {/* 3-Step Feature Cards Section */}
+      <section style={{ padding: "48px 0" }}>
+        <div style={{ textAlign: "center", maxWidth: "600px", margin: "0 auto 40px auto" }}>
+          <h2 style={{ fontSize: "28px", fontWeight: 700, letterSpacing: "-0.03em", color: "var(--ink)", marginBottom: "8px" }}>
+            How Dhriti Works
           </h2>
-          <p style={{ color: "var(--text-muted)", fontSize: "14px" }}>
+          <p style={{ color: "var(--text-muted)", fontSize: "15px" }}>
             A calm, step-by-step approach to self-awareness and timely care.
           </p>
         </div>
@@ -95,128 +140,108 @@ export default function LandingPage() {
         <div style={{
           display: "grid",
           gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-          gap: "20px"
+          gap: "24px"
         }}>
-          {/* Step 1 */}
-          <div className="card">
+          {/* Card 1 */}
+          <div className="card-gray">
             <div style={{
               fontSize: "12px",
-              fontWeight: 800,
-              color: "var(--brand-primary)",
-              letterSpacing: "0.08em",
-              marginBottom: "12px"
+              fontWeight: 700,
+              color: "var(--text-muted)",
+              letterSpacing: "0.06em",
+              marginBottom: "16px"
             }}>
               01 — CHECK IN
             </div>
-            <h3 style={{ fontSize: "18px", fontWeight: 700, color: "#ffffff", marginBottom: "8px" }}>
+            <h3 style={{ fontSize: "18px", fontWeight: 700, color: "var(--ink)", marginBottom: "8px", letterSpacing: "-0.02em" }}>
               Answer Simple Questions
             </h3>
-            <p style={{ color: "var(--text-muted)", fontSize: "14px", lineHeight: "1.6" }}>
+            <p style={{ color: "var(--text-body)", fontSize: "14px", lineHeight: "1.6" }}>
               Complete a 2-minute check-in with straightforward button selections and optional reflections. No forced trauma disclosure.
             </p>
           </div>
 
-          {/* Step 2 */}
-          <div className="card">
+          {/* Card 2 */}
+          <div className="card-gray">
             <div style={{
               fontSize: "12px",
-              fontWeight: 800,
-              color: "var(--brand-primary)",
-              letterSpacing: "0.08em",
-              marginBottom: "12px"
+              fontWeight: 700,
+              color: "var(--text-muted)",
+              letterSpacing: "0.06em",
+              marginBottom: "16px"
             }}>
               02 — UNDERSTAND
             </div>
-            <h3 style={{ fontSize: "18px", fontWeight: 700, color: "#ffffff", marginBottom: "8px" }}>
+            <h3 style={{ fontSize: "18px", fontWeight: 700, color: "var(--ink)", marginBottom: "8px", letterSpacing: "-0.02em" }}>
               Detect Changes Over Time
             </h3>
-            <p style={{ color: "var(--text-muted)", fontSize: "14px", lineHeight: "1.6" }}>
+            <p style={{ color: "var(--text-body)", fontSize: "14px", lineHeight: "1.6" }}>
               Our deterministic scoring engine computes your 0–100 Dhriti Index, comparing it with previous check-ins to track trends.
             </p>
           </div>
 
-          {/* Step 3 */}
-          <div className="card">
+          {/* Card 3 */}
+          <div className="card-gray">
             <div style={{
               fontSize: "12px",
-              fontWeight: 800,
-              color: "var(--brand-primary)",
-              letterSpacing: "0.08em",
-              marginBottom: "12px"
+              fontWeight: 700,
+              color: "var(--text-muted)",
+              letterSpacing: "0.06em",
+              marginBottom: "16px"
             }}>
               03 — CONNECT
             </div>
-            <h3 style={{ fontSize: "18px", fontWeight: 700, color: "#ffffff", marginBottom: "8px" }}>
+            <h3 style={{ fontSize: "18px", fontWeight: 700, color: "var(--ink)", marginBottom: "8px", letterSpacing: "-0.02em" }}>
               Find Appropriate Support
             </h3>
-            <p style={{ color: "var(--text-muted)", fontSize: "14px", lineHeight: "1.6" }}>
+            <p style={{ color: "var(--text-body)", fontSize: "14px", lineHeight: "1.6" }}>
               Receive tailored grounding exercises, counseling recommendations, or immediate 24/7 human crisis connections.
             </p>
           </div>
         </div>
       </section>
 
-      {/* Core Principles Section */}
-      <section className="card" style={{ marginBottom: "60px", padding: "36px" }}>
-        <h2 style={{ fontSize: "20px", fontWeight: 800, color: "#ffffff", marginBottom: "20px", textAlign: "center" }}>
-          Built for Safety, Privacy & Dignity
+      {/* Core Principles */}
+      <section className="card" style={{ margin: "24px 0 48px 0", padding: "36px" }}>
+        <h2 style={{ fontSize: "22px", fontWeight: 700, color: "var(--ink)", marginBottom: "24px", letterSpacing: "-0.02em" }}>
+          Built for Safety, Dignity & Transparency
         </h2>
 
         <div style={{
           display: "grid",
           gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
-          gap: "24px"
+          gap: "28px"
         }}>
-          <div style={{ display: "flex", gap: "12px" }}>
-            <CheckCircle2 size={20} color="var(--status-stable)" style={{ flexShrink: 0, marginTop: "2px" }} />
-            <div>
-              <div style={{ fontWeight: 700, fontSize: "15px", color: "#ffffff", marginBottom: "4px" }}>
-                Deterministic Scoring
-              </div>
-              <div style={{ fontSize: "13px", color: "var(--text-muted)", lineHeight: "1.5" }}>
-                The numerical score is calculated directly by verifiable backend logic, ensuring consistent and predictable assessments.
-              </div>
+          <div>
+            <div style={{ fontWeight: 700, fontSize: "15px", color: "var(--ink)", marginBottom: "6px" }}>
+              Deterministic Scoring Engine
             </div>
+            <p style={{ fontSize: "14px", color: "var(--text-body)", lineHeight: "1.5" }}>
+              The numerical score is calculated directly by verifiable backend logic, ensuring consistent and auditable assessments.
+            </p>
           </div>
 
-          <div style={{ display: "flex", gap: "12px" }}>
-            <CheckCircle2 size={20} color="var(--status-stable)" style={{ flexShrink: 0, marginTop: "2px" }} />
-            <div>
-              <div style={{ fontWeight: 700, fontSize: "15px", color: "#ffffff", marginBottom: "4px" }}>
-                Immediate Safety Overrides
-              </div>
-              <div style={{ fontSize: "13px", color: "var(--text-muted)", lineHeight: "1.5" }}>
-                If you signal an inability to stay safe, the system immediately presents direct crisis hotlines without score gating.
-              </div>
+          <div>
+            <div style={{ fontWeight: 700, fontSize: "15px", color: "var(--ink)", marginBottom: "6px" }}>
+              Immediate Safety Overrides
             </div>
+            <p style={{ fontSize: "14px", color: "var(--text-body)", lineHeight: "1.5" }}>
+              If you signal an inability to stay safe, the system immediately presents direct 24/7 Indian crisis hotlines without score gating.
+            </p>
           </div>
 
-          <div style={{ display: "flex", gap: "12px" }}>
-            <CheckCircle2 size={20} color="var(--status-stable)" style={{ flexShrink: 0, marginTop: "2px" }} />
-            <div>
-              <div style={{ fontWeight: 700, fontSize: "15px", color: "#ffffff", marginBottom: "4px" }}>
-                Full Data Ownership
-              </div>
-              <div style={{ fontSize: "13px", color: "var(--text-muted)", lineHeight: "1.5" }}>
-                Your responses remain private to your account. You can permanently wipe your entire history at any time.
-              </div>
+          <div>
+            <div style={{ fontWeight: 700, fontSize: "15px", color: "var(--ink)", marginBottom: "6px" }}>
+              Full Data Ownership & Privacy
             </div>
+            <p style={{ fontSize: "14px", color: "var(--text-body)", lineHeight: "1.5" }}>
+              Your responses remain private to your account. You can permanently wipe your entire history at any time.
+            </p>
           </div>
         </div>
       </section>
 
-      {/* Bottom CTA */}
-      <section style={{ textAlign: "center", marginBottom: "40px" }}>
-        <h2 style={{ fontSize: "22px", fontWeight: 800, color: "#ffffff", marginBottom: "12px" }}>
-          Ready for your check-in?
-        </h2>
-        <p style={{ color: "var(--text-muted)", fontSize: "14px", marginBottom: "20px" }}>
-          It takes less than two minutes and helps you keep track of your mental peace.
-        </p>
-        <Link href={isAuthenticated ? "/check-in" : "/register"} className="btn btn-primary btn-lg">
-          Begin Check-in Now
-        </Link>
-      </section>
+      <DisclaimerBanner />
     </div>
   );
 }

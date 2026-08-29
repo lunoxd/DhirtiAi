@@ -8,7 +8,7 @@ import { useAuth } from "../../../context/AuthContext";
 import DhritiIndexGauge from "../../../components/DhritiIndexGauge";
 import DisclaimerBanner from "../../../components/DisclaimerBanner";
 import EmergencyModal from "../../../components/EmergencyModal";
-import { CheckCircle2, ShieldAlert, HeartHandshake, ArrowRight, Activity, Phone, Sparkles } from "lucide-react";
+import { CheckCircle2, ShieldAlert, HeartHandshake, ArrowRight, Sparkles, Phone } from "lucide-react";
 
 function CheckInResultContent() {
   const router = useRouter();
@@ -30,7 +30,6 @@ function CheckInResultContent() {
     if (checkInId) {
       loadCheckIn(checkInId);
     } else {
-      // If no ID passed in query param, fetch latest check-in
       loadLatestCheckIn();
     }
   }, [checkInId, authLoading, isAuthenticated, router]);
@@ -67,7 +66,7 @@ function CheckInResultContent() {
   if (authLoading || loading) {
     return (
       <div className="container-narrow" style={{ textAlign: "center", padding: "80px 20px" }}>
-        <p style={{ color: "var(--text-muted)", fontSize: "16px" }}>Loading check-in result...</p>
+        <p style={{ color: "var(--text-muted)", fontSize: "15px" }}>Loading check-in result...</p>
       </div>
     );
   }
@@ -75,19 +74,18 @@ function CheckInResultContent() {
   if (error || !checkIn) {
     return (
       <div className="container-narrow" style={{ textAlign: "center", padding: "60px 20px" }}>
-        <p style={{ color: "var(--status-critical)", marginBottom: "16px" }}>{error || "Check-in not found."}</p>
+        <p style={{ color: "var(--error)", marginBottom: "16px" }}>{error || "Check-in not found."}</p>
         <Link href="/dashboard" className="btn btn-primary">Return to Dashboard</Link>
       </div>
     );
   }
 
-  // Extract observations and indicators
   const aiObs = checkIn.aiAnalysis?.distressIndicators || [];
   const noticedList = aiObs.length > 0
     ? aiObs
     : ["General distress score recorded", "Responses saved to your private timeline"];
 
-  const whatMayHelp = checkIn.supportRecommendation || "Speaking with someone you trust or a qualified professional may be helpful.";
+  const whatMayHelp = checkIn.supportRecommendation || "Speaking with someone you trust or a qualified counselor may be helpful.";
 
   return (
     <div className="container-narrow" style={{ paddingTop: "20px", paddingBottom: "60px" }}>
@@ -97,32 +95,32 @@ function CheckInResultContent() {
           display: "inline-flex",
           alignItems: "center",
           gap: "8px",
-          backgroundColor: "rgba(35, 165, 90, 0.15)",
-          color: "var(--status-stable)",
-          padding: "6px 14px",
-          borderRadius: "20px",
+          backgroundColor: "rgba(16, 185, 129, 0.1)",
+          color: "#059669",
+          padding: "4px 14px",
+          borderRadius: "var(--rounded-pill)",
           fontSize: "13px",
-          fontWeight: 700,
+          fontWeight: 600,
           marginBottom: "12px"
         }}>
           <CheckCircle2 size={16} />
           <span>Check-in Complete</span>
         </div>
-        <h1 style={{ fontSize: "26px", fontWeight: 800, color: "#ffffff" }}>
+        <h1 style={{ fontSize: "26px", fontWeight: 700, color: "var(--ink)", letterSpacing: "-0.03em" }}>
           Your Wellbeing Summary
         </h1>
       </div>
 
-      {/* Immediate Crisis Alert if safety triggered */}
+      {/* Immediate Crisis Alert if triggered */}
       {checkIn.safetyConcern && (
         <div className="safety-banner" style={{ marginBottom: "24px" }}>
           <div style={{ display: "flex", alignItems: "flex-start", gap: "12px", marginBottom: "16px" }}>
-            <ShieldAlert size={24} color="var(--status-critical)" style={{ flexShrink: 0 }} />
+            <ShieldAlert size={24} color="var(--error)" style={{ flexShrink: 0 }} />
             <div>
-              <h2 style={{ fontSize: "18px", fontWeight: 800, color: "#ffffff", marginBottom: "4px" }}>
+              <h2 style={{ fontSize: "18px", fontWeight: 700, color: "var(--ink)", marginBottom: "4px" }}>
                 We&apos;re here with you.
               </h2>
-              <p style={{ fontSize: "14px", color: "var(--text-normal)", lineHeight: "1.5" }}>
+              <p style={{ fontSize: "14px", color: "var(--text-body)", lineHeight: "1.5" }}>
                 Your responses suggest that you may need immediate support. You do not have to carry this alone.
               </p>
             </div>
@@ -132,7 +130,7 @@ function CheckInResultContent() {
             <button
               onClick={() => setShowEmergencyModal(true)}
               className="btn btn-danger"
-              style={{ fontWeight: 700 }}
+              style={{ fontWeight: 600 }}
             >
               <Phone size={16} /> Call Emergency Support
             </button>
@@ -163,11 +161,11 @@ function CheckInResultContent() {
           fontSize: "12px",
           fontWeight: 700,
           textTransform: "uppercase",
-          letterSpacing: "0.08em",
+          letterSpacing: "0.04em",
           color: "var(--text-muted)",
           marginBottom: "14px"
         }}>
-          <Sparkles size={16} color="var(--brand-primary)" />
+          <Sparkles size={16} color="var(--primary)" />
           <span>WHAT WE NOTICED</span>
         </div>
 
@@ -183,9 +181,9 @@ function CheckInResultContent() {
               alignItems: "flex-start",
               gap: "10px",
               fontSize: "14px",
-              color: "var(--text-normal)"
+              color: "var(--text-body)"
             }}>
-              <span style={{ color: "var(--brand-primary)", fontWeight: "bold" }}>•</span>
+              <span style={{ color: "var(--primary)", fontWeight: "bold" }}>•</span>
               <span>{item}</span>
             </li>
           ))}
@@ -195,7 +193,7 @@ function CheckInResultContent() {
           <div style={{
             marginTop: "16px",
             paddingTop: "14px",
-            borderTop: "1px solid var(--border-subtle)",
+            borderTop: "1px solid var(--hairline)",
             fontSize: "13px",
             color: "var(--text-muted)",
             lineHeight: "1.5"
@@ -214,7 +212,7 @@ function CheckInResultContent() {
           fontSize: "12px",
           fontWeight: 700,
           textTransform: "uppercase",
-          letterSpacing: "0.08em",
+          letterSpacing: "0.04em",
           color: "var(--text-muted)",
           marginBottom: "12px"
         }}>
@@ -222,7 +220,7 @@ function CheckInResultContent() {
           <span>WHAT MAY HELP</span>
         </div>
 
-        <p style={{ fontSize: "14px", color: "var(--text-normal)", lineHeight: "1.6" }}>
+        <p style={{ fontSize: "14px", color: "var(--text-body)", lineHeight: "1.6" }}>
           {whatMayHelp}
         </p>
       </div>

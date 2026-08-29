@@ -13,7 +13,6 @@ export default function TrendChart({ trendPoints = [] }) {
     );
   }
 
-  // Width and height of SVG viewport
   const width = 600;
   const height = 220;
   const padding = { top: 20, right: 30, bottom: 40, left: 40 };
@@ -21,7 +20,7 @@ export default function TrendChart({ trendPoints = [] }) {
   const chartWidth = width - padding.left - padding.right;
   const chartHeight = height - padding.top - padding.bottom;
 
-  const points = trendPoints.slice(-10); // show last 10 points
+  const points = trendPoints.slice(-10);
   const numPoints = points.length;
 
   const getX = (idx) => {
@@ -30,7 +29,6 @@ export default function TrendChart({ trendPoints = [] }) {
   };
 
   const getY = (score) => {
-    // Score is 0-100, 100 is at top (padding.top), 0 is at bottom (padding.top + chartHeight)
     const clamped = Math.min(100, Math.max(0, score));
     return padding.top + chartHeight - (clamped / 100) * chartHeight;
   };
@@ -54,18 +52,18 @@ export default function TrendChart({ trendPoints = [] }) {
         marginBottom: "16px"
       }}>
         <div>
-          <h3 style={{ fontSize: "16px", fontWeight: 700, color: "#ffffff" }}>DHRITI TREND</h3>
-          <p style={{ fontSize: "12px", color: "var(--text-muted)" }}>Wellbeing score progression over time</p>
+          <h3 style={{ fontSize: "16px", fontWeight: 700, color: "var(--ink)", letterSpacing: "-0.02em" }}>DHRITI TREND</h3>
+          <p style={{ fontSize: "13px", color: "var(--text-muted)" }}>Wellbeing score progression over time</p>
         </div>
-        <div style={{ display: "flex", gap: "12px", fontSize: "11px", color: "var(--text-muted)" }}>
+        <div style={{ display: "flex", gap: "12px", fontSize: "12px", color: "var(--text-muted)" }}>
           <span style={{ display: "flex", alignItems: "center", gap: "4px" }}>
-            <span style={{ width: "8px", height: "8px", borderRadius: "50%", backgroundColor: "var(--status-stable)" }} /> Stable (0-24)
+            <span style={{ width: "8px", height: "8px", borderRadius: "50%", backgroundColor: "var(--status-stable)" }} /> Stable
           </span>
           <span style={{ display: "flex", alignItems: "center", gap: "4px" }}>
-            <span style={{ width: "8px", height: "8px", borderRadius: "50%", backgroundColor: "var(--status-elevated)" }} /> Elevated (50-69)
+            <span style={{ width: "8px", height: "8px", borderRadius: "50%", backgroundColor: "var(--status-elevated)" }} /> Elevated
           </span>
           <span style={{ display: "flex", alignItems: "center", gap: "4px" }}>
-            <span style={{ width: "8px", height: "8px", borderRadius: "50%", backgroundColor: "var(--status-critical)" }} /> Critical (85+)
+            <span style={{ width: "8px", height: "8px", borderRadius: "50%", backgroundColor: "var(--status-critical)" }} /> Critical
           </span>
         </div>
       </div>
@@ -85,7 +83,7 @@ export default function TrendChart({ trendPoints = [] }) {
                   y1={y}
                   x2={width - padding.right}
                   y2={y}
-                  stroke="var(--border-subtle)"
+                  stroke="var(--hairline)"
                   strokeDasharray="4 4"
                   strokeWidth="1"
                 />
@@ -107,8 +105,8 @@ export default function TrendChart({ trendPoints = [] }) {
           {numPoints > 1 && (
             <polyline
               fill="none"
-              stroke="var(--brand-primary)"
-              strokeWidth="3"
+              stroke="var(--primary)"
+              strokeWidth="2.5"
               strokeLinecap="round"
               strokeLinejoin="round"
               points={polylinePoints}
@@ -128,19 +126,19 @@ export default function TrendChart({ trendPoints = [] }) {
                 <circle
                   cx={cx}
                   cy={cy}
-                  r="6"
-                  fill="var(--bg-secondary)"
+                  r="5"
+                  fill="#ffffff"
                   stroke={color}
-                  strokeWidth="3"
+                  strokeWidth="2.5"
                 />
 
                 {/* Score label above point */}
                 <text
                   x={cx}
                   y={cy - 10}
-                  fill="#ffffff"
+                  fill="var(--ink)"
                   fontSize="11"
-                  fontWeight="bold"
+                  fontWeight="600"
                   textAnchor="middle"
                   fontFamily="inherit"
                 >

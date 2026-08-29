@@ -34,15 +34,15 @@ export default function DhritiIndexGauge({ score, riskLevel, delta = 0, trend = 
     <div className="card" style={{ textAlign: "center", position: "relative", overflow: "hidden" }}>
       {safetyConcern && (
         <div style={{
-          backgroundColor: "rgba(242, 63, 67, 0.15)",
-          borderBottom: "1px solid var(--status-critical)",
+          backgroundColor: "rgba(239, 68, 68, 0.08)",
+          borderBottom: "1px solid rgba(239, 68, 68, 0.3)",
           padding: "8px 12px",
-          margin: "-24px -24px 20px -24px",
+          margin: "-28px -28px 20px -28px",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
           gap: "8px",
-          color: "var(--status-critical)",
+          color: "var(--error)",
           fontSize: "12px",
           fontWeight: 700
         }}>
@@ -53,8 +53,8 @@ export default function DhritiIndexGauge({ score, riskLevel, delta = 0, trend = 
 
       <div style={{
         fontSize: "12px",
-        fontWeight: 700,
-        letterSpacing: "0.1em",
+        fontWeight: 600,
+        letterSpacing: "0.04em",
         textTransform: "uppercase",
         color: "var(--text-muted)",
         marginBottom: "8px"
@@ -62,19 +62,20 @@ export default function DhritiIndexGauge({ score, riskLevel, delta = 0, trend = 
         DHRITI INDEX
       </div>
 
-      {/* Main Score Number */}
+      {/* Score Number */}
       <div style={{
         display: "flex",
         alignItems: "baseline",
         justifyContent: "center",
         gap: "6px",
-        margin: "12px 0 16px 0"
+        margin: "8px 0 16px 0"
       }}>
         <span style={{
           fontSize: "56px",
-          fontWeight: 900,
+          fontWeight: 700,
           lineHeight: 1,
-          color: riskColor,
+          color: "var(--ink)",
+          letterSpacing: "-0.04em",
           fontVariantNumeric: "tabular-nums"
         }}>
           {numScore}
@@ -90,7 +91,7 @@ export default function DhritiIndexGauge({ score, riskLevel, delta = 0, trend = 
 
       {/* Risk Badge */}
       <div style={{ marginBottom: "18px" }}>
-        <span className={`badge ${getBadgeClass(riskLevel)}`} style={{ fontSize: "14px", padding: "6px 16px" }}>
+        <span className={`badge ${getBadgeClass(riskLevel)}`} style={{ fontSize: "13px", padding: "4px 14px" }}>
           {riskLevel || "STABLE"}
         </span>
       </div>
@@ -98,18 +99,17 @@ export default function DhritiIndexGauge({ score, riskLevel, delta = 0, trend = 
       {/* Progress Track */}
       <div style={{
         width: "100%",
-        height: "8px",
-        backgroundColor: "var(--bg-tertiary)",
-        borderRadius: "4px",
+        height: "6px",
+        backgroundColor: "var(--surface-strong)",
+        borderRadius: "var(--rounded-pill)",
         overflow: "hidden",
-        marginBottom: "16px",
-        position: "relative"
+        marginBottom: "16px"
       }}>
         <div style={{
           height: "100%",
           width: `${Math.min(100, Math.max(0, numScore))}%`,
           backgroundColor: riskColor,
-          borderRadius: "4px",
+          borderRadius: "var(--rounded-pill)",
           transition: "width 0.6s cubic-bezier(0.16, 1, 0.3, 1)"
         }} />
       </div>
@@ -126,12 +126,12 @@ export default function DhritiIndexGauge({ score, riskLevel, delta = 0, trend = 
         {delta > 0 ? (
           <>
             <TrendingUp size={16} color="var(--status-critical)" />
-            <span><strong style={{ color: "var(--text-normal)" }}>↑ {Math.abs(delta)} points</strong> from previous check-in</span>
+            <span><strong style={{ color: "var(--ink)" }}>↑ {Math.abs(delta)} points</strong> from previous check-in</span>
           </>
         ) : delta < 0 ? (
           <>
             <TrendingDown size={16} color="var(--status-stable)" />
-            <span><strong style={{ color: "var(--text-normal)" }}>↓ {Math.abs(delta)} points</strong> from previous check-in</span>
+            <span><strong style={{ color: "var(--ink)" }}>↓ {Math.abs(delta)} points</strong> from previous check-in</span>
           </>
         ) : (
           <>
