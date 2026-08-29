@@ -8,9 +8,8 @@ import { apiDhriti, apiCheckIns } from "../../lib/api";
 import DhritiIndexGauge from "../../components/DhritiIndexGauge";
 import CheckInCalendar from "../../components/CheckInCalendar";
 import TrendChart from "../../components/TrendChart";
-import DisclaimerBanner from "../../components/DisclaimerBanner";
 import BreathingWidget from "../../components/BreathingWidget";
-import { PlusCircle, ArrowRight, ShieldAlert, HeartHandshake, AlertCircle, MessageSquare, Sparkles } from "lucide-react";
+import { PlusCircle, ShieldAlert, AlertCircle, Sparkles, ArrowRight } from "lucide-react";
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -56,42 +55,48 @@ export default function DashboardPage() {
 
   if (authLoading || (loading && !currentScore)) {
     return (
-      <div className="container" style={{ textAlign: "center", padding: "80px 20px" }}>
-        <p style={{ color: "var(--text-muted)", fontSize: "15px" }}>Loading your wellbeing dashboard...</p>
+      <div style={{ width: "100%", height: "calc(100vh - 60px)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <p style={{ color: "var(--text-muted)", fontSize: "15px" }}>Loading full-width dashboard...</p>
       </div>
     );
   }
 
-  const hasData = currentScore && currentScore.hasCheckIns;
-
   return (
-    <div className="container" style={{ paddingBottom: "60px" }}>
-      {/* Top Welcome Header */}
+    <div style={{
+      width: "100%",
+      height: "calc(100vh - 84px)",
+      maxHeight: "calc(100vh - 84px)",
+      overflow: "hidden",
+      padding: "0 24px 16px 24px",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "space-between"
+    }}>
+      {/* 1. Header Control Bar */}
       <div style={{
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
-        flexWrap: "wrap",
-        gap: "16px",
-        marginBottom: "24px"
+        flexWrap: "nowrap",
+        marginBottom: "12px"
       }}>
         <div>
-          <h1 style={{ fontSize: "26px", fontWeight: 800, color: "#ffffff", marginBottom: "4px" }}>
-            Hello, {user?.name || "Friend"}
+          <h1 style={{ fontSize: "22px", fontWeight: 800, color: "#ffffff", marginBottom: "2px" }}>
+            Welcome, {user?.name || "Friend"}
           </h1>
-          <p style={{ fontSize: "14px", color: "var(--text-muted)" }}>
-            Welcome to your personal mental wellbeing overview.
+          <p style={{ fontSize: "13px", color: "var(--text-muted)" }}>
+            Full-screen personal wellbeing monitoring dashboard
           </p>
         </div>
 
-        <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
-          <Link href="/chat" className="btn btn-secondary btn-lg">
-            <Sparkles size={16} color="var(--primary)" />
-            <span>DhritiAi Assistant</span>
+        <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+          <Link href="/chat" className="btn btn-secondary btn-sm">
+            <Sparkles size={15} color="var(--primary)" />
+            <span>DhritiAi Page</span>
           </Link>
-          <Link href="/check-in" className="btn btn-primary btn-lg">
-            <PlusCircle size={16} />
-            <span>Start Check-in</span>
+          <Link href="/check-in" className="btn btn-primary btn-sm">
+            <PlusCircle size={15} />
+            <span>New Check-in</span>
           </Link>
         </div>
       </div>
@@ -101,146 +106,91 @@ export default function DashboardPage() {
           backgroundColor: "rgba(245, 36, 67, 0.18)",
           border: "1px solid var(--status-critical)",
           borderRadius: "var(--rounded-md)",
-          padding: "12px 16px",
-          marginBottom: "20px",
+          padding: "8px 12px",
+          marginBottom: "10px",
+          color: "var(--status-critical)",
+          fontSize: "13px",
           display: "flex",
           alignItems: "center",
-          gap: "10px",
-          color: "var(--status-critical)",
-          fontSize: "14px"
+          gap: "8px"
         }}>
-          <AlertCircle size={18} />
+          <AlertCircle size={16} />
           <span>{error}</span>
         </div>
       )}
 
       {/* Safety Alert Flag */}
       {currentScore?.safetyConcern && (
-        <div className="safety-banner">
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "12px" }}>
-            <div>
-              <h3 style={{ color: "#ffffff", fontSize: "16px", fontWeight: 800, marginBottom: "4px" }}>
-                We are here with you
-              </h3>
-              <p style={{ color: "var(--text-body)", fontSize: "13px" }}>
-                Your recent check-in indicated safety or severe distress concerns. Trained professionals are available 24/7.
-              </p>
-            </div>
-            <Link href="/support" className="btn btn-danger btn-sm">
-              <ShieldAlert size={14} /> Immediate Helplines
+        <div className="safety-banner" style={{ padding: "12px 16px", marginBottom: "12px" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <span style={{ color: "#ffffff", fontSize: "13px", fontWeight: 700 }}>
+              ⚠️ Severe distress flagged. 24/7 human crisis counselors are available.
+            </span>
+            <Link href="/support" className="btn btn-danger btn-sm" style={{ padding: "4px 10px", fontSize: "12px" }}>
+              <ShieldAlert size={13} /> 24/7 Helplines
             </Link>
           </div>
         </div>
       )}
 
-      {/* ROW 1: SCORE (LEFT) + CALENDAR (RIGHT) IN A ROW */}
+      {/* 2. Main Full-Width Grid Row: 3 Panels Across Screen */}
       <div style={{
         display: "grid",
-        gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
-        gap: "20px",
-        marginBottom: "24px"
+        gridTemplateColumns: "1fr 1.2fr 1fr",
+        gap: "16px",
+        flex: 1,
+        maxHeight: "calc(100vh - 210px)",
+        alignItems: "stretch"
       }}>
-        <DhritiIndexGauge
-          score={currentScore?.dhritiIndex || 0}
-          riskLevel={currentScore?.riskLevel || "STABLE"}
-          delta={currentScore?.deltaPoints || 0}
-          trend={currentScore?.trend || "STABLE"}
-          safetyConcern={currentScore?.safetyConcern}
-        />
+        {/* Column 1: Big Score Display Gauge */}
+        <div style={{ height: "100%" }}>
+          <DhritiIndexGauge
+            score={currentScore?.dhritiIndex || 0}
+            riskLevel={currentScore?.riskLevel || "STABLE"}
+            delta={currentScore?.deltaPoints || 0}
+            trend={currentScore?.trend || "STABLE"}
+            safetyConcern={currentScore?.safetyConcern}
+          />
+        </div>
 
-        <CheckInCalendar checkIns={allCheckIns} />
-      </div>
+        {/* Column 2: Check-in Monthly Calendar Grid */}
+        <div style={{ height: "100%" }}>
+          <CheckInCalendar checkIns={allCheckIns} />
+        </div>
 
-      {/* ROW 2: TREND GRAPH & BOX BREATHING */}
-      <div style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
-        gap: "20px",
-        marginBottom: "24px"
-      }}>
-        <TrendChart trendPoints={trendData} />
-
-        <BreathingWidget />
-      </div>
-
-      {/* Supportive Recommendation Card */}
-      {hasData && (
-        <div className="card" style={{ marginBottom: "24px" }}>
-          <div style={{ display: "flex", alignItems: "flex-start", gap: "12px" }}>
-            <HeartHandshake size={20} color="var(--primary)" style={{ flexShrink: 0, marginTop: "2px" }} />
-            <div>
-              <h3 style={{ fontSize: "15px", fontWeight: 700, color: "#ffffff", marginBottom: "4px" }}>
-                Supportive Recommendation
-              </h3>
-              <p style={{ fontSize: "14px", color: "var(--text-body)", lineHeight: "1.5" }}>
-                {currentScore.supportRecommendation}
-              </p>
-            </div>
+        {/* Column 3: Box Breathing & Trend Graph */}
+        <div style={{ display: "flex", flexDirection: "column", gap: "12px", height: "100%" }}>
+          <BreathingWidget />
+          <div style={{ flex: 1 }}>
+            <TrendChart trendPoints={trendData} />
           </div>
         </div>
-      )}
+      </div>
 
-      {/* Recent Check-ins List */}
-      <div className="card" style={{ marginBottom: "24px" }}>
-        <div style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          marginBottom: "16px"
-        }}>
-          <h3 style={{ fontSize: "15px", fontWeight: 800, color: "#ffffff" }}>RECENT CHECK-INS</h3>
-          {allCheckIns.length > 0 && (
-            <Link href="/history" style={{ fontSize: "13px", color: "var(--primary)", fontWeight: 700, display: "flex", alignItems: "center", gap: "4px" }}>
-              <span>View All</span>
-              <ArrowRight size={13} />
-            </Link>
+      {/* 3. Bottom Control Row */}
+      <div className="card" style={{ padding: "10px 16px", marginTop: "12px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+          <span style={{ fontSize: "12px", fontWeight: 700, color: "#ffffff" }}>RECENT RECORD:</span>
+          {allCheckIns.length > 0 ? (
+            <span style={{ fontSize: "13px", color: "var(--text-body)" }}>
+              {new Date(allCheckIns[0].createdAt).toLocaleDateString()} — Score: <strong>{Math.round(allCheckIns[0].dhritiIndex)}/100</strong> ({allCheckIns[0].riskLevel})
+            </span>
+          ) : (
+            <span style={{ fontSize: "12px", color: "var(--text-muted)" }}>No check-in history available.</span>
           )}
         </div>
 
-        {allCheckIns.length === 0 ? (
-          <p style={{ color: "var(--text-muted)", fontSize: "13px" }}>No recent records found.</p>
-        ) : (
-          <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-            {allCheckIns.slice(0, 4).map((ci) => {
-              const dateStr = new Date(ci.createdAt).toLocaleDateString("en-US", {
-                month: "short",
-                day: "numeric"
-              });
-              return (
-                <div
-                  key={ci.id}
-                  style={{
-                    backgroundColor: "var(--surface-soft)",
-                    border: "1px solid var(--hairline)",
-                    borderRadius: "var(--rounded-md)",
-                    padding: "12px 16px",
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center"
-                  }}
-                >
-                  <div>
-                    <div style={{ fontWeight: 700, fontSize: "14px", color: "#ffffff" }}>{dateStr}</div>
-                    <div style={{ fontSize: "12px", color: "var(--text-muted)" }}>
-                      {ci.deltaPoints > 0 ? `↑ ${ci.deltaPoints} pts` : ci.deltaPoints < 0 ? `↓ ${Math.abs(ci.deltaPoints)} pts` : "Stable"}
-                    </div>
-                  </div>
-                  <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-                    <span style={{ fontSize: "18px", fontWeight: 800, color: "#ffffff" }}>
-                      {Math.round(ci.dhritiIndex)}
-                    </span>
-                    <span className={`badge badge-${ci.riskLevel.toLowerCase()}`}>
-                      {ci.riskLevel}
-                    </span>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        )}
+        <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+          <Link href="/history" style={{ fontSize: "12px", fontWeight: 700, color: "var(--primary)", display: "flex", alignItems: "center", gap: "4px" }}>
+            <span>Full History</span>
+            <ArrowRight size={13} />
+          </Link>
+          <span style={{ color: "var(--hairline)" }}>|</span>
+          <span style={{ fontSize: "11px", color: "var(--text-muted)" }}>
+            Non-Diagnostic Wellbeing Tool
+          </span>
+        </div>
       </div>
-
-      <DisclaimerBanner />
     </div>
   );
 }

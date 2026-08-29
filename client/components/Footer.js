@@ -2,9 +2,17 @@
 
 import React from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Heart } from "lucide-react";
 
 export default function Footer() {
+  const pathname = usePathname();
+
+  // Hide footer on dashboard for fixed full-viewport experience
+  if (pathname === "/dashboard") {
+    return null;
+  }
+
   return (
     <footer style={{
       backgroundColor: "#1e1f22",

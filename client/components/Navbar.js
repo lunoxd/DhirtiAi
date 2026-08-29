@@ -9,7 +9,6 @@ import {
   Activity,
   History,
   HeartHandshake,
-  Shield,
   User,
   LogOut,
   Menu,
@@ -95,14 +94,15 @@ export default function Navbar() {
         top: 0,
         zIndex: 100
       }}>
-        <div className="container" style={{
+        <div style={{
+          padding: "0 24px",
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
           height: "60px"
         }}>
-          {/* Transparent Brand Logo */}
-          <Link href={isAdmin ? "/admin" : isDoctor ? "/doctor" : (isAuthenticated ? "/dashboard" : "/")} style={{
+          {/* Logo ALWAYS goes back to landing page "/" */}
+          <Link href="/" style={{
             display: "flex",
             alignItems: "center",
             gap: "10px",
