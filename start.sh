@@ -15,6 +15,10 @@ echo "======================================================"
 echo "               STARTING DHRITI PLATFORM               "
 echo "======================================================"
 
+# 0. Free busy ports if already in use
+echo "🧹 Checking & freeing ports 5001 and 3000..."
+lsof -ti :5001 -ti :3000 | xargs kill -9 2>/dev/null || true
+
 # 1. Check Server Dependencies
 if [ ! -d "server/node_modules" ]; then
   echo "📦 Installing backend server dependencies..."

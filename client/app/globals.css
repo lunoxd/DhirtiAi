@@ -1,28 +1,30 @@
 :root {
-  --bg-darkest: #111214;
-  --bg-tertiary: #1e1f22;
-  --bg-secondary: #2b2d31;
-  --bg-primary: #313338;
-  --bg-hover: #35373c;
-  --bg-active: #3c3e44;
+  /* Authentic Discord Dark Theme Palette */
+  --bg-darkest: #313338;       /* Discord Main App Background */
+  --bg-primary: #313338;       /* Discord Chat / Canvas Background */
+  --bg-secondary: #2b2d31;     /* Discord Sidebar / Cards Background */
+  --bg-tertiary: #1e1f22;      /* Discord Recessed / Input Background */
+  --bg-hover: #35373c;         /* Discord Hover state */
+  --bg-active: #383a40;        /* Discord Active / Selected state */
+  --bg-modal: #2b2d31;         /* Discord Modal Surface */
 
-  --text-normal: #dbdee1;
-  --text-muted: #949ba4;
-  --text-header: #ffffff;
-  --text-link: #00a8fc;
+  --text-header: #f2f3f5;      /* Discord Bright White Headers */
+  --text-normal: #dbdee1;      /* Discord Main Body Text */
+  --text-muted: #949ba4;       /* Discord Muted / Channel Text */
+  --text-link: #00a8fc;        /* Discord Link Blue */
 
-  --brand-primary: #5865f2;
+  --brand-primary: #5865f2;    /* Discord Blurple */
   --brand-hover: #4752c4;
   --brand-active: #3c45a5;
 
-  --status-stable: #23a55a;
-  --status-mild: #3ba55d;
-  --status-elevated: #f0b232;
-  --status-high: #f27238;
-  --status-critical: #f23f43;
+  --status-stable: #23a55a;    /* Discord Online Green */
+  --status-mild: #3ba55d;      /* Discord Teal/Green */
+  --status-elevated: #f0b232;  /* Discord Idle / Amber */
+  --status-high: #f27238;      /* Discord Orange */
+  --status-critical: #f23f43;  /* Discord DND / Red */
 
-  --border-subtle: #383a40;
-  --border-card: #232428;
+  --border-subtle: #383a40;    /* Discord Subtle Divider */
+  --border-card: #232428;      /* Discord Card Border */
   --border-focus: #5865f2;
 
   --radius-sm: 4px;
@@ -30,7 +32,7 @@
   --radius-lg: 12px;
   --radius-xl: 16px;
 
-  --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-family: "gg sans", "Noto Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
 * {
@@ -40,7 +42,7 @@
 }
 
 html, body {
-  background-color: var(--bg-darkest);
+  background-color: var(--bg-primary);
   color: var(--text-normal);
   font-family: var(--font-family);
   font-size: 15px;
@@ -63,7 +65,7 @@ button {
 
 /* Layout Containers */
 .container {
-  max-width: 1040px;
+  max-width: 1060px;
   margin: 0 auto;
   padding: 0 20px;
 }
@@ -80,6 +82,7 @@ button {
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-lg);
   padding: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 .card-inner {
@@ -101,6 +104,7 @@ button {
   border-radius: var(--radius-md);
   transition: background-color 0.15s ease, transform 0.05s ease;
   white-space: nowrap;
+  user-select: none;
 }
 
 .btn:active {
@@ -116,12 +120,13 @@ button {
 }
 
 .btn-secondary {
-  background-color: var(--bg-primary);
+  background-color: var(--bg-tertiary);
   color: var(--text-normal);
   border: 1px solid var(--border-subtle);
 }
 .btn-secondary:hover {
   background-color: var(--bg-hover);
+  color: #ffffff;
 }
 
 .btn-danger {
@@ -146,9 +151,9 @@ button {
 }
 
 .btn-lg {
-  padding: 14px 28px;
-  font-size: 16px;
-  border-radius: var(--radius-lg);
+  padding: 12px 24px;
+  font-size: 15px;
+  border-radius: var(--radius-md);
 }
 
 .btn-block {
@@ -173,10 +178,10 @@ button {
 
 .form-input, .form-textarea {
   background-color: var(--bg-tertiary);
-  border: 1px solid var(--border-subtle);
+  border: 1px solid var(--border-card);
   border-radius: var(--radius-md);
   padding: 12px 14px;
-  color: var(--text-normal);
+  color: var(--text-header);
   font-size: 14px;
   outline: none;
   transition: border-color 0.15s ease;
@@ -206,38 +211,38 @@ button {
 }
 
 .badge-stable {
-  background-color: rgba(35, 165, 90, 0.15);
+  background-color: rgba(35, 165, 90, 0.18);
   color: var(--status-stable);
   border: 1px solid var(--status-stable);
 }
 
 .badge-mild {
-  background-color: rgba(59, 165, 93, 0.15);
+  background-color: rgba(59, 165, 93, 0.18);
   color: var(--status-mild);
   border: 1px solid var(--status-mild);
 }
 
 .badge-elevated {
-  background-color: rgba(240, 178, 50, 0.15);
+  background-color: rgba(240, 178, 50, 0.18);
   color: var(--status-elevated);
   border: 1px solid var(--status-elevated);
 }
 
 .badge-high {
-  background-color: rgba(242, 114, 56, 0.15);
+  background-color: rgba(242, 114, 56, 0.18);
   color: var(--status-high);
   border: 1px solid var(--status-high);
 }
 
 .badge-critical {
-  background-color: rgba(242, 63, 67, 0.15);
+  background-color: rgba(242, 63, 67, 0.18);
   color: var(--status-critical);
   border: 1px solid var(--status-critical);
 }
 
 /* Safety Alert Banner */
 .safety-banner {
-  background-color: rgba(242, 63, 67, 0.12);
+  background-color: rgba(242, 63, 67, 0.14);
   border: 1px solid var(--status-critical);
   border-radius: var(--radius-lg);
   padding: 20px;
@@ -246,7 +251,7 @@ button {
 
 /* Check-in Question Buttons */
 .option-button {
-  background-color: var(--bg-secondary);
+  background-color: var(--bg-tertiary);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
   padding: 16px 20px;
@@ -264,6 +269,7 @@ button {
 .option-button:hover {
   background-color: var(--bg-hover);
   border-color: var(--brand-primary);
+  color: #ffffff;
   transform: translateX(3px);
 }
 
@@ -277,7 +283,7 @@ button {
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.75);
+  background-color: rgba(0, 0, 0, 0.7);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -286,10 +292,11 @@ button {
 }
 
 .modal-content {
-  background-color: var(--bg-secondary);
+  background-color: var(--bg-modal);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-xl);
-  max-width: 500px;
+  max-width: 520px;
   width: 100%;
   padding: 28px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
 }

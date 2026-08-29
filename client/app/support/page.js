@@ -2,13 +2,15 @@
 
 import React, { useState, useEffect } from "react";
 import { apiSupport } from "../../lib/api";
-import { Phone, ShieldAlert, Heart, Wind, CheckCircle, ExternalLink, HelpCircle } from "lucide-react";
+import { Phone, ShieldAlert, Heart, Wind, MessageSquare, Copy, Check, Filter, ExternalLink, Globe } from "lucide-react";
 import BreathingWidget from "../../components/BreathingWidget";
 import DisclaimerBanner from "../../components/DisclaimerBanner";
 
 export default function SupportPage() {
   const [supportData, setSupportData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [activeCategory, setActiveCategory] = useState("all");
+  const [copiedId, setCopiedId] = useState(null);
 
   useEffect(() => {
     async function loadSupport() {
@@ -24,96 +26,116 @@ export default function SupportPage() {
     loadSupport();
   }, []);
 
-  const emergencyContacts = supportData?.emergency?.contacts || [
-    {
-      name: "National Emergency Helpline",
-      number: "112",
-      available: "24/7",
-      type: "Emergency Services",
-      country: "India",
-      description: "Police, Medical, and Emergency Response."
-    },
-    {
-      name: "Tele-MANAS (Govt of India)",
-      number: "14416 / 1800-891-4416",
-      available: "24/7",
-      type: "Mental Health Support",
-      country: "India",
-      description: "Free, multi-lingual government tele-mental health support across India."
-    },
-    {
-      name: "KIRAN Mental Health Helpline",
-      number: "1800-599-0019",
-      available: "24/7",
-      type: "Psychological Support",
-      country: "India",
-      description: "Central helpline for early screening, psychological first aid, and crisis management."
-    },
-    {
-      name: "Vandrevala Foundation",
-      number: "+91 9999 666 555",
-      available: "24/7",
-      type: "Crisis Counseling",
-      country: "India",
-      description: "Free counseling support via phone and WhatsApp."
-    },
-    {
-      name: "International 988 Lifeline",
-      number: "988",
-      available: "24/7",
-      type: "Crisis Lifeline",
-      country: "USA & Canada",
-      description: "Free and confidential support for anyone in distress."
-    }
+  const handleCopy = (id, text) => {
+    navigator.clipboard.writeText(text);
+    setCopiedId(id);
+    setTimeout(() => setCopiedId(null), 2000);
+  };
+
+  const emergencyContacts = supportData?.emergency?.contacts || [];
+
+  const categories = [
+    { key: "all", label: "All Resources" },
+    { key: "government", label: "National & Govt" },
+    { key: "crisis", label: "24/7 Crisis" },
+    { key: "women_trauma", label: "Survivor & Trauma" },
+    { key: "counseling", label: "Psychosocial Support" }
   ];
+
+  const filteredContacts = activeCategory === "all"
+    ? emergencyContacts
+    : emergencyContacts.filter(c => c.category === activeCategory);
 
   return (
     <div className="container" style={{ paddingBottom: "60px" }}>
       {/* Header */}
-      <div style={{ textAlign: "center", maxWidth: "680px", margin: "20px auto 40px auto" }}>
+      <div style={{ textAlign: "center", maxWidth: "720px", margin: "20px auto 36px auto" }}>
+        <div style={{
+          display: "inline-flex",
+          alignItems: "center",
+          gap: "8px",
+          backgroundColor: "var(--bg-secondary)",
+          border: "1px solid var(--border-subtle)",
+          padding: "6px 14px",
+          borderRadius: "20px",
+          fontSize: "13px",
+          fontWeight: 700,
+          color: "var(--brand-primary)",
+          marginBottom: "16px"
+        }}>
+          <Heart size={14} />
+          <span>India Mental Health & Survivor Support Directory</span>
+        </div>
         <h1 style={{ fontSize: "28px", fontWeight: 800, color: "#ffffff", marginBottom: "8px" }}>
-          Support Directory & Crisis Helplines
+          Verified Helplines & Grounding Support
         </h1>
         <p style={{ fontSize: "15px", color: "var(--text-muted)", lineHeight: "1.5" }}>
-          Compassionate, confidential, and verified resources to help you through difficult moments.
+          Free, confidential, and multi-lingual psychological first-aid lines operating across India.
         </p>
       </div>
 
-      {/* Immediate Emergency Grid */}
-      <section style={{ marginBottom: "40px" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "16px" }}>
-          <ShieldAlert size={20} color="var(--status-critical)" />
-          <h2 style={{ fontSize: "18px", fontWeight: 700, color: "#ffffff" }}>
-            24/7 Verified Emergency & Crisis Helplines
-          </h2>
-        </div>
+      {/* Category Filter Tabs */}
+      <div style={{
+        display: "flex",
+        justifyContent: "center",
+        gap: "8px",
+        flexWrap: "wrap",
+        marginBottom: "28px"
+      }}>
+        {categories.map((cat) => (
+          <button
+            key={cat.key}
+            onClick={() => setActiveCategory(cat.key)}
+            className={`btn btn-sm ${activeCategory === cat.key ? "btn-primary" : "btn-secondary"}`}
+            style={{ borderRadius: "20px" }}
+          >
+            {cat.label}
+          </button>
+        ))}
+      </div>
 
+      {/* Indian Helplines Grid */}
+      <section style={{ marginBottom: "40px" }}>
         <div style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+          gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
           gap: "16px"
         }}>
-          {emergencyContacts.map((contact, idx) => (
+          {filteredContacts.map((contact) => (
             <div
-              key={idx}
+              key={contact.id}
               className="card"
               style={{
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "space-between",
-                padding: "20px"
+                padding: "20px",
+                gap: "16px"
               }}
             >
               <div>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "8px" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "6px", gap: "8px" }}>
                   <h3 style={{ fontSize: "16px", fontWeight: 700, color: "#ffffff" }}>{contact.name}</h3>
-                  <span className="badge badge-stable" style={{ fontSize: "10px" }}>{contact.available}</span>
+                  <span className="badge badge-stable" style={{ fontSize: "10px", flexShrink: 0 }}>{contact.available}</span>
                 </div>
-                <p style={{ fontSize: "13px", color: "var(--text-muted)", marginBottom: "14px", lineHeight: "1.5" }}>
+
+                <div style={{ fontSize: "12px", color: "var(--brand-primary)", fontWeight: 600, marginBottom: "8px" }}>
+                  {contact.tag}
+                </div>
+
+                <p style={{ fontSize: "13px", color: "var(--text-normal)", marginBottom: "12px", lineHeight: "1.5" }}>
                   {contact.description}
                 </p>
+
+                {contact.languages && (
+                  <div style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "12px", color: "var(--text-muted)", marginBottom: "8px" }}>
+                    <Globe size={13} color="var(--text-muted)" style={{ flexShrink: 0 }} />
+                    <span>{contact.languages}</span>
+                  </div>
+                )}
               </div>
 
+              {/* Action Box */}
               <div style={{
                 backgroundColor: "var(--bg-tertiary)",
                 border: "1px solid var(--border-card)",
@@ -123,15 +145,45 @@ export default function SupportPage() {
                 justifyContent: "space-between",
                 alignItems: "center"
               }}>
-                <span style={{ fontSize: "14px", fontWeight: 800, color: "var(--brand-primary)" }}>
-                  {contact.number}
-                </span>
-                <a
-                  href={`tel:${contact.number.replace(/[^0-9+]/g, "")}`}
-                  className="btn btn-primary btn-sm"
-                >
-                  <Phone size={12} /> Call
-                </a>
+                <div>
+                  <div style={{ fontSize: "11px", textTransform: "uppercase", color: "var(--text-muted)", fontWeight: 700 }}>Toll-Free / Dial</div>
+                  <span style={{ fontSize: "15px", fontWeight: 800, color: "#ffffff" }}>
+                    {contact.number}
+                  </span>
+                </div>
+
+                <div style={{ display: "flex", gap: "6px" }}>
+                  <button
+                    onClick={() => handleCopy(contact.id, contact.number)}
+                    className="btn btn-secondary btn-sm"
+                    title="Copy Helpline Number"
+                    style={{ padding: "6px 8px" }}
+                  >
+                    {copiedId === contact.id ? <Check size={14} color="var(--status-stable)" /> : <Copy size={14} />}
+                  </button>
+
+                  {contact.whatsapp && (
+                    <a
+                      href={`https://wa.me/${contact.whatsapp}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn btn-success btn-sm"
+                      style={{ padding: "6px 10px" }}
+                      title="Connect on WhatsApp"
+                    >
+                      <MessageSquare size={13} />
+                      <span>WhatsApp</span>
+                    </a>
+                  )}
+
+                  <a
+                    href={`tel:${contact.number.replace(/[^0-9+]/g, "")}`}
+                    className="btn btn-primary btn-sm"
+                  >
+                    <Phone size={13} />
+                    <span>Call Now</span>
+                  </a>
+                </div>
               </div>
             </div>
           ))}
@@ -142,7 +194,7 @@ export default function SupportPage() {
       <section style={{
         display: "grid",
         gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
-        gap: "24px",
+        gap: "20px",
         marginBottom: "40px"
       }}>
         {/* Breathing Widget */}
@@ -153,28 +205,28 @@ export default function SupportPage() {
           <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "8px" }}>
             <Wind size={20} color="var(--status-stable)" />
             <h3 style={{ fontSize: "16px", fontWeight: 700, color: "#ffffff" }}>
-              5-4-3-2-1 Sensory Grounding
+              5-4-3-2-1 Sensory Grounding Practice
             </h3>
           </div>
           <p style={{ fontSize: "13px", color: "var(--text-muted)", marginBottom: "16px" }}>
-            Re-anchor yourself when thoughts feel overwhelming:
+            Re-anchor yourself to the present moment if distressing memories arise:
           </p>
 
           <div style={{ display: "flex", flexDirection: "column", gap: "10px", fontSize: "13px" }}>
-            <div style={{ padding: "8px 12px", backgroundColor: "var(--bg-tertiary)", borderRadius: "6px" }}>
-              <strong>5 things</strong> you can see right now
+            <div style={{ padding: "10px 14px", backgroundColor: "var(--bg-tertiary)", borderRadius: "6px", border: "1px solid var(--border-card)" }}>
+              <strong style={{ color: "var(--brand-primary)" }}>5 things</strong> you can see right now
             </div>
-            <div style={{ padding: "8px 12px", backgroundColor: "var(--bg-tertiary)", borderRadius: "6px" }}>
-              <strong>4 things</strong> you can physically touch or feel
+            <div style={{ padding: "10px 14px", backgroundColor: "var(--bg-tertiary)", borderRadius: "6px", border: "1px solid var(--border-card)" }}>
+              <strong style={{ color: "var(--brand-primary)" }}>4 things</strong> you can physically touch or feel
             </div>
-            <div style={{ padding: "8px 12px", backgroundColor: "var(--bg-tertiary)", borderRadius: "6px" }}>
-              <strong>3 things</strong> you can hear in your environment
+            <div style={{ padding: "10px 14px", backgroundColor: "var(--bg-tertiary)", borderRadius: "6px", border: "1px solid var(--border-card)" }}>
+              <strong style={{ color: "var(--brand-primary)" }}>3 sounds</strong> you can hear in your environment
             </div>
-            <div style={{ padding: "8px 12px", backgroundColor: "var(--bg-tertiary)", borderRadius: "6px" }}>
-              <strong>2 things</strong> you can smell or enjoy the aroma of
+            <div style={{ padding: "10px 14px", backgroundColor: "var(--bg-tertiary)", borderRadius: "6px", border: "1px solid var(--border-card)" }}>
+              <strong style={{ color: "var(--brand-primary)" }}>2 scents</strong> you can smell or enjoy
             </div>
-            <div style={{ padding: "8px 12px", backgroundColor: "var(--bg-tertiary)", borderRadius: "6px" }}>
-              <strong>1 positive affirmation</strong> or safe thought
+            <div style={{ padding: "10px 14px", backgroundColor: "var(--bg-tertiary)", borderRadius: "6px", border: "1px solid var(--border-card)" }}>
+              <strong style={{ color: "var(--brand-primary)" }}>1 reassuring thought</strong> (&ldquo;I am safe in this moment&rdquo;)
             </div>
           </div>
         </div>

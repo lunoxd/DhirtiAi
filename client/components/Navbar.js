@@ -28,45 +28,47 @@ export default function Navbar() {
         borderBottom: "1px solid var(--border-subtle)",
         position: "sticky",
         top: 0,
-        zIndex: 100
+        zIndex: 100,
+        boxShadow: "0 1px 2px rgba(0,0,0,0.2)"
       }}>
         <div className="container" style={{
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          height: "64px"
+          height: "60px"
         }}>
           {/* Brand Logo */}
           <Link href={isAuthenticated ? "/dashboard" : "/"} style={{
             display: "flex",
             alignItems: "center",
             gap: "10px",
-            fontSize: "18px",
+            fontSize: "17px",
             fontWeight: 800,
-            letterSpacing: "0.06em",
+            letterSpacing: "0.04em",
             color: "#ffffff"
           }}>
             <div style={{
-              width: "28px",
-              height: "28px",
-              borderRadius: "6px",
+              width: "30px",
+              height: "30px",
+              borderRadius: "8px",
               backgroundColor: "var(--brand-primary)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              fontSize: "14px",
-              fontWeight: 900
+              fontSize: "15px",
+              fontWeight: 900,
+              color: "#ffffff"
             }}>
               D
             </div>
-            DHRITI
+            <span>DHRITI</span>
           </Link>
 
           {/* Desktop Nav Links */}
           <div style={{
             display: "flex",
             alignItems: "center",
-            gap: "6px"
+            gap: "4px"
           }} className="desktop-only">
             {navLinks
               .filter(link => !link.authRequired || isAuthenticated)
@@ -81,12 +83,12 @@ export default function Navbar() {
                       display: "flex",
                       alignItems: "center",
                       gap: "6px",
-                      padding: "8px 14px",
+                      padding: "8px 12px",
                       borderRadius: "var(--radius-md)",
                       fontSize: "14px",
-                      fontWeight: 500,
+                      fontWeight: 600,
                       color: isActive ? "#ffffff" : "var(--text-muted)",
-                      backgroundColor: isActive ? "var(--bg-primary)" : "transparent",
+                      backgroundColor: isActive ? "var(--bg-active)" : "transparent",
                       transition: "all 0.15s ease"
                     }}
                   >
@@ -99,7 +101,7 @@ export default function Navbar() {
 
           {/* Right Action Area */}
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-            {/* Urgent Crisis Quick Action */}
+            {/* Urgent Crisis Quick Action (Tele-MANAS & 112) */}
             <button
               onClick={() => setEmergencyOpen(true)}
               className="btn btn-danger btn-sm"
@@ -107,7 +109,7 @@ export default function Navbar() {
               style={{ padding: "6px 12px", fontSize: "12px", fontWeight: 700 }}
             >
               <ShieldAlert size={14} />
-              <span>24/7 Helpline</span>
+              <span>24/7 Helpline (14416)</span>
             </button>
 
             {isAuthenticated ? (
@@ -121,7 +123,7 @@ export default function Navbar() {
                   borderRadius: "var(--radius-md)",
                   border: "1px solid var(--border-card)",
                   fontSize: "13px",
-                  color: "var(--text-normal)"
+                  color: "var(--text-header)"
                 }}>
                   <User size={14} color="var(--brand-primary)" />
                   <span>{user?.name || "Survivor"}</span>
@@ -152,7 +154,7 @@ export default function Navbar() {
                 display: "none"
               }}
             >
-              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
             </button>
           </div>
         </div>
@@ -160,11 +162,11 @@ export default function Navbar() {
         {/* Mobile Dropdown Menu */}
         {mobileMenuOpen && (
           <div style={{
-            backgroundColor: "var(--bg-primary)",
+            backgroundColor: "var(--bg-secondary)",
             borderBottom: "1px solid var(--border-subtle)",
             padding: "16px"
           }}>
-            <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
               {navLinks
                 .filter(link => !link.authRequired || isAuthenticated)
                 .map(link => {
@@ -179,15 +181,15 @@ export default function Navbar() {
                         display: "flex",
                         alignItems: "center",
                         gap: "10px",
-                        padding: "12px 14px",
+                        padding: "10px 12px",
                         borderRadius: "var(--radius-md)",
-                        fontSize: "15px",
-                        fontWeight: 500,
+                        fontSize: "14px",
+                        fontWeight: 600,
                         color: isActive ? "#ffffff" : "var(--text-normal)",
-                        backgroundColor: isActive ? "var(--bg-secondary)" : "transparent"
+                        backgroundColor: isActive ? "var(--bg-active)" : "transparent"
                       }}
                     >
-                      <Icon size={18} color={isActive ? "var(--brand-primary)" : "var(--text-muted)"} />
+                      <Icon size={16} color={isActive ? "var(--brand-primary)" : "var(--text-muted)"} />
                       {link.label}
                     </Link>
                   );
@@ -196,16 +198,16 @@ export default function Navbar() {
               <div style={{ height: "1px", backgroundColor: "var(--border-subtle)", margin: "8px 0" }} />
 
               {isAuthenticated ? (
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "8px 0" }}>
-                  <span style={{ fontSize: "14px", color: "var(--text-muted)" }}>{user?.name}</span>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "4px 0" }}>
+                  <span style={{ fontSize: "13px", color: "var(--text-muted)" }}>{user?.name}</span>
                   <button onClick={logout} className="btn btn-secondary btn-sm">
                     <LogOut size={14} /> Sign Out
                   </button>
                 </div>
               ) : (
-                <div style={{ display: "flex", gap: "10px" }}>
-                  <Link href="/login" onClick={() => setMobileMenuOpen(false)} className="btn btn-secondary btn-block">Log In</Link>
-                  <Link href="/register" onClick={() => setMobileMenuOpen(false)} className="btn btn-primary btn-block">Register</Link>
+                <div style={{ display: "flex", gap: "8px" }}>
+                  <Link href="/login" onClick={() => setMobileMenuOpen(false)} className="btn btn-secondary btn-block btn-sm">Log In</Link>
+                  <Link href="/register" onClick={() => setMobileMenuOpen(false)} className="btn btn-primary btn-block btn-sm">Register</Link>
                 </div>
               )}
             </div>
