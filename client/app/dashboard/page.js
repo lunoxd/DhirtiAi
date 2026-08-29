@@ -4,21 +4,33 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../../context/AuthContext";
-import { apiDhriti, apiCheckIns } from "../../lib/api";
+import { apiDhriti, apiCheckIns, apiChat } from "../../lib/api";
 import DhritiIndexGauge from "../../components/DhritiIndexGauge";
+import CheckInCalendar from "../../components/CheckInCalendar";
 import TrendChart from "../../components/TrendChart";
 import DisclaimerBanner from "../../components/DisclaimerBanner";
 import BreathingWidget from "../../components/BreathingWidget";
-import { PlusCircle, ArrowRight, ShieldAlert, HeartHandshake, AlertCircle } from "lucide-react";
+import { PlusCircle, ArrowRight, ShieldAlert, HeartHandshake, AlertCircle, Sparkles, Send } from "lucide-react";
 
 export default function DashboardPage() {
   const router = useRouter();
   const { user, loading: authLoading, isAuthenticated } = useAuth();
+
   const [currentScore, setCurrentScore] = useState(null);
   const [trendData, setTrendData] = useState([]);
-  const [recentCheckIns, setRecentCheckIns] = useState([]);
+  const [allCheckIns, setAllCheckIns] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+
+  // Inline Dashboard Chatbot State
+  const [chatMessages, setChatMessages] = useState([
+    {
+      role: "assistant",
+      content: "Namaste! I am DhritiAi. How are you feeling today? Ask me about stress relief, grounding, or sleep hygiene."
+    }
+  ]);
+  const [chatInput, setChatInput] = useState("");
+  const [chatLoading, setChatLoading] = useState(false);
 
   useEffect(() => {
     if (!authLoading && !isAuthenticated) {
@@ -43,12 +55,41 @@ export default function DashboardPage() {
 
       setCurrentScore(currentRes);
       setTrendData(trendRes.trendPoints || []);
-      setRecentCheckIns((historyRes.checkIns || []).slice(0, 4));
+      setAllCheckIns(historyRes.checkIns || []);
     } catch (err) {
       console.error("Dashboard Load Error:", err);
       setError(err.message || "Failed to load dashboard data.");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleSendDashboardChat = async () => {
+    if (!chatInput.trim() || chatLoading) return;
+
+    const userMsg = { role: "user", content: chatInput.trim() };
+    const newMsgs = [...chatMessages, userMsg];
+    setChatMessages(newMsgs);
+    setChatInput("");
+    setChatLoading(true);
+
+    try {
+      const res = await apiChat.sendMessage(newMsgs);
+      setChatMessages((prev) => [
+        ...prev,
+        { role: "assistant", content: res.reply }
+      ]);
+    } catch (err) {
+      console.error("Dashboard Chat Error:", err);
+      setChatMessages((prev) => [
+        ...prev,
+        {
+          role: "assistant",
+          content: "I am here for you. Taking a slow deep breath in for 4 seconds can help bring calm. You can also reach Tele-MANAS anytime at 14416."
+        }
+      ]);
+    } finally {
+      setChatLoading(false);
     }
   };
 
@@ -64,7 +105,7 @@ export default function DashboardPage() {
 
   return (
     <div className="container" style={{ paddingBottom: "60px" }}>
-      {/* Top Header */}
+      {/* Top Welcome Header */}
       <div style={{
         display: "flex",
         justifyContent: "space-between",
@@ -78,7 +119,7 @@ export default function DashboardPage() {
             Hello, {user?.name || "Friend"}
           </h1>
           <p style={{ fontSize: "14px", color: "var(--text-muted)" }}>
-            Welcome to your personal wellbeing overview.
+            Welcome to your personal mental wellbeing overview.
           </p>
         </div>
 
@@ -106,7 +147,7 @@ export default function DashboardPage() {
         </div>
       )}
 
-      {/* Safety Alert if flagged */}
+      {/* Safety Alert Flag */}
       {currentScore?.safetyConcern && (
         <div className="safety-banner">
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "12px" }}>
@@ -125,51 +166,117 @@ export default function DashboardPage() {
         </div>
       )}
 
-      {!hasData ? (
-        <div className="card" style={{ textAlign: "center", padding: "60px 24px", marginBottom: "30px" }}>
-          <div style={{
-            width: "56px",
-            height: "56px",
-            borderRadius: "var(--rounded-full)",
-            backgroundColor: "var(--surface-soft)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            margin: "0 auto 16px auto",
-            color: "var(--primary)"
-          }}>
-            <PlusCircle size={28} />
+      {/* ROW 1: SCORE (LEFT) + CALENDAR (RIGHT) IN A ROW */}
+      <div style={{
+        display: "grid",
+        gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+        gap: "20px",
+        marginBottom: "24px"
+      }}>
+        {/* Left Column: Big Dhriti Index Score Display */}
+        <DhritiIndexGauge
+          score={currentScore?.dhritiIndex || 0}
+          riskLevel={currentScore?.riskLevel || "STABLE"}
+          delta={currentScore?.deltaPoints || 0}
+          trend={currentScore?.trend || "STABLE"}
+          safetyConcern={currentScore?.safetyConcern}
+        />
+
+        {/* Right Column: Check-in Calendar Tracker */}
+        <CheckInCalendar checkIns={allCheckIns} />
+      </div>
+
+      {/* ROW 2: DHRITIAI CHATBOT INLINE SECTION */}
+      <div className="card" style={{ marginBottom: "24px", padding: "20px" }}>
+        <div style={{ display: "flex", alignItems: "center", justifyBetween: "space-between", marginBottom: "14px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+            <img src="/logo.png" alt="Dhriti Logo" style={{ height: "24px", width: "auto" }} />
+            <h3 style={{ fontSize: "16px", fontWeight: 800, color: "var(--ink)" }}>
+              DhritiAi — Mental Health Assistant
+            </h3>
           </div>
-          <h2 style={{ fontSize: "20px", fontWeight: 800, color: "var(--ink)", marginBottom: "8px" }}>
-            No Check-ins Recorded Yet
-          </h2>
-          <p style={{ color: "var(--text-muted)", fontSize: "14px", maxWidth: "460px", margin: "0 auto 24px auto" }}>
-            Take your first 2-minute mental wellbeing check-in to calculate your baseline Dhriti Index.
-          </p>
-          <Link href="/check-in" className="btn btn-primary btn-lg">
-            Take First Check-in
-          </Link>
+          <span className="badge badge-stable" style={{ fontSize: "10px" }}>Active Support</span>
         </div>
-      ) : (
+
+        {/* Chat History Box */}
         <div style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
-          gap: "20px",
-          marginBottom: "24px"
+          backgroundColor: "var(--surface-soft)",
+          border: "1px solid var(--hairline)",
+          borderRadius: "var(--rounded-md)",
+          padding: "14px",
+          height: "180px",
+          overflowY: "auto",
+          display: "flex",
+          flexDirection: "column",
+          gap: "10px",
+          marginBottom: "12px"
         }}>
-          <DhritiIndexGauge
-            score={currentScore.dhritiIndex}
-            riskLevel={currentScore.riskLevel}
-            delta={currentScore.deltaPoints}
-            trend={currentScore.trend}
-            safetyConcern={currentScore.safetyConcern}
-          />
-
-          <TrendChart trendPoints={trendData} />
+          {chatMessages.map((m, idx) => (
+            <div
+              key={idx}
+              style={{
+                display: "flex",
+                justifyContent: m.role === "user" ? "flex-end" : "flex-start"
+              }}
+            >
+              <div style={{
+                maxWidth: "85%",
+                padding: "8px 12px",
+                borderRadius: "10px",
+                fontSize: "13px",
+                lineHeight: "1.45",
+                backgroundColor: m.role === "user" ? "var(--primary)" : "#ffffff",
+                color: m.role === "user" ? "#ffffff" : "var(--ink)",
+                border: m.role === "user" ? "none" : "1px solid var(--hairline)"
+              }}>
+                {m.content}
+              </div>
+            </div>
+          ))}
+          {chatLoading && (
+            <div style={{ fontSize: "12px", color: "var(--text-muted)", display: "flex", alignItems: "center", gap: "6px" }}>
+              <Sparkles size={12} color="var(--primary)" />
+              <span>DhritiAi is typing...</span>
+            </div>
+          )}
         </div>
-      )}
 
-      {/* Support Guidance Recommendation */}
+        {/* Chat Input Bar */}
+        <div style={{ display: "flex", gap: "8px" }}>
+          <input
+            type="text"
+            className="form-input"
+            style={{ flex: 1, fontSize: "13.5px" }}
+            placeholder="Ask DhritiAi anything about mental health or feelings..."
+            value={chatInput}
+            onChange={(e) => setChatInput(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && handleSendDashboardChat()}
+          />
+          <button
+            onClick={handleSendDashboardChat}
+            disabled={chatLoading || !chatInput.trim()}
+            className="btn btn-primary btn-sm"
+          >
+            <Send size={14} /> Send
+          </button>
+        </div>
+      </div>
+
+      {/* ROW 3: OTHER DASHBOARD TOOLS (TREND, HISTORY, BREATHING, RECOMMENDATIONS) */}
+      <div style={{
+        display: "grid",
+        gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+        gap: "20px",
+        marginBottom: "24px"
+      }}>
+        {/* Trend Graph */}
+        <TrendChart trendPoints={trendData} />
+
+        {/* Box Breathing Tool */}
+        <BreathingWidget />
+      </div>
+
+      {/* Supportive Recommendation Card */}
       {hasData && (
         <div className="card" style={{ marginBottom: "24px" }}>
           <div style={{ display: "flex", alignItems: "flex-start", gap: "12px" }}>
@@ -186,79 +293,67 @@ export default function DashboardPage() {
         </div>
       )}
 
-      {/* Recent Check-ins & Grounding Widget */}
-      <div style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
-        gap: "20px"
-      }}>
-        {/* Recent Check-ins */}
-        <div className="card">
-          <div style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            marginBottom: "16px"
-          }}>
-            <h3 style={{ fontSize: "15px", fontWeight: 800, color: "var(--ink)" }}>RECENT CHECK-INS</h3>
-            {recentCheckIns.length > 0 && (
-              <Link href="/history" style={{ fontSize: "13px", color: "var(--primary)", fontWeight: 700, display: "flex", alignItems: "center", gap: "4px" }}>
-                <span>View All</span>
-                <ArrowRight size={13} />
-              </Link>
-            )}
-          </div>
-
-          {recentCheckIns.length === 0 ? (
-            <p style={{ color: "var(--text-muted)", fontSize: "13px" }}>No recent records found.</p>
-          ) : (
-            <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-              {recentCheckIns.map((ci) => {
-                const dateStr = new Date(ci.createdAt).toLocaleDateString("en-US", {
-                  month: "short",
-                  day: "numeric"
-                });
-                return (
-                  <div
-                    key={ci.id}
-                    style={{
-                      backgroundColor: "var(--surface-soft)",
-                      border: "1px solid var(--hairline)",
-                      borderRadius: "var(--rounded-md)",
-                      padding: "12px 16px",
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center"
-                    }}
-                  >
-                    <div>
-                      <div style={{ fontWeight: 700, fontSize: "14px", color: "var(--ink)" }}>{dateStr}</div>
-                      <div style={{ fontSize: "12px", color: "var(--text-muted)" }}>
-                        {ci.deltaPoints > 0 ? `↑ ${ci.deltaPoints} pts` : ci.deltaPoints < 0 ? `↓ ${Math.abs(ci.deltaPoints)} pts` : "Stable"}
-                      </div>
-                    </div>
-                    <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-                      <span style={{ fontSize: "18px", fontWeight: 800, color: "var(--ink)" }}>
-                        {Math.round(ci.dhritiIndex)}
-                      </span>
-                      <span className={`badge badge-${ci.riskLevel.toLowerCase()}`}>
-                        {ci.riskLevel}
-                      </span>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
+      {/* Recent Check-ins List */}
+      <div className="card" style={{ marginBottom: "24px" }}>
+        <div style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginBottom: "16px"
+        }}>
+          <h3 style={{ fontSize: "15px", fontWeight: 800, color: "var(--ink)" }}>RECENT CHECK-INS</h3>
+          {allCheckIns.length > 0 && (
+            <Link href="/history" style={{ fontSize: "13px", color: "var(--primary)", fontWeight: 700, display: "flex", alignItems: "center", gap: "4px" }}>
+              <span>View All</span>
+              <ArrowRight size={13} />
+            </Link>
           )}
         </div>
 
-        {/* Breathing Widget */}
-        <BreathingWidget />
+        {allCheckIns.length === 0 ? (
+          <p style={{ color: "var(--text-muted)", fontSize: "13px" }}>No recent records found.</p>
+        ) : (
+          <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+            {allCheckIns.slice(0, 4).map((ci) => {
+              const dateStr = new Date(ci.createdAt).toLocaleDateString("en-US", {
+                month: "short",
+                day: "numeric"
+              });
+              return (
+                <div
+                  key={ci.id}
+                  style={{
+                    backgroundColor: "var(--surface-soft)",
+                    border: "1px solid var(--hairline)",
+                    borderRadius: "var(--rounded-md)",
+                    padding: "12px 16px",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center"
+                  }}
+                >
+                  <div>
+                    <div style={{ fontWeight: 700, fontSize: "14px", color: "var(--ink)" }}>{dateStr}</div>
+                    <div style={{ fontSize: "12px", color: "var(--text-muted)" }}>
+                      {ci.deltaPoints > 0 ? `↑ ${ci.deltaPoints} pts` : ci.deltaPoints < 0 ? `↓ ${Math.abs(ci.deltaPoints)} pts` : "Stable"}
+                    </div>
+                  </div>
+                  <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                    <span style={{ fontSize: "18px", fontWeight: 800, color: "var(--ink)" }}>
+                      {Math.round(ci.dhritiIndex)}
+                    </span>
+                    <span className={`badge badge-${ci.riskLevel.toLowerCase()}`}>
+                      {ci.riskLevel}
+                    </span>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
       </div>
 
-      <div style={{ marginTop: "24px" }}>
-        <DisclaimerBanner />
-      </div>
+      <DisclaimerBanner />
     </div>
   );
 }
