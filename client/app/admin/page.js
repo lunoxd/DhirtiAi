@@ -11,7 +11,9 @@ import {
   Trash2,
   Edit3,
   RefreshCw,
-  X
+  X,
+  UserCheck,
+  Stethoscope
 } from "lucide-react";
 import DisclaimerBanner from "../../components/DisclaimerBanner";
 
@@ -65,6 +67,16 @@ export default function AdminPortalPage() {
       console.error("Admin Data Load Error:", err);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleApproveDoctor = async (id, name) => {
+    try {
+      await apiAdmin.approveDoctor(id);
+      alert(`✓ Approved Doctor account for ${name}!`);
+      loadAdminData();
+    } catch (err) {
+      alert("Failed to approve doctor: " + err.message);
     }
   };
 
@@ -135,7 +147,7 @@ export default function AdminPortalPage() {
             Operations & Global Oversight
           </h1>
           <p style={{ fontSize: "14px", color: "var(--text-muted)" }}>
-            Global analytics, role assignment, triage audit logs, and Groq engine health.
+            Global analytics, Doctor approval queue, role assignment, and Groq AI health.
           </p>
         </div>
 
@@ -153,13 +165,25 @@ export default function AdminPortalPage() {
       }}>
         <div className="card" style={{ padding: "20px" }}>
           <div style={{ fontSize: "11px", color: "var(--text-muted)", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}>
-            Total User Accounts
+            Total Accounts
           </div>
           <div style={{ fontSize: "30px", fontWeight: 800, color: "#ffffff", marginTop: "4px" }}>
             {metrics.totalAccounts || 0}
           </div>
           <div style={{ fontSize: "12px", color: "var(--text-muted)", marginTop: "4px" }}>
-            {metrics.totalUsers} Survivors • {metrics.totalDoctors} Clinicians
+            {metrics.totalUsers} Users • {metrics.totalDoctors} Doctors
+          </div>
+        </div>
+
+        <div className="card" style={{ padding: "20px", border: metrics.pendingDoctors > 0 ? "1px solid var(--status-elevated)" : "1px solid var(--hairline)" }}>
+          <div style={{ fontSize: "11px", color: "var(--text-muted)", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}>
+            Pending Doctor Approvals
+          </div>
+          <div style={{ fontSize: "30px", fontWeight: 800, color: metrics.pendingDoctors > 0 ? "var(--status-elevated)" : "#ffffff", marginTop: "4px" }}>
+            {metrics.pendingDoctors || 0}
+          </div>
+          <div style={{ fontSize: "12px", color: "var(--text-muted)", marginTop: "4px" }}>
+            Awaiting Admin review
           </div>
         </div>
 
@@ -189,80 +213,14 @@ export default function AdminPortalPage() {
 
         <div className="card" style={{ padding: "20px" }}>
           <div style={{ fontSize: "11px", color: "var(--text-muted)", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}>
-            Platform Avg. Index
-          </div>
-          <div style={{ fontSize: "30px", fontWeight: 800, color: "var(--status-stable)", marginTop: "4px" }}>
-            {metrics.averageDhritiIndex || 0}
-            <span style={{ fontSize: "14px", color: "var(--text-muted)", fontWeight: 500 }}>/100</span>
-          </div>
-          <div style={{ fontSize: "12px", color: "var(--text-muted)", marginTop: "4px" }}>
-            Overall population score
-          </div>
-        </div>
-
-        <div className="card" style={{ padding: "20px" }}>
-          <div style={{ fontSize: "11px", color: "var(--text-muted)", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}>
             Groq AI Engine
           </div>
           <div style={{ fontSize: "18px", fontWeight: 800, color: overview?.system?.groqStatus === "ONLINE" ? "var(--status-stable)" : "var(--status-elevated)", marginTop: "8px" }}>
             {overview?.system?.groqStatus || "ONLINE"}
           </div>
           <div style={{ fontSize: "12px", color: "var(--text-muted)", marginTop: "4px" }}>
-            openai/gpt-oss-20b
+            qwen/qwen3.6-27b
           </div>
-        </div>
-      </div>
-
-      {/* Risk Distribution Visual Bar */}
-      <div className="card" style={{ padding: "24px", marginBottom: "28px" }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "14px" }}>
-          <h3 style={{ fontSize: "15px", fontWeight: 800, color: "#ffffff" }}>
-            Platform Distress Risk Distribution
-          </h3>
-          <span style={{ fontSize: "12px", color: "var(--text-muted)" }}>
-            {metrics.totalCheckIns} check-ins analyzed
-          </span>
-        </div>
-
-        {/* Progress bar */}
-        <div style={{
-          height: "10px",
-          width: "100%",
-          backgroundColor: "var(--surface-soft)",
-          borderRadius: "var(--rounded-pill)",
-          overflow: "hidden",
-          display: "flex",
-          marginBottom: "14px"
-        }}>
-          <div style={{ width: `${(distribution.Stable / totalDist) * 100}%`, backgroundColor: "var(--status-stable)" }} title={`Stable: ${distribution.Stable}`} />
-          <div style={{ width: `${(distribution.Mild / totalDist) * 100}%`, backgroundColor: "var(--status-mild)" }} title={`Mild: ${distribution.Mild}`} />
-          <div style={{ width: `${(distribution.Elevated / totalDist) * 100}%`, backgroundColor: "var(--status-elevated)" }} title={`Elevated: ${distribution.Elevated}`} />
-          <div style={{ width: `${(distribution.High / totalDist) * 100}%`, backgroundColor: "var(--status-high)" }} title={`High: ${distribution.High}`} />
-          <div style={{ width: `${(distribution.Critical / totalDist) * 100}%`, backgroundColor: "var(--status-critical)" }} title={`Critical: ${distribution.Critical}`} />
-        </div>
-
-        {/* Legend */}
-        <div style={{ display: "flex", gap: "16px", flexWrap: "wrap", fontSize: "12px", color: "var(--text-muted)" }}>
-          <span style={{ display: "flex", alignItems: "center", gap: "4px" }}>
-            <span style={{ width: "8px", height: "8px", borderRadius: "50%", backgroundColor: "var(--status-stable)" }} />
-            Stable ({distribution.Stable || 0})
-          </span>
-          <span style={{ display: "flex", alignItems: "center", gap: "4px" }}>
-            <span style={{ width: "8px", height: "8px", borderRadius: "50%", backgroundColor: "var(--status-mild)" }} />
-            Mild ({distribution.Mild || 0})
-          </span>
-          <span style={{ display: "flex", alignItems: "center", gap: "4px" }}>
-            <span style={{ width: "8px", height: "8px", borderRadius: "50%", backgroundColor: "var(--status-elevated)" }} />
-            Elevated ({distribution.Elevated || 0})
-          </span>
-          <span style={{ display: "flex", alignItems: "center", gap: "4px" }}>
-            <span style={{ width: "8px", height: "8px", borderRadius: "50%", backgroundColor: "var(--status-high)" }} />
-            High ({distribution.High || 0})
-          </span>
-          <span style={{ display: "flex", alignItems: "center", gap: "4px" }}>
-            <span style={{ width: "8px", height: "8px", borderRadius: "50%", backgroundColor: "var(--status-critical)" }} />
-            Critical ({distribution.Critical || 0})
-          </span>
         </div>
       </div>
 
@@ -273,7 +231,7 @@ export default function AdminPortalPage() {
             onClick={() => setActiveTab("overview")}
             className={`nav-pill-item ${activeTab === "overview" ? "active" : ""}`}
           >
-            <Users size={14} style={{ display: "inline", marginRight: "4px" }} /> User Accounts ({usersList.length})
+            <Users size={14} style={{ display: "inline", marginRight: "4px" }} /> User Directory ({usersList.length})
           </button>
           <button
             onClick={() => setActiveTab("checkins")}
@@ -284,12 +242,12 @@ export default function AdminPortalPage() {
         </div>
       </div>
 
-      {/* TAB 1: User Management */}
+      {/* TAB 1: User Management & Doctor Approval */}
       {activeTab === "overview" && (
         <div className="card" style={{ padding: "24px" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "12px", marginBottom: "16px" }}>
             <h3 style={{ fontSize: "16px", fontWeight: 800, color: "#ffffff" }}>
-              User Directory & Role Control
+              User Directory & Doctor Approvals
             </h3>
 
             <div style={{ display: "flex", gap: "8px" }}>
@@ -301,7 +259,7 @@ export default function AdminPortalPage() {
               >
                 <option value="ALL">All Roles</option>
                 <option value="USER">Survivors (Users)</option>
-                <option value="DOCTOR">Doctors / Helplines</option>
+                <option value="DOCTOR">Doctors / Responders</option>
                 <option value="ADMIN">Admins</option>
               </select>
             </div>
@@ -315,7 +273,6 @@ export default function AdminPortalPage() {
                   <th style={{ padding: "10px" }}>Email</th>
                   <th style={{ padding: "10px" }}>Role</th>
                   <th style={{ padding: "10px" }}>Affiliation</th>
-                  <th style={{ padding: "10px" }}>Check-ins</th>
                   <th style={{ padding: "10px" }}>Status</th>
                   <th style={{ padding: "10px", textAlign: "right" }}>Actions</th>
                 </tr>
@@ -342,22 +299,28 @@ export default function AdminPortalPage() {
                       </span>
                     </td>
                     <td style={{ padding: "12px 10px", color: "var(--text-muted)", fontSize: "12px" }}>
-                      {u.organization || "—"}
-                    </td>
-                    <td style={{ padding: "12px 10px", fontWeight: 800, color: "#ffffff" }}>
-                      {u.checkInCount || 0}
+                      {u.organization ? `${u.organization} (${u.specialization || 'Clinical'})` : "—"}
                     </td>
                     <td style={{ padding: "12px 10px" }}>
-                      <span className={`badge ${u.status === "ACTIVE" ? "badge-stable" : "badge-critical"}`} style={{ fontSize: "10px" }}>
+                      <span className={`badge ${u.status === "ACTIVE" ? "badge-stable" : u.status === "PENDING_APPROVAL" ? "badge-elevated" : "badge-critical"}`} style={{ fontSize: "10px" }}>
                         {u.status}
                       </span>
                     </td>
                     <td style={{ padding: "12px 10px", textAlign: "right" }}>
                       <div style={{ display: "inline-flex", gap: "6px" }}>
+                        {u.role === "DOCTOR" && u.status === "PENDING_APPROVAL" && (
+                          <button
+                            onClick={() => handleApproveDoctor(u.id, u.name)}
+                            className="btn btn-success btn-sm"
+                            title="Approve Doctor Account"
+                          >
+                            <UserCheck size={13} /> Approve Doctor
+                          </button>
+                        )}
                         <button
                           onClick={() => handleEditUser(u)}
                           className="btn btn-secondary btn-sm"
-                          title="Edit Role & Permissions"
+                          title="Edit Role & Status"
                         >
                           <Edit3 size={13} /> Edit
                         </button>
@@ -465,7 +428,7 @@ export default function AdminPortalPage() {
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
               <h3 style={{ fontSize: "18px", fontWeight: 800, color: "#ffffff" }}>
-                Edit Role: {editingUser.name}
+                Edit Role & Status: {editingUser.name}
               </h3>
               <button onClick={() => setEditingUser(null)} style={{ color: "var(--text-muted)" }}>
                 <X size={20} />
@@ -504,6 +467,7 @@ export default function AdminPortalPage() {
                 onChange={(e) => setEditStatus(e.target.value)}
               >
                 <option value="ACTIVE">ACTIVE</option>
+                <option value="PENDING_APPROVAL">PENDING_APPROVAL</option>
                 <option value="SUSPENDED">SUSPENDED</option>
               </select>
             </div>

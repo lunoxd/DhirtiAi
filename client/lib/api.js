@@ -40,30 +40,15 @@ export async function fetchApi(endpoint, options = {}) {
 
 // Authentication API
 export const apiAuth = {
-  register: (name, email, password, role = "USER", organization = "", specialization = "", otp = "") =>
+  register: (name, email, password, role = "USER", organization = "", specialization = "") =>
     fetchApi("/auth/register", {
       method: "POST",
-      body: JSON.stringify({ name, email, password, role, organization, specialization, otp })
-    }),
-  sendOTP: (email) =>
-    fetchApi("/auth/send-otp", {
-      method: "POST",
-      body: JSON.stringify({ email })
-    }),
-  verifyOTP: (email, otp) =>
-    fetchApi("/auth/verify-otp", {
-      method: "POST",
-      body: JSON.stringify({ email, otp })
+      body: JSON.stringify({ name, email, password, role, organization, specialization })
     }),
   login: (email, password) =>
     fetchApi("/auth/login", {
       method: "POST",
       body: JSON.stringify({ email, password })
-    }),
-  demo: (role = "USER") =>
-    fetchApi("/auth/demo", {
-      method: "POST",
-      body: JSON.stringify({ role })
     }),
   me: () => fetchApi("/auth/me")
 };
@@ -124,6 +109,10 @@ export const apiAdmin = {
   getOverview: () => fetchApi("/admin/overview"),
   getUsers: (role = "ALL", search = "") =>
     fetchApi(`/admin/users?role=${role}&search=${encodeURIComponent(search)}`),
+  approveDoctor: (id) =>
+    fetchApi(`/admin/users/${id}/approve`, {
+      method: "POST"
+    }),
   updateUserRole: (id, role, organization, specialization, status) =>
     fetchApi(`/admin/users/${id}/role`, {
       method: "PUT",

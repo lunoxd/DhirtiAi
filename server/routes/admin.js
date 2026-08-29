@@ -16,6 +16,7 @@ router.get("/overview", async (req, res) => {
       totalUsers,
       totalDoctors,
       totalAdmins,
+      pendingDoctors,
       totalCheckIns,
       criticalCheckIns,
       checkInsList
@@ -23,6 +24,7 @@ router.get("/overview", async (req, res) => {
       prisma.user.count({ where: { role: "USER" } }),
       prisma.user.count({ where: { role: "DOCTOR" } }),
       prisma.user.count({ where: { role: "ADMIN" } }),
+      prisma.user.count({ where: { role: "DOCTOR", status: "PENDING_APPROVAL" } }),
       prisma.checkIn.count(),
       prisma.checkIn.count({
         where: {
@@ -67,6 +69,7 @@ router.get("/overview", async (req, res) => {
         totalUsers,
         totalDoctors,
         totalAdmins,
+        pendingDoctors,
         totalAccounts: totalUsers + totalDoctors + totalAdmins,
         totalCheckIns,
         activeCritical: criticalCheckIns,
@@ -130,6 +133,22 @@ router.get("/users", async (req, res) => {
   }
 });
 
+// POST /api/admin/users/:id/approve - Approve pending Doctor registration
+router.post("/users/:id/approve", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updated = await prisma.user.update({
+      where: { id },
+      data: { status: "ACTIVE" },
+      select: { id: true, name: true, email: true, role: true, status: true }
+    });
+    return res.json({ message: "Doctor registration approved successfully!", user: updated });
+  } catch (error) {
+    console.error("Approve Doctor Error:", error);
+    return res.status(500).json({ error: "Failed to approve doctor." });
+  }
+});
+
 // PUT /api/admin/users/:id/role - Update user role & status
 router.put("/users/:id/role", async (req, res) => {
   try {
@@ -137,7 +156,7 @@ router.put("/users/:id/role", async (req, res) => {
     const { role, organization, specialization, status } = req.body;
 
     const validRole = ["USER", "DOCTOR", "ADMIN"].includes(role) ? role : undefined;
-    const validStatus = ["ACTIVE", "SUSPENDED"].includes(status) ? status : undefined;
+    const validStatus = ["ACTIVE", "SUSPENDED", "PENDING_APPROVAL"].includes(status) ? status : undefined;
 
     const updated = await prisma.user.update({
       where: { id },
