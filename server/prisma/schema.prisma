@@ -1,0 +1,38 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id           String    @id @default(uuid())
+  email        String    @unique
+  name         String
+  passwordHash String
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  checkIns     CheckIn[]
+}
+
+model CheckIn {
+  id                    String   @id @default(uuid())
+  userId                String
+  user                  User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt             DateTime @default(now())
+  
+  // JSON serialized fields for cross-platform SQLite compatibility
+  structuredResponses   String   // JSON string of answers
+  writtenResponses      String?  // JSON string of written text
+  aiAnalysis            String?  // JSON string of Groq AI analysis
+  
+  // Deterministic Scoring & Risk
+  dhritiIndex           Float
+  riskLevel             String   // "Stable" | "Mild" | "Elevated" | "High" | "Critical"
+  trend                 String   // "INCREASING" | "STABLE" | "IMPROVING"
+  deltaPoints           Float    @default(0)
+  safetyConcern         Boolean  @default(false)
+  supportRecommendation String
+}

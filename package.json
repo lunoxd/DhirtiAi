@@ -1,0 +1,14 @@
+{
+  "name": "dhriti-root",
+  "version": "1.0.0",
+  "description": "DHRITI - AI-Assisted Mental Wellbeing Monitoring & Early Distress-Support Platform",
+  "scripts": {
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "cd server && node index.js",
+    "client": "cd client && npm run dev",
+    "test": "cd server && node test_scoring.js && node test_integration.js"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

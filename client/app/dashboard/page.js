@@ -1,0 +1,268 @@
+"use client";
+
+import React, { useState, useEffect } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useAuth } from "../../context/AuthContext";
+import { apiDhriti, apiCheckIns } from "../../lib/api";
+import DhritiIndexGauge from "../../components/DhritiIndexGauge";
+import TrendChart from "../../components/TrendChart";
+import DisclaimerBanner from "../../components/DisclaimerBanner";
+import BreathingWidget from "../../components/BreathingWidget";
+import { PlusCircle, History, ArrowRight, ShieldAlert, HeartHandshake, AlertCircle } from "lucide-react";
+
+export default function DashboardPage() {
+  const router = useRouter();
+  const { user, loading: authLoading, isAuthenticated } = useAuth();
+  const [currentScore, setCurrentScore] = useState(null);
+  const [trendData, setTrendData] = useState([]);
+  const [recentCheckIns, setRecentCheckIns] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (!authLoading && !isAuthenticated) {
+      router.push("/login");
+      return;
+    }
+
+    if (isAuthenticated) {
+      loadDashboardData();
+    }
+  }, [authLoading, isAuthenticated, router]);
+
+  const loadDashboardData = async () => {
+    setLoading(true);
+    setError("");
+    try {
+      const [currentRes, trendRes, historyRes] = await Promise.all([
+        apiDhriti.getCurrent(),
+        apiDhriti.getTrend(),
+        apiCheckIns.getHistory()
+      ]);
+
+      setCurrentScore(currentRes);
+      setTrendData(trendRes.trendPoints || []);
+      setRecentCheckIns((historyRes.checkIns || []).slice(0, 4));
+    } catch (err) {
+      console.error("Dashboard Load Error:", err);
+      setError(err.message || "Failed to load dashboard data.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (authLoading || (loading && !currentScore)) {
+    return (
+      <div className="container" style={{ textAlign: "center", padding: "80px 20px" }}>
+        <p style={{ color: "var(--text-muted)", fontSize: "16px" }}>Loading your wellbeing dashboard...</p>
+      </div>
+    );
+  }
+
+  const hasData = currentScore && currentScore.hasCheckIns;
+
+  return (
+    <div className="container" style={{ paddingBottom: "60px" }}>
+      {/* Top Welcome Header */}
+      <div style={{
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        flexWrap: "wrap",
+        gap: "16px",
+        marginBottom: "24px"
+      }}>
+        <div>
+          <h1 style={{ fontSize: "26px", fontWeight: 800, color: "#ffffff", marginBottom: "4px" }}>
+            Hello, {user?.name || "Friend"}
+          </h1>
+          <p style={{ fontSize: "14px", color: "var(--text-muted)" }}>
+            Welcome to your confidential mental wellbeing overview.
+          </p>
+        </div>
+
+        <Link href="/check-in" className="btn btn-primary btn-lg">
+          <PlusCircle size={18} />
+          <span>Start New Check-in</span>
+        </Link>
+      </div>
+
+      {error && (
+        <div style={{
+          backgroundColor: "rgba(242, 63, 67, 0.15)",
+          border: "1px solid var(--status-critical)",
+          borderRadius: "var(--radius-md)",
+          padding: "12px 16px",
+          marginBottom: "20px",
+          display: "flex",
+          alignItems: "center",
+          gap: "10px",
+          color: "var(--status-critical)",
+          fontSize: "14px"
+        }}>
+          <AlertCircle size={18} />
+          <span>{error}</span>
+        </div>
+      )}
+
+      {/* Safety Alert if safety override was flagged */}
+      {currentScore?.safetyConcern && (
+        <div className="safety-banner">
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "12px" }}>
+            <div>
+              <h3 style={{ color: "#ffffff", fontSize: "16px", fontWeight: 700, marginBottom: "4px" }}>
+                We are here with you
+              </h3>
+              <p style={{ color: "var(--text-normal)", fontSize: "13px" }}>
+                Your recent check-in indicated safety or severe distress concerns. Trained human professionals are standing by.
+              </p>
+            </div>
+            <Link href="/support" className="btn btn-danger btn-sm">
+              <ShieldAlert size={14} /> Immediate Support Helplines
+            </Link>
+          </div>
+        </div>
+      )}
+
+      {!hasData ? (
+        /* Empty State */
+        <div className="card" style={{ textAlign: "center", padding: "60px 24px", marginBottom: "30px" }}>
+          <div style={{
+            width: "56px",
+            height: "56px",
+            borderRadius: "50%",
+            backgroundColor: "var(--bg-tertiary)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            margin: "0 auto 16px auto",
+            color: "var(--brand-primary)"
+          }}>
+            <PlusCircle size={28} />
+          </div>
+          <h2 style={{ fontSize: "20px", fontWeight: 700, color: "#ffffff", marginBottom: "8px" }}>
+            No Check-ins Recorded Yet
+          </h2>
+          <p style={{ color: "var(--text-muted)", fontSize: "14px", maxWidth: "460px", margin: "0 auto 24px auto" }}>
+            Take your first 2-minute mental wellbeing check-in to calculate your baseline Dhriti Index.
+          </p>
+          <Link href="/check-in" className="btn btn-primary btn-lg">
+            Take First Check-in
+          </Link>
+        </div>
+      ) : (
+        /* Grid of Score + Trend */
+        <div style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+          gap: "20px",
+          marginBottom: "24px"
+        }}>
+          {/* Dhriti Index Current Score Gauge */}
+          <DhritiIndexGauge
+            score={currentScore.dhritiIndex}
+            riskLevel={currentScore.riskLevel}
+            delta={currentScore.deltaPoints}
+            trend={currentScore.trend}
+            safetyConcern={currentScore.safetyConcern}
+          />
+
+          {/* Trend Chart */}
+          <TrendChart trendPoints={trendData} />
+        </div>
+      )}
+
+      {/* Support Guidance Recommendation */}
+      {hasData && (
+        <div className="card" style={{ marginBottom: "24px" }}>
+          <div style={{ display: "flex", alignItems: "flex-start", gap: "12px" }}>
+            <HeartHandshake size={20} color="var(--brand-primary)" style={{ flexShrink: 0, marginTop: "2px" }} />
+            <div>
+              <h3 style={{ fontSize: "15px", fontWeight: 700, color: "#ffffff", marginBottom: "4px" }}>
+                Supportive Recommendation
+              </h3>
+              <p style={{ fontSize: "14px", color: "var(--text-normal)", lineHeight: "1.5" }}>
+                {currentScore.supportRecommendation}
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Recent Check-ins & Grounding Widget */}
+      <div style={{
+        display: "grid",
+        gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+        gap: "20px"
+      }}>
+        {/* Recent Check-ins List */}
+        <div className="card">
+          <div style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginBottom: "16px"
+          }}>
+            <h3 style={{ fontSize: "16px", fontWeight: 700, color: "#ffffff" }}>RECENT CHECK-INS</h3>
+            {recentCheckIns.length > 0 && (
+              <Link href="/history" style={{ fontSize: "13px", color: "var(--brand-primary)", fontWeight: 600, display: "flex", alignItems: "center", gap: "4px" }}>
+                <span>View All</span>
+                <ArrowRight size={14} />
+              </Link>
+            )}
+          </div>
+
+          {recentCheckIns.length === 0 ? (
+            <p style={{ color: "var(--text-muted)", fontSize: "13px" }}>No recent records found.</p>
+          ) : (
+            <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+              {recentCheckIns.map((ci) => {
+                const dateStr = new Date(ci.createdAt).toLocaleDateString("en-US", {
+                  month: "short",
+                  day: "numeric"
+                });
+                return (
+                  <div
+                    key={ci.id}
+                    style={{
+                      backgroundColor: "var(--bg-primary)",
+                      border: "1px solid var(--border-subtle)",
+                      borderRadius: "var(--radius-md)",
+                      padding: "12px 16px",
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center"
+                    }}
+                  >
+                    <div>
+                      <div style={{ fontWeight: 600, fontSize: "14px", color: "#ffffff" }}>{dateStr}</div>
+                      <div style={{ fontSize: "12px", color: "var(--text-muted)" }}>
+                        {ci.deltaPoints > 0 ? `↑ ${ci.deltaPoints} pts` : ci.deltaPoints < 0 ? `↓ ${Math.abs(ci.deltaPoints)} pts` : "Stable"}
+                      </div>
+                    </div>
+                    <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                      <span style={{ fontSize: "18px", fontWeight: 800, color: "#ffffff" }}>
+                        {Math.round(ci.dhritiIndex)}
+                      </span>
+                      <span className={`badge badge-${ci.riskLevel.toLowerCase()}`}>
+                        {ci.riskLevel}
+                      </span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
+
+        {/* Breathing & Grounding Quick Tool */}
+        <BreathingWidget />
+      </div>
+
+      <div style={{ marginTop: "24px" }}>
+        <DisclaimerBanner />
+      </div>
+    </div>
+  );
+}
