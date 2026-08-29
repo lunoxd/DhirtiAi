@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useAuth } from "../context/AuthContext";
 import {
@@ -55,7 +54,7 @@ export default function Navbar() {
     if (isAdmin) {
       return (
         <span style={{
-          backgroundColor: "rgba(245, 36, 67, 0.2)",
+          backgroundColor: "rgba(245, 36, 67, 0.12)",
           color: "var(--primary)",
           fontSize: "10px",
           fontWeight: 700,
@@ -69,7 +68,7 @@ export default function Navbar() {
     if (isDoctor) {
       return (
         <span style={{
-          backgroundColor: "rgba(35, 165, 90, 0.2)",
+          backgroundColor: "rgba(16, 185, 129, 0.12)",
           color: "var(--status-stable)",
           fontSize: "10px",
           fontWeight: 700,
@@ -86,7 +85,7 @@ export default function Navbar() {
   return (
     <>
       <nav style={{
-        backgroundColor: "#1e1f22",
+        backgroundColor: "var(--canvas)",
         borderBottom: "1px solid var(--hairline)",
         position: "sticky",
         top: 0,
@@ -105,7 +104,7 @@ export default function Navbar() {
             gap: "10px",
             fontSize: "18px",
             fontWeight: 800,
-            color: "#ffffff"
+            color: "var(--ink)"
           }}>
             <img
               src="/logo.png"
@@ -176,7 +175,7 @@ export default function Navbar() {
                   borderRadius: "var(--rounded-md)",
                   border: "1px solid var(--hairline)",
                   fontSize: "13px",
-                  color: "#ffffff"
+                  color: "var(--ink)"
                 }}>
                   <User size={13} color="var(--primary)" />
                   <span style={{ fontWeight: 600 }}>{user?.name || "User"}</span>
@@ -200,7 +199,7 @@ export default function Navbar() {
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="mobile-only"
-              style={{ color: "#ffffff", padding: "4px", display: "none" }}
+              style={{ color: "var(--ink)", padding: "4px", display: "none" }}
             >
               {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
@@ -210,7 +209,7 @@ export default function Navbar() {
         {/* Mobile Dropdown */}
         {mobileMenuOpen && (
           <div style={{
-            backgroundColor: "#1e1f22",
+            backgroundColor: "var(--canvas)",
             borderBottom: "1px solid var(--hairline)",
             padding: "12px 16px"
           }}>
@@ -247,7 +246,7 @@ export default function Navbar() {
 
               {isAuthenticated ? (
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                  <span style={{ fontSize: "13px", fontWeight: 600, color: "#ffffff" }}>{user?.name}</span>
+                  <span style={{ fontSize: "13px", fontWeight: 600, color: "var(--ink)" }}>{user?.name}</span>
                   <button onClick={logout} className="btn btn-secondary btn-sm">
                     <LogOut size={14} /> Sign Out
                   </button>

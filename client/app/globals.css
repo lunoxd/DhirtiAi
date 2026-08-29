@@ -1,21 +1,21 @@
 :root {
-  /* Discord Dark Theme Palette with Vibrant Pink/Coral Primary Accent (rgb(245, 36, 67) / #ff2a5f) */
-  --canvas: #313338;             /* Discord Primary Canvas */
-  --surface-soft: #1e1f22;        /* Discord Recessed / Input Background */
-  --surface-card: #2b2d31;        /* Discord Card / Panel Background */
-  --surface-strong: #3f4147;      /* Discord Element Border */
-  --surface-dark: #1e1f22;        /* Discord Dark Bar / Footer */
-  --surface-dark-elevated: #232428;
+  /* Clean White Palette with Vibrant Coral Pink Accent (rgb(245, 36, 67)) */
+  --canvas: #ffffff;             /* Pure White Canvas */
+  --surface-soft: #f8f9fa;        /* Light Surface Soft */
+  --surface-card: #ffffff;        /* White Card Surface */
+  --surface-strong: #e5e7eb;      /* Hairline Border */
+  --surface-dark: #1e1f22;        /* Dark Footer */
+  --surface-dark-elevated: #2b2d31;
 
-  --hairline: #3f4147;
-  --hairline-soft: #35373c;
+  --hairline: #e5e7eb;
+  --hairline-soft: #f3f4f6;
 
-  --ink: #ffffff;                 /* Pure White Headlines & Primary Type */
-  --text-body: #dbdee1;           /* Discord Primary Light Text */
-  --text-muted: #949ba4;          /* Discord Muted Secondary Text */
-  --text-muted-soft: #80848e;
+  --ink: #111111;                 /* Dark Headlines & Primary Type */
+  --text-body: #374151;           /* Dark Primary Body Text */
+  --text-muted: #6b7280;          /* Secondary Muted Text */
+  --text-muted-soft: #898989;
 
-  --on-primary: #ffffff;          /* White Text on Vibrant Pink Buttons */
+  --on-primary: #ffffff;          /* White Text on Coral Pink Buttons */
   --on-dark: #ffffff;
   --on-dark-soft: #949ba4;
 
@@ -24,14 +24,14 @@
   --brand-accent: rgb(245, 36, 67);
 
   /* Semantics */
-  --success: #23a55a;             /* Discord Green */
-  --warning: #f0b232;             /* Discord Yellow */
+  --success: #10b981;             /* Emerald Green */
+  --warning: #f59e0b;             /* Warm Amber */
   --error: rgb(245, 36, 67);      /* Coral Pink */
 
-  --status-stable: #23a55a;
-  --status-mild: #57f287;
-  --status-elevated: #f0b232;
-  --status-high: #f2723f;
+  --status-stable: #10b981;
+  --status-mild: #34d399;
+  --status-elevated: #f59e0b;
+  --status-high: #f97316;
   --status-critical: rgb(245, 36, 67);
 
   /* Border Radii */
@@ -100,15 +100,16 @@ button {
 
 /* Cards */
 .card {
-  background-color: var(--surface-card);
+  background-color: var(--canvas);
   border: 1px solid var(--hairline);
   border-radius: var(--rounded-lg);
   padding: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
 }
 
 .card-gray {
-  background-color: var(--surface-card);
-  border: 1px solid var(--hairline-soft);
+  background-color: var(--surface-soft);
+  border: 1px solid var(--hairline);
   border-radius: var(--rounded-lg);
   padding: 24px;
 }
@@ -148,13 +149,13 @@ button {
 }
 
 .btn-secondary {
-  background-color: var(--surface-soft);
+  background-color: var(--canvas);
   color: var(--ink);
   border: 1px solid var(--hairline);
 }
 .btn-secondary:hover {
-  background-color: #2b2d31;
-  border-color: #4e5058;
+  background-color: var(--surface-soft);
+  border-color: #d1d5db;
 }
 
 .btn-danger {
@@ -170,7 +171,7 @@ button {
   color: #ffffff;
 }
 .btn-success:hover {
-  background-color: #1f9450;
+  background-color: #059669;
 }
 
 .btn-sm {
@@ -204,7 +205,7 @@ button {
 }
 
 .form-input, .form-textarea {
-  background-color: var(--surface-soft);
+  background-color: var(--canvas);
   border: 1px solid var(--hairline);
   border-radius: var(--rounded-md);
   padding: 10px 14px;
@@ -217,7 +218,7 @@ button {
 
 .form-input:focus, .form-textarea:focus {
   border-color: var(--primary);
-  box-shadow: 0 0 0 2px rgba(245, 36, 67, 0.25);
+  box-shadow: 0 0 0 2px rgba(245, 36, 67, 0.15);
 }
 
 .form-textarea {
@@ -237,33 +238,33 @@ button {
 }
 
 .badge-stable {
-  background-color: rgba(35, 165, 90, 0.18);
+  background-color: rgba(16, 185, 129, 0.12);
   color: var(--status-stable);
-  border: 1px solid rgba(35, 165, 90, 0.35);
+  border: 1px solid rgba(16, 185, 129, 0.3);
 }
 
 .badge-mild {
-  background-color: rgba(87, 242, 135, 0.18);
-  color: var(--status-mild);
-  border: 1px solid rgba(87, 242, 135, 0.35);
+  background-color: rgba(52, 211, 153, 0.12);
+  color: #059669;
+  border: 1px solid rgba(52, 211, 153, 0.3);
 }
 
 .badge-elevated {
-  background-color: rgba(240, 178, 50, 0.18);
-  color: var(--status-elevated);
-  border: 1px solid rgba(240, 178, 50, 0.35);
+  background-color: rgba(245, 158, 11, 0.12);
+  color: #d97706;
+  border: 1px solid rgba(245, 158, 11, 0.3);
 }
 
 .badge-high {
-  background-color: rgba(242, 114, 63, 0.18);
-  color: var(--status-high);
-  border: 1px solid rgba(242, 114, 63, 0.35);
+  background-color: rgba(249, 115, 22, 0.12);
+  color: #ea580c;
+  border: 1px solid rgba(249, 115, 22, 0.3);
 }
 
 .badge-critical {
-  background-color: rgba(245, 36, 67, 0.18);
+  background-color: rgba(245, 36, 67, 0.12);
   color: var(--status-critical);
-  border: 1px solid rgba(245, 36, 67, 0.35);
+  border: 1px solid rgba(245, 36, 67, 0.3);
 }
 
 /* Nav Pill Group Component */
@@ -294,8 +295,8 @@ button {
 
 /* Safety Alert Banner */
 .safety-banner {
-  background-color: rgba(245, 36, 67, 0.12);
-  border: 1px solid rgba(245, 36, 67, 0.45);
+  background-color: rgba(245, 36, 67, 0.08);
+  border: 1px solid rgba(245, 36, 67, 0.35);
   border-radius: var(--rounded-lg);
   padding: 20px;
   margin-bottom: 20px;
@@ -303,7 +304,7 @@ button {
 
 /* Check-in Question Buttons */
 .option-button {
-  background-color: var(--surface-soft);
+  background-color: var(--canvas);
   border: 1px solid var(--hairline);
   border-radius: var(--rounded-md);
   padding: 14px 18px;
@@ -319,8 +320,8 @@ button {
 }
 
 .option-button:hover {
-  background-color: #35373c;
-  border-color: #4e5058;
+  background-color: var(--surface-soft);
+  border-color: #d1d5db;
 }
 
 .option-button.selected {
@@ -334,8 +335,8 @@ button {
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(3px);
+  background-color: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(2px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -344,11 +345,11 @@ button {
 }
 
 .modal-content {
-  background-color: var(--surface-card);
+  background-color: var(--canvas);
   border: 1px solid var(--hairline);
   border-radius: var(--rounded-xl);
   max-width: 540px;
   width: 100%;
   padding: 28px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
 }
