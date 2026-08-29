@@ -8,7 +8,6 @@ import { apiDhriti, apiCheckIns, apiChat } from "../../lib/api";
 import DhritiIndexGauge from "../../components/DhritiIndexGauge";
 import CheckInCalendar from "../../components/CheckInCalendar";
 import TrendChart from "../../components/TrendChart";
-import DisclaimerBanner from "../../components/DisclaimerBanner";
 import { PlusCircle, ShieldAlert, AlertCircle, Sparkles, Send, ArrowRight } from "lucide-react";
 
 export default function DashboardPage() {
@@ -31,6 +30,16 @@ export default function DashboardPage() {
   const [chatInput, setChatInput] = useState("");
   const [chatLoading, setChatLoading] = useState(false);
   const chatEndRef = useRef(null);
+
+  // LOCK BODY SCROLL FOR FIXED 100% UNFLINCHING UN-SCROLLABLE DASHBOARD VIEWPORT
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "auto";
+      document.documentElement.style.overflow = "auto";
+    };
+  }, []);
 
   useEffect(() => {
     if (!authLoading && !isAuthenticated) {
@@ -114,14 +123,15 @@ export default function DashboardPage() {
 
   return (
     <div style={{
-      width: "100%",
-      height: "calc(100vh - 84px)",
-      maxHeight: "calc(100vh - 84px)",
+      width: "100vw",
+      height: "calc(100vh - 60px)",
+      maxHeight: "calc(100vh - 60px)",
       overflow: "hidden",
-      padding: "0 24px 16px 24px",
+      padding: "12px 20px",
       display: "flex",
       flexDirection: "column",
-      justifyContent: "space-between"
+      justifyContent: "space-between",
+      boxSizing: "border-box"
     }}>
       {/* 1. Header Control Bar */}
       <div style={{
@@ -129,18 +139,18 @@ export default function DashboardPage() {
         justifyContent: "space-between",
         alignItems: "center",
         flexWrap: "nowrap",
-        marginBottom: "10px"
+        marginBottom: "8px"
       }}>
         <div>
-          <h1 style={{ fontSize: "22px", fontWeight: 800, color: "#ffffff", marginBottom: "2px" }}>
+          <h1 style={{ fontSize: "20px", fontWeight: 800, color: "#ffffff", margin: 0 }}>
             Welcome, {user?.name || "Friend"}
           </h1>
-          <p style={{ fontSize: "13px", color: "var(--text-muted)" }}>
+          <p style={{ fontSize: "12px", color: "var(--text-muted)", margin: 0 }}>
             Full-screen personal wellbeing monitoring dashboard
           </p>
         </div>
 
-        <Link href="/check-in" className="btn btn-primary btn-sm" style={{ padding: "8px 16px" }}>
+        <Link href="/check-in" className="btn btn-primary btn-sm" style={{ padding: "6px 14px" }}>
           <PlusCircle size={15} />
           <span>New Check-in</span>
         </Link>
@@ -151,28 +161,28 @@ export default function DashboardPage() {
           backgroundColor: "rgba(245, 36, 67, 0.18)",
           border: "1px solid var(--status-critical)",
           borderRadius: "var(--rounded-md)",
-          padding: "8px 12px",
-          marginBottom: "10px",
+          padding: "6px 12px",
+          marginBottom: "8px",
           color: "var(--status-critical)",
-          fontSize: "13px",
+          fontSize: "12px",
           display: "flex",
           alignItems: "center",
           gap: "8px"
         }}>
-          <AlertCircle size={16} />
+          <AlertCircle size={15} />
           <span>{error}</span>
         </div>
       )}
 
       {/* Safety Alert Flag */}
       {currentScore?.safetyConcern && (
-        <div className="safety-banner" style={{ padding: "10px 14px", marginBottom: "10px" }}>
+        <div className="safety-banner" style={{ padding: "8px 12px", marginBottom: "8px" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <span style={{ color: "#ffffff", fontSize: "13px", fontWeight: 700 }}>
+            <span style={{ color: "#ffffff", fontSize: "12px", fontWeight: 700 }}>
               ⚠️ Severe distress flagged. 24/7 human crisis counselors are available.
             </span>
-            <Link href="/support" className="btn btn-danger btn-sm" style={{ padding: "4px 10px", fontSize: "12px" }}>
-              <ShieldAlert size={13} /> 24/7 Helplines
+            <Link href="/support" className="btn btn-danger btn-sm" style={{ padding: "4px 8px", fontSize: "11px" }}>
+              <ShieldAlert size={13} /> Helplines
             </Link>
           </div>
         </div>
@@ -182,13 +192,14 @@ export default function DashboardPage() {
       <div style={{
         display: "grid",
         gridTemplateColumns: "1.1fr 1.2fr 1.1fr",
-        gap: "16px",
+        gap: "14px",
         flex: 1,
-        maxHeight: "calc(100vh - 200px)",
-        alignItems: "stretch"
+        maxHeight: "calc(100vh - 165px)",
+        alignItems: "stretch",
+        overflow: "hidden"
       }}>
         {/* Column 1 (Left): Score Display + Historical Dhriti Trend Graph */}
-        <div style={{ display: "flex", flexDirection: "column", gap: "12px", height: "100%" }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: "10px", height: "100%", overflow: "hidden" }}>
           <DhritiIndexGauge
             score={currentScore?.dhritiIndex || 0}
             riskLevel={currentScore?.riskLevel || "STABLE"}
@@ -196,26 +207,26 @@ export default function DashboardPage() {
             trend={currentScore?.trend || "STABLE"}
             safetyConcern={currentScore?.safetyConcern}
           />
-          <div style={{ flex: 1 }}>
+          <div style={{ flex: 1, overflow: "hidden" }}>
             <TrendChart trendPoints={trendData} />
           </div>
         </div>
 
         {/* Column 2 (Middle): Check-in Monthly Calendar Grid */}
-        <div style={{ height: "100%" }}>
+        <div style={{ height: "100%", overflow: "hidden" }}>
           <CheckInCalendar checkIns={allCheckIns} />
         </div>
 
         {/* Column 3 (Right): DHRITIAI CHATBOT IN PLACE OF BOX BREATHING */}
-        <div className="card" style={{ padding: "16px", height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "10px" }}>
+        <div className="card" style={{ padding: "14px", height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-between", overflow: "hidden" }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "8px" }}>
             <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-              <img src="/logo.png" alt="Dhriti Logo" style={{ height: "24px", width: "auto" }} />
-              <h3 style={{ fontSize: "15px", fontWeight: 800, color: "#ffffff" }}>
+              <img src="/logo.png" alt="Dhriti Logo" style={{ height: "22px", width: "auto" }} />
+              <h3 style={{ fontSize: "14px", fontWeight: 800, color: "#ffffff" }}>
                 DhritiAi Assistant
               </h3>
             </div>
-            <span className="badge badge-stable" style={{ fontSize: "10px" }}>Live AI</span>
+            <span className="badge badge-stable" style={{ fontSize: "10px", padding: "1px 6px" }}>Groq AI</span>
           </div>
 
           {/* Messages Feed */}
@@ -224,12 +235,12 @@ export default function DashboardPage() {
             backgroundColor: "#1e1f22",
             border: "1px solid var(--hairline)",
             borderRadius: "var(--rounded-md)",
-            padding: "12px",
+            padding: "10px",
             overflowY: "auto",
             display: "flex",
             flexDirection: "column",
-            gap: "10px",
-            marginBottom: "10px"
+            gap: "8px",
+            marginBottom: "8px"
           }}>
             {chatMessages.map((m, idx) => (
               <div
@@ -240,11 +251,11 @@ export default function DashboardPage() {
                 }}
               >
                 <div style={{
-                  maxWidth: "88%",
-                  padding: "10px 14px",
-                  borderRadius: "12px",
-                  fontSize: "14px",
-                  lineHeight: "1.5",
+                  maxWidth: "90%",
+                  padding: "8px 12px",
+                  borderRadius: "10px",
+                  fontSize: "13.5px",
+                  lineHeight: "1.45",
                   fontWeight: 500,
                   backgroundColor: m.role === "user" ? "var(--primary)" : "#2b2d31",
                   color: "#ffffff",
@@ -256,7 +267,7 @@ export default function DashboardPage() {
               </div>
             ))}
             {chatLoading && (
-              <div style={{ fontSize: "12px", color: "var(--text-muted)", display: "flex", alignItems: "center", gap: "6px" }}>
+              <div style={{ fontSize: "11px", color: "var(--text-muted)", display: "flex", alignItems: "center", gap: "6px" }}>
                 <Sparkles size={12} color="var(--primary)" />
                 <span>DhritiAi is typing...</span>
               </div>
@@ -265,19 +276,19 @@ export default function DashboardPage() {
           </div>
 
           {/* Quick Suggestions */}
-          <div style={{ display: "flex", gap: "6px", overflowX: "auto", marginBottom: "8px" }}>
+          <div style={{ display: "flex", gap: "4px", overflowX: "auto", marginBottom: "6px" }}>
             {quickPrompts.map((qp, i) => (
               <button
                 key={i}
                 onClick={() => handleSendChat(qp.text)}
                 style={{
-                  fontSize: "11px",
+                  fontSize: "10.5px",
                   fontWeight: 600,
                   color: "#ffffff",
                   backgroundColor: "#1e1f22",
                   border: "1px solid var(--hairline)",
                   borderRadius: "var(--rounded-pill)",
-                  padding: "4px 8px",
+                  padding: "3px 8px",
                   whiteSpace: "nowrap"
                 }}
               >
@@ -287,12 +298,12 @@ export default function DashboardPage() {
           </div>
 
           {/* Input Bar */}
-          <div style={{ display: "flex", gap: "8px" }}>
+          <div style={{ display: "flex", gap: "6px" }}>
             <input
               type="text"
               className="form-input"
-              style={{ flex: 1, fontSize: "13.5px", backgroundColor: "#1e1f22", color: "#ffffff" }}
-              placeholder="Ask DhritiAi about mental health..."
+              style={{ flex: 1, fontSize: "13px", backgroundColor: "#1e1f22", color: "#ffffff", padding: "6px 10px" }}
+              placeholder="Ask DhritiAi..."
               value={chatInput}
               onChange={(e) => setChatInput(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleSendChat()}
@@ -301,33 +312,34 @@ export default function DashboardPage() {
               onClick={() => handleSendChat()}
               disabled={chatLoading || !chatInput.trim()}
               className="btn btn-primary btn-sm"
+              style={{ padding: "6px 10px" }}
             >
-              <Send size={14} />
+              <Send size={13} />
             </button>
           </div>
         </div>
       </div>
 
       {/* 3. Bottom Control Row */}
-      <div className="card" style={{ padding: "10px 16px", marginTop: "12px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-          <span style={{ fontSize: "12px", fontWeight: 700, color: "#ffffff" }}>RECENT RECORD:</span>
+      <div className="card" style={{ padding: "8px 14px", marginTop: "8px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+          <span style={{ fontSize: "11px", fontWeight: 700, color: "#ffffff" }}>RECENT RECORD:</span>
           {allCheckIns.length > 0 ? (
-            <span style={{ fontSize: "13px", color: "var(--text-body)" }}>
+            <span style={{ fontSize: "12px", color: "var(--text-body)" }}>
               {new Date(allCheckIns[0].createdAt).toLocaleDateString()} — Score: <strong>{Math.round(allCheckIns[0].dhritiIndex)}/100</strong> ({allCheckIns[0].riskLevel})
             </span>
           ) : (
-            <span style={{ fontSize: "12px", color: "var(--text-muted)" }}>No check-in history available.</span>
+            <span style={{ fontSize: "11px", color: "var(--text-muted)" }}>No check-in history available.</span>
           )}
         </div>
 
-        <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-          <Link href="/history" style={{ fontSize: "12px", fontWeight: 700, color: "var(--primary)", display: "flex", alignItems: "center", gap: "4px" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+          <Link href="/history" style={{ fontSize: "11px", fontWeight: 700, color: "var(--primary)", display: "flex", alignItems: "center", gap: "3px" }}>
             <span>Full History</span>
-            <ArrowRight size={13} />
+            <ArrowRight size={12} />
           </Link>
           <span style={{ color: "var(--hairline)" }}>|</span>
-          <span style={{ fontSize: "11px", color: "var(--text-muted)" }}>
+          <span style={{ fontSize: "10.5px", color: "var(--text-muted)" }}>
             Non-Diagnostic Wellbeing Tool
           </span>
         </div>

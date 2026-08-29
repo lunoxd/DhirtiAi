@@ -6,7 +6,9 @@ const router = express.Router();
  */
 function cleanAiResponse(text) {
   if (!text) return "";
-  return text.replace(/<think>[\s\S]*?<\/think>/gi, "").trim();
+  let cleaned = text.replace(/<think>[\s\S]*?<\/think>/gi, "");
+  cleaned = cleaned.replace(/<think>[\s\S]*/gi, ""); // Handle unclosed think blocks
+  return cleaned.trim();
 }
 
 /**
@@ -69,11 +71,11 @@ Repeat this 3 times to quickly ease stress.`;
   }
 
   // Default Response
-  return `Namaste! I am DhritiAi, your mental health companion.
+  return `Namaste! I am DhritiAi, your supportive mental health companion.
 
 I can help you with:
 • Quick grounding techniques for anxiety
-• Simple breathing exercises (4-4-4 Box Breathing)
+• Simple breathing exercises
 • Better sleep & stress relief tips
 • 24/7 official helpline numbers
 
@@ -120,12 +122,12 @@ router.post("/", async (req, res) => {
               messages: [
                 {
                   role: "system",
-                  content: "You are DhritiAi, a gentle, supportive mental health AI assistant. Keep all replies VERY SHORT, simple, clear, and easy to understand (max 2-3 short bullet points or simple sentences). Do not write long paragraphs or internal thinking tags."
+                  content: "You are DhritiAi, a gentle mental health assistant. Respond directly to the user. Do NOT write any internal thinking process, reasoning, or <think> tags. Keep responses very short, warm, and helpful (max 2-3 bullet points)."
                 },
                 { role: "user", content: userPrompt || "Hello" }
               ],
-              temperature: 0.6,
-              max_tokens: 300
+              temperature: 0.5,
+              max_tokens: 450
             })
           });
 
@@ -135,7 +137,7 @@ router.post("/", async (req, res) => {
             if (rawContent) {
               aiReply = cleanAiResponse(rawContent);
               if (aiReply.length > 0) {
-                console.log(`[DhritiAi Chat] Dispatched response via Groq model (${model})`);
+                console.log(`[DhritiAi Chat] Dispatched clean response via Groq model (${model})`);
                 break;
               }
             }
