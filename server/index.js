@@ -9,6 +9,7 @@ const dhritiRoutes = require("./routes/dhriti");
 const supportRoutes = require("./routes/support");
 const doctorRoutes = require("./routes/doctor");
 const adminRoutes = require("./routes/admin");
+const chatRoutes = require("./routes/chat");
 
 const app = express();
 const PORT = process.env.PORT || 5001;
@@ -41,6 +42,7 @@ app.use("/api/dhriti", dhritiRoutes);
 app.use("/api/support", supportRoutes);
 app.use("/api/doctor", doctorRoutes);
 app.use("/api/admin", adminRoutes);
+app.use("/api/chat", chatRoutes);
 
 // Global Error Handler
 app.use((err, req, res, next) => {

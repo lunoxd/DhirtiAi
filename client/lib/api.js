@@ -68,6 +68,15 @@ export const apiAuth = {
   me: () => fetchApi("/auth/me")
 };
 
+// DhritiAi Chatbot API
+export const apiChat = {
+  sendMessage: (messages) =>
+    fetchApi("/chat", {
+      method: "POST",
+      body: JSON.stringify({ messages })
+    })
+};
+
 // Check-ins API (User)
 export const apiCheckIns = {
   submit: (structuredResponses, writtenResponses) =>
