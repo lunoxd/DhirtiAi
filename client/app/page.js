@@ -26,26 +26,11 @@ export default function LandingPage() {
       width: "100%",
       minHeight: "100vh",
       backgroundColor: "#313338",
-      color: "#dbdee1",
-      position: "relative",
-      overflowX: "hidden"
+      color: "#dbdee1"
     }}>
-      {/* Ambient Radial Lighting Glow */}
-      <div style={{
-        position: "absolute",
-        top: 0,
-        left: "50%",
-        transform: "translateX(-50%)",
-        width: "1100px",
-        height: "550px",
-        background: "radial-gradient(circle, rgba(245, 36, 67, 0.14) 0%, rgba(49, 51, 56, 0) 70%)",
-        pointerEvents: "none",
-        zIndex: 0
-      }} />
-
-      <div className="container" style={{ position: "relative", zIndex: 1, paddingTop: "24px", paddingBottom: "64px" }}>
+      <div className="container" style={{ paddingTop: "24px", paddingBottom: "64px" }}>
         
-        {/* 1. HERO SECTION - BALANCED PROPORTIONS */}
+        {/* 1. HERO SECTION - CLEAN SOLID BACKGROUND */}
         <section style={{
           display: "grid",
           gridTemplateColumns: "1.1fr 0.9fr",
@@ -87,12 +72,12 @@ export default function LandingPage() {
               A calm, accessible platform for monitoring emotional health. Track changes over time with a deterministic 0–100 Dhriti Index, Groq AI guidance, and 24/7 crisis support.
             </p>
 
-            {/* Action Row - "Live Demo Access" Removed */}
+            {/* Action Row */}
             <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
               <Link
                 href={isAuthenticated ? "/dashboard" : "/register"}
                 className="btn btn-primary btn-lg"
-                style={{ fontSize: "16px", padding: "14px 32px", boxShadow: "0 8px 24px rgba(245, 36, 67, 0.35)" }}
+                style={{ fontSize: "16px", padding: "14px 32px" }}
               >
                 <span>{isAuthenticated ? "Go to Dashboard" : "Start Free Check-in"}</span>
                 <ArrowRight size={18} />
@@ -110,18 +95,17 @@ export default function LandingPage() {
             </div>
           </div>
 
-          {/* Right Column: Balanced Product Preview Card */}
+          {/* Right Column: Solid Product Preview Card */}
           <div style={{
             backgroundColor: "#2b2d31",
             border: "1px solid var(--hairline)",
             borderRadius: "var(--rounded-xl)",
             padding: "24px",
-            boxShadow: "0 16px 40px rgba(0, 0, 0, 0.4)",
-            position: "relative"
+            boxShadow: "0 16px 40px rgba(0, 0, 0, 0.3)"
           }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
               <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                <div style={{ width: "8px", height: "8px", borderRadius: "50%", backgroundColor: "var(--status-stable)", boxShadow: "0 0 8px var(--status-stable)" }} />
+                <div style={{ width: "8px", height: "8px", borderRadius: "50%", backgroundColor: "var(--status-stable)" }} />
                 <span style={{ fontSize: "12px", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.06em", color: "#ffffff" }}>
                   LIVE MONITORING PREVIEW
                 </span>
@@ -282,7 +266,7 @@ export default function LandingPage() {
         </section>
 
         {/* 3. VERIFIED 24/7 HELPLINES BANNER STRIP */}
-        <section className="card" style={{ padding: "24px", backgroundColor: "rgba(245, 36, 67, 0.14)", border: "1px solid rgba(245, 36, 67, 0.4)", marginBottom: "40px" }}>
+        <section className="card" style={{ padding: "24px", backgroundColor: "#2b2d31", border: "1px solid var(--hairline)", marginBottom: "40px" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "16px" }}>
             <div>
               <div style={{ fontSize: "11px", fontWeight: 800, color: "var(--primary)", textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: "4px" }}>
