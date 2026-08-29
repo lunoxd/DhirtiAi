@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useAuth } from "../context/AuthContext";
 import {
@@ -54,7 +55,7 @@ export default function Navbar() {
     if (isAdmin) {
       return (
         <span style={{
-          backgroundColor: "rgba(218, 59, 37, 0.2)",
+          backgroundColor: "rgba(245, 36, 67, 0.2)",
           color: "var(--primary)",
           fontSize: "10px",
           fontWeight: 700,
@@ -97,29 +98,24 @@ export default function Navbar() {
           justifyContent: "space-between",
           height: "60px"
         }}>
-          {/* Brand Logo */}
+          {/* Transparent Brand Logo */}
           <Link href={isAdmin ? "/admin" : isDoctor ? "/doctor" : (isAuthenticated ? "/dashboard" : "/")} style={{
             display: "flex",
             alignItems: "center",
-            gap: "8px",
+            gap: "10px",
             fontSize: "18px",
             fontWeight: 800,
             color: "#ffffff"
           }}>
-            <div style={{
-              width: "28px",
-              height: "28px",
-              borderRadius: "var(--rounded-full)",
-              backgroundColor: "var(--primary)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontSize: "14px",
-              fontWeight: 800,
-              color: "#ffffff"
-            }}>
-              d
-            </div>
+            <img
+              src="/logo.png"
+              alt="Dhriti Logo"
+              style={{
+                height: "32px",
+                width: "auto",
+                objectFit: "contain"
+              }}
+            />
             <span>Dhriti</span>
           </Link>
 

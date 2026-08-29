@@ -22,21 +22,16 @@ export default function Footer() {
         }}>
           {/* Brand Col */}
           <div>
-            <div style={{ display: "flex", alignItems: "center", gap: "10px", fontWeight: 800, color: "#ffffff", fontSize: "18px", marginBottom: "12px", letterSpacing: "-0.02em" }}>
-              <div style={{
-                width: "28px",
-                height: "28px",
-                borderRadius: "var(--rounded-full)",
-                backgroundColor: "var(--primary)",
-                color: "#111111",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontSize: "14px",
-                fontWeight: 800
-              }}>
-                d
-              </div>
+            <div style={{ display: "flex", alignItems: "center", gap: "10px", fontWeight: 800, color: "#ffffff", fontSize: "18px", marginBottom: "12px" }}>
+              <img
+                src="/logo.png"
+                alt="Dhriti Logo"
+                style={{
+                  height: "28px",
+                  width: "auto",
+                  objectFit: "contain"
+                }}
+              />
               <span>Dhriti</span>
             </div>
             <p style={{ fontSize: "14px", color: "var(--text-muted)", lineHeight: "1.6" }}>

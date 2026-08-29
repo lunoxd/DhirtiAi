@@ -1,5 +1,5 @@
 :root {
-  /* Discord Dark Theme Palette with Crimson Primary Accent (218, 59, 37 / #da3b25) */
+  /* Discord Dark Theme Palette with Vibrant Pink/Coral Primary Accent (rgb(245, 36, 67) / #ff2a5f) */
   --canvas: #313338;             /* Discord Primary Canvas */
   --surface-soft: #1e1f22;        /* Discord Recessed / Input Background */
   --surface-card: #2b2d31;        /* Discord Card / Panel Background */
@@ -15,24 +15,24 @@
   --text-muted: #949ba4;          /* Discord Muted Secondary Text */
   --text-muted-soft: #80848e;
 
-  --on-primary: #ffffff;          /* White Text on Crimson Buttons */
+  --on-primary: #ffffff;          /* White Text on Vibrant Pink Buttons */
   --on-dark: #ffffff;
   --on-dark-soft: #949ba4;
 
-  --primary: rgb(218, 59, 37);    /* RGB(218, 59, 37) -> #da3b25 */
-  --primary-active: #b82d1b;
-  --brand-accent: rgb(218, 59, 37);
+  --primary: rgb(245, 36, 67);    /* RGB(245, 36, 67) Vibrant Coral Pink */
+  --primary-active: #d81b37;
+  --brand-accent: rgb(245, 36, 67);
 
   /* Semantics */
   --success: #23a55a;             /* Discord Green */
   --warning: #f0b232;             /* Discord Yellow */
-  --error: rgb(218, 59, 37);      /* Crimson Red */
+  --error: rgb(245, 36, 67);      /* Coral Pink */
 
   --status-stable: #23a55a;
   --status-mild: #57f287;
   --status-elevated: #f0b232;
   --status-high: #f2723f;
-  --status-critical: rgb(218, 59, 37);
+  --status-critical: rgb(245, 36, 67);
 
   /* Border Radii */
   --rounded-xs: 4px;
@@ -162,7 +162,7 @@ button {
   color: #ffffff;
 }
 .btn-danger:hover {
-  background-color: #b82d1b;
+  background-color: #d81b37;
 }
 
 .btn-success {
@@ -217,7 +217,7 @@ button {
 
 .form-input:focus, .form-textarea:focus {
   border-color: var(--primary);
-  box-shadow: 0 0 0 2px rgba(218, 59, 37, 0.25);
+  box-shadow: 0 0 0 2px rgba(245, 36, 67, 0.25);
 }
 
 .form-textarea {
@@ -261,9 +261,9 @@ button {
 }
 
 .badge-critical {
-  background-color: rgba(218, 59, 37, 0.18);
+  background-color: rgba(245, 36, 67, 0.18);
   color: var(--status-critical);
-  border: 1px solid rgba(218, 59, 37, 0.35);
+  border: 1px solid rgba(245, 36, 67, 0.35);
 }
 
 /* Nav Pill Group Component */
@@ -294,8 +294,8 @@ button {
 
 /* Safety Alert Banner */
 .safety-banner {
-  background-color: rgba(218, 59, 37, 0.12);
-  border: 1px solid rgba(218, 59, 37, 0.45);
+  background-color: rgba(245, 36, 67, 0.12);
+  border: 1px solid rgba(245, 36, 67, 0.45);
   border-radius: var(--rounded-lg);
   padding: 20px;
   margin-bottom: 20px;
