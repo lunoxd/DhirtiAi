@@ -4,11 +4,11 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../../context/AuthContext";
-import { LogIn, AlertCircle, Sparkles } from "lucide-react";
+import { LogIn, AlertCircle, Sparkles, Stethoscope, ShieldCheck, User } from "lucide-react";
 
 export default function LoginPage() {
   const router = useRouter();
-  const { login } = useAuth();
+  const { login, loginDemo } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -20,8 +20,14 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
-      await login(email, password);
-      router.push("/dashboard");
+      const loggedInUser = await login(email, password);
+      if (loggedInUser.role === "ADMIN") {
+        router.push("/admin");
+      } else if (loggedInUser.role === "DOCTOR") {
+        router.push("/doctor");
+      } else {
+        router.push("/dashboard");
+      }
     } catch (err) {
       setError(err.message || "Failed to log in.");
     } finally {
@@ -29,41 +35,100 @@ export default function LoginPage() {
     }
   };
 
-  const handleDemoLogin = async () => {
-    setEmail("survivor.demo@dhriti.org");
-    setPassword("DhritiSafe2026!");
+  const handleQuickRoleLogin = async (role) => {
     setError("");
     setLoading(true);
-
     try {
-      try {
-        await login("survivor.demo@dhriti.org", "DhritiSafe2026!");
-      } catch {
-        // If demo user does not exist yet, auto-register
-        const { apiAuth, setToken } = await import("../../lib/api");
-        const res = await apiAuth.register("Alex (Survivor Demo)", "survivor.demo@dhriti.org", "DhritiSafe2026!");
-        setToken(res.token);
-        window.location.href = "/dashboard";
-        return;
+      const loggedInUser = await loginDemo(role);
+      if (loggedInUser.role === "ADMIN") {
+        router.push("/admin");
+      } else if (loggedInUser.role === "DOCTOR") {
+        router.push("/doctor");
+      } else {
+        router.push("/dashboard");
       }
-      router.push("/dashboard");
     } catch (err) {
-      setError(err.message || "Failed to log in with demo account.");
+      setError(err.message || `Failed to sign in as ${role}`);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="container-narrow" style={{ paddingTop: "40px", paddingBottom: "60px" }}>
+    <div className="container-narrow" style={{ paddingTop: "30px", paddingBottom: "60px" }}>
       <div className="card" style={{ padding: "36px" }}>
-        <div style={{ textAlign: "center", marginBottom: "28px" }}>
+        <div style={{ textAlign: "center", marginBottom: "24px" }}>
           <h1 style={{ fontSize: "24px", fontWeight: 800, color: "#ffffff", marginBottom: "6px" }}>
-            Welcome Back
+            Sign In to DHRITI
           </h1>
           <p style={{ fontSize: "14px", color: "var(--text-muted)" }}>
-            Log in to access your confidential wellbeing check-ins
+            Select your role or enter your credentials
           </p>
+        </div>
+
+        {/* 1-Click Role Demonstrator Bar */}
+        <div style={{
+          backgroundColor: "var(--bg-tertiary)",
+          border: "1px solid var(--border-card)",
+          borderRadius: "var(--radius-lg)",
+          padding: "16px",
+          marginBottom: "24px"
+        }}>
+          <div style={{
+            fontSize: "11px",
+            fontWeight: 800,
+            textTransform: "uppercase",
+            letterSpacing: "0.06em",
+            color: "var(--text-muted)",
+            marginBottom: "10px",
+            textAlign: "center"
+          }}>
+            ⚡ 1-Click Panel Access (Live Demo)
+          </div>
+
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "8px" }}>
+            <button
+              type="button"
+              onClick={() => handleQuickRoleLogin("USER")}
+              disabled={loading}
+              className="btn btn-secondary btn-sm"
+              style={{ display: "flex", flexDirection: "column", padding: "10px 6px", height: "auto", gap: "4px" }}
+            >
+              <User size={18} color="var(--brand-primary)" />
+              <span style={{ fontSize: "12px", fontWeight: 700 }}>1. User Panel</span>
+              <span style={{ fontSize: "10px", color: "var(--text-muted)" }}>Survivor Check-in</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => handleQuickRoleLogin("DOCTOR")}
+              disabled={loading}
+              className="btn btn-secondary btn-sm"
+              style={{ display: "flex", flexDirection: "column", padding: "10px 6px", height: "auto", gap: "4px", borderColor: "rgba(88, 101, 242, 0.4)" }}
+            >
+              <Stethoscope size={18} color="var(--status-stable)" />
+              <span style={{ fontSize: "12px", fontWeight: 700 }}>2. Doctor / Helpline</span>
+              <span style={{ fontSize: "10px", color: "var(--text-muted)" }}>Distress Triage</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => handleQuickRoleLogin("ADMIN")}
+              disabled={loading}
+              className="btn btn-secondary btn-sm"
+              style={{ display: "flex", flexDirection: "column", padding: "10px 6px", height: "auto", gap: "4px", borderColor: "rgba(240, 178, 50, 0.4)" }}
+            >
+              <ShieldCheck size={18} color="var(--status-elevated)" />
+              <span style={{ fontSize: "12px", fontWeight: 700 }}>3. Admin Panel</span>
+              <span style={{ fontSize: "10px", color: "var(--text-muted)" }}>Full Overview</span>
+            </button>
+          </div>
+        </div>
+
+        <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "20px" }}>
+          <div style={{ flex: 1, height: "1px", backgroundColor: "var(--border-subtle)" }} />
+          <span style={{ fontSize: "12px", color: "var(--text-muted)", textTransform: "uppercase", fontWeight: 700 }}>Or Manual Login</span>
+          <div style={{ flex: 1, height: "1px", backgroundColor: "var(--border-subtle)" }} />
         </div>
 
         {error && (
@@ -116,23 +181,9 @@ export default function LoginPage() {
             style={{ marginTop: "12px" }}
           >
             <LogIn size={16} />
-            <span>{loading ? "Signing in..." : "Log In"}</span>
+            <span>{loading ? "Signing in..." : "Sign In"}</span>
           </button>
         </form>
-
-        {/* Demo Fast Login */}
-        <div style={{ marginTop: "20px" }}>
-          <button
-            type="button"
-            onClick={handleDemoLogin}
-            className="btn btn-secondary btn-block"
-            disabled={loading}
-            style={{ borderColor: "var(--brand-primary)", color: "#ffffff" }}
-          >
-            <Sparkles size={16} color="var(--brand-primary)" />
-            <span>Fill & Sign In with Demo Account</span>
-          </button>
-        </div>
 
         <div style={{ textAlign: "center", marginTop: "24px", fontSize: "14px", color: "var(--text-muted)" }}>
           Don&apos;t have an account?{" "}

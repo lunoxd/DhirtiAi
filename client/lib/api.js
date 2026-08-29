@@ -40,20 +40,25 @@ export async function fetchApi(endpoint, options = {}) {
 
 // Authentication API
 export const apiAuth = {
-  register: (name, email, password) =>
+  register: (name, email, password, role = "USER", organization = "", specialization = "") =>
     fetchApi("/auth/register", {
       method: "POST",
-      body: JSON.stringify({ name, email, password })
+      body: JSON.stringify({ name, email, password, role, organization, specialization })
     }),
   login: (email, password) =>
     fetchApi("/auth/login", {
       method: "POST",
       body: JSON.stringify({ email, password })
     }),
+  demo: (role = "USER") =>
+    fetchApi("/auth/demo", {
+      method: "POST",
+      body: JSON.stringify({ role })
+    }),
   me: () => fetchApi("/auth/me")
 };
 
-// Check-ins API
+// Check-ins API (User)
 export const apiCheckIns = {
   submit: (structuredResponses, writtenResponses) =>
     fetchApi("/checkins", {
@@ -81,4 +86,34 @@ export const apiDhriti = {
 // Support Resources API
 export const apiSupport = {
   getResources: () => fetchApi("/support/resources")
+};
+
+// Doctor / Helpline Triage API
+export const apiDoctor = {
+  getTriageQueue: (status = "ALL", filter = "ALL") =>
+    fetchApi(`/doctor/triage?status=${status}&filter=${filter}`),
+  updateTriageStatus: (id, triageStatus, triageNotes) =>
+    fetchApi(`/doctor/triage/${id}/status`, {
+      method: "POST",
+      body: JSON.stringify({ triageStatus, triageNotes })
+    }),
+  getStats: () => fetchApi("/doctor/stats")
+};
+
+// Admin Command Center API
+export const apiAdmin = {
+  getOverview: () => fetchApi("/admin/overview"),
+  getUsers: (role = "ALL", search = "") =>
+    fetchApi(`/admin/users?role=${role}&search=${encodeURIComponent(search)}`),
+  updateUserRole: (id, role, organization, specialization, status) =>
+    fetchApi(`/admin/users/${id}/role`, {
+      method: "PUT",
+      body: JSON.stringify({ role, organization, specialization, status })
+    }),
+  deleteUser: (id) =>
+    fetchApi(`/admin/users/${id}`, {
+      method: "DELETE"
+    }),
+  getCheckIns: (riskLevel = "ALL", safetyOnly = false) =>
+    fetchApi(`/admin/checkins?riskLevel=${riskLevel}&safetyOnly=${safetyOnly}`)
 };

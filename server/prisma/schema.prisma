@@ -8,13 +8,17 @@ generator client {
 }
 
 model User {
-  id           String    @id @default(uuid())
-  email        String    @unique
-  name         String
-  passwordHash String
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
-  checkIns     CheckIn[]
+  id             String    @id @default(uuid())
+  email          String    @unique
+  name           String
+  passwordHash   String
+  role           String    @default("USER") // "USER" | "DOCTOR" | "ADMIN"
+  organization   String?   // e.g. "Tele-MANAS Volunteer", "NIMHANS Clinician"
+  specialization String?   // e.g. "Trauma Counselor", "Psychologist"
+  status         String    @default("ACTIVE") // "ACTIVE" | "SUSPENDED"
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  checkIns       CheckIn[]
 }
 
 model CheckIn {
@@ -35,4 +39,10 @@ model CheckIn {
   deltaPoints           Float    @default(0)
   safetyConcern         Boolean  @default(false)
   supportRecommendation String
+
+  // Doctor / Helpline Triage Fields
+  triageStatus          String   @default("PENDING") // "PENDING" | "IN_PROGRESS" | "CONTACTED" | "RESOLVED"
+  triageNotes           String?  // Doctor/Helpline internal clinical notes
+  reviewedBy            String?  // Doctor/Responder name or ID
+  reviewedAt            DateTime?
 }

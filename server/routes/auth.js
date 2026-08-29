@@ -7,7 +7,6 @@ const authMiddleware = require("../middleware/authMiddleware");
 const router = express.Router();
 const JWT_SECRET = process.env.JWT_SECRET || "dhriti_fallback_secret_key_2026";
 
-// Helper to generate token
 function generateToken(userId) {
   return jwt.sign({ userId }, JWT_SECRET, { expiresIn: "7d" });
 }
@@ -15,7 +14,7 @@ function generateToken(userId) {
 // POST /api/auth/register
 router.post("/register", async (req, res) => {
   try {
-    const { email, password, name } = req.body;
+    const { email, password, name, role, organization, specialization } = req.body;
 
     if (!email || !password || !name) {
       return res.status(400).json({ error: "Name, email, and password are required." });
@@ -37,13 +36,26 @@ router.post("/register", async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const passwordHash = await bcrypt.hash(password, salt);
 
+    const validRole = ["USER", "DOCTOR", "ADMIN"].includes(role) ? role : "USER";
+
     const user = await prisma.user.create({
       data: {
         email: emailClean,
         name: name.trim(),
-        passwordHash
+        passwordHash,
+        role: validRole,
+        organization: organization || null,
+        specialization: specialization || null
       },
-      select: { id: true, email: true, name: true, createdAt: true }
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        role: true,
+        organization: true,
+        specialization: true,
+        createdAt: true
+      }
     });
 
     const token = generateToken(user.id);
@@ -90,6 +102,9 @@ router.post("/login", async (req, res) => {
         id: user.id,
         email: user.email,
         name: user.name,
+        role: user.role,
+        organization: user.organization,
+        specialization: user.specialization,
         createdAt: user.createdAt
       },
       token
@@ -97,6 +112,76 @@ router.post("/login", async (req, res) => {
   } catch (error) {
     console.error("Login Error:", error);
     return res.status(500).json({ error: "Server error during login." });
+  }
+});
+
+// POST /api/auth/demo - 1-Click login / provision for 3 distinct roles: USER, DOCTOR, ADMIN
+router.post("/demo", async (req, res) => {
+  try {
+    const { role } = req.body; // "USER" | "DOCTOR" | "ADMIN"
+    const requestedRole = ["USER", "DOCTOR", "ADMIN"].includes(role) ? role : "USER";
+
+    let demoEmail, demoName, demoOrg, demoSpec;
+    if (requestedRole === "DOCTOR") {
+      demoEmail = "doctor.triage@dhriti.org";
+      demoName = "Dr. Ananya Sharma";
+      demoOrg = "Tele-MANAS & NIMHANS Clinical Partner";
+      demoSpec = "Trauma & Crisis Psychologist";
+    } else if (requestedRole === "ADMIN") {
+      demoEmail = "admin.lead@dhriti.org";
+      demoName = "Ashok (Platform Admin)";
+      demoOrg = "DHRITI Operations Control";
+      demoSpec = "System Administrator";
+    } else {
+      demoEmail = "survivor.demo@dhriti.org";
+      demoName = "Maya (Survivor Demo)";
+      demoOrg = null;
+      demoSpec = null;
+    }
+
+    let user = await prisma.user.findUnique({
+      where: { email: demoEmail }
+    });
+
+    if (!user) {
+      const salt = await bcrypt.genSalt(10);
+      const passwordHash = await bcrypt.hash("DhritiSafe2026!", salt);
+
+      user = await prisma.user.create({
+        data: {
+          email: demoEmail,
+          name: demoName,
+          passwordHash,
+          role: requestedRole,
+          organization: demoOrg,
+          specialization: demoSpec
+        }
+      });
+    } else if (user.role !== requestedRole) {
+      user = await prisma.user.update({
+        where: { id: user.id },
+        data: { role: requestedRole, organization: demoOrg, specialization: demoSpec }
+      });
+    }
+
+    const token = generateToken(user.id);
+
+    return res.json({
+      message: `Signed in as ${requestedRole}`,
+      user: {
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        role: user.role,
+        organization: user.organization,
+        specialization: user.specialization,
+        createdAt: user.createdAt
+      },
+      token
+    });
+  } catch (error) {
+    console.error("Demo login error:", error);
+    return res.status(500).json({ error: "Failed to authenticate demo account." });
   }
 });
 

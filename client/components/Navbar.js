@@ -4,22 +4,94 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useAuth } from "../context/AuthContext";
-import { ShieldAlert, Activity, History, HeartHandshake, Shield, User, LogOut, Menu, X, PlusCircle } from "lucide-react";
+import {
+  ShieldAlert,
+  Activity,
+  History,
+  HeartHandshake,
+  Shield,
+  User,
+  LogOut,
+  Menu,
+  X,
+  PlusCircle,
+  Stethoscope,
+  LayoutDashboard,
+  Users,
+  Settings
+} from "lucide-react";
 import EmergencyModal from "./EmergencyModal";
 
 export default function Navbar() {
   const pathname = usePathname();
-  const { user, isAuthenticated, logout } = useAuth();
+  const { user, isAuthenticated, isDoctor, isAdmin, logout } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [emergencyOpen, setEmergencyOpen] = useState(false);
 
-  const navLinks = [
-    { href: "/dashboard", label: "Dashboard", icon: Activity, authRequired: true },
-    { href: "/check-in", label: "Check In", icon: PlusCircle, authRequired: true },
-    { href: "/history", label: "History", icon: History, authRequired: true },
-    { href: "/support", label: "Support & Helplines", icon: HeartHandshake, authRequired: false },
-    { href: "/privacy", label: "Privacy", icon: Shield, authRequired: false }
-  ];
+  // Dynamic Navigation based on Role
+  let navLinks = [];
+
+  if (isAdmin) {
+    navLinks = [
+      { href: "/admin", label: "Admin Center", icon: LayoutDashboard },
+      { href: "/doctor", label: "Doctor Triage", icon: Stethoscope },
+      { href: "/dashboard", label: "User View", icon: Activity },
+      { href: "/support", label: "Indian Helplines", icon: HeartHandshake },
+      { href: "/privacy", label: "Privacy", icon: Shield }
+    ];
+  } else if (isDoctor) {
+    navLinks = [
+      { href: "/doctor", label: "Distress Triage Queue", icon: Stethoscope },
+      { href: "/dashboard", label: "Self Check-in", icon: PlusCircle },
+      { href: "/support", label: "Helpline Resources", icon: HeartHandshake },
+      { href: "/privacy", label: "Privacy", icon: Shield }
+    ];
+  } else {
+    // Normal User / Survivor
+    navLinks = [
+      { href: "/dashboard", label: "Dashboard", icon: Activity, authRequired: true },
+      { href: "/check-in", label: "Check In", icon: PlusCircle, authRequired: true },
+      { href: "/history", label: "History", icon: History, authRequired: true },
+      { href: "/support", label: "Support & Helplines", icon: HeartHandshake, authRequired: false },
+      { href: "/privacy", label: "Privacy", icon: Shield, authRequired: false }
+    ];
+  }
+
+  const getRoleBadge = () => {
+    if (isAdmin) {
+      return (
+        <span style={{
+          backgroundColor: "rgba(240, 178, 50, 0.2)",
+          color: "var(--status-elevated)",
+          border: "1px solid var(--status-elevated)",
+          fontSize: "10px",
+          fontWeight: 800,
+          padding: "2px 6px",
+          borderRadius: "4px",
+          textTransform: "uppercase"
+        }}>
+          Admin
+        </span>
+      );
+    }
+    if (isDoctor) {
+      return (
+        <span style={{
+          backgroundColor: "rgba(88, 101, 242, 0.2)",
+          color: "var(--brand-primary)",
+          border: "1px solid var(--brand-primary)",
+          fontSize: "10px",
+          fontWeight: 800,
+          padding: "2px 6px",
+          borderRadius: "4px",
+          textTransform: "uppercase"
+        }}>
+          Doctor / Helpline
+        </span>
+      );
+    }
+    return null;
+  };
 
   return (
     <>
@@ -38,7 +110,7 @@ export default function Navbar() {
           height: "60px"
         }}>
           {/* Brand Logo */}
-          <Link href={isAuthenticated ? "/dashboard" : "/"} style={{
+          <Link href={isAdmin ? "/admin" : isDoctor ? "/doctor" : (isAuthenticated ? "/dashboard" : "/")} style={{
             display: "flex",
             alignItems: "center",
             gap: "10px",
@@ -85,14 +157,14 @@ export default function Navbar() {
                       gap: "6px",
                       padding: "8px 12px",
                       borderRadius: "var(--radius-md)",
-                      fontSize: "14px",
+                      fontSize: "13px",
                       fontWeight: 600,
                       color: isActive ? "#ffffff" : "var(--text-muted)",
                       backgroundColor: isActive ? "var(--bg-active)" : "transparent",
                       transition: "all 0.15s ease"
                     }}
                   >
-                    <Icon size={16} color={isActive ? "var(--brand-primary)" : "var(--text-muted)"} />
+                    <Icon size={15} color={isActive ? "var(--brand-primary)" : "var(--text-muted)"} />
                     {link.label}
                   </Link>
                 );
@@ -109,7 +181,7 @@ export default function Navbar() {
               style={{ padding: "6px 12px", fontSize: "12px", fontWeight: 700 }}
             >
               <ShieldAlert size={14} />
-              <span>24/7 Helpline (14416)</span>
+              <span>24/7 Helpline</span>
             </button>
 
             {isAuthenticated ? (
@@ -126,7 +198,8 @@ export default function Navbar() {
                   color: "var(--text-header)"
                 }}>
                   <User size={14} color="var(--brand-primary)" />
-                  <span>{user?.name || "Survivor"}</span>
+                  <span>{user?.name || "User"}</span>
+                  {getRoleBadge()}
                 </div>
                 <button
                   onClick={logout}
@@ -199,7 +272,10 @@ export default function Navbar() {
 
               {isAuthenticated ? (
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "4px 0" }}>
-                  <span style={{ fontSize: "13px", color: "var(--text-muted)" }}>{user?.name}</span>
+                  <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                    <span style={{ fontSize: "13px", color: "var(--text-muted)" }}>{user?.name}</span>
+                    {getRoleBadge()}
+                  </div>
                   <button onClick={logout} className="btn btn-secondary btn-sm">
                     <LogOut size={14} /> Sign Out
                   </button>

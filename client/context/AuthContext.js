@@ -39,8 +39,15 @@ export function AuthProvider({ children }) {
     return res.user;
   };
 
-  const register = async (name, email, password) => {
-    const res = await apiAuth.register(name, email, password);
+  const loginDemo = async (role = "USER") => {
+    const res = await apiAuth.demo(role);
+    setToken(res.token);
+    setUser(res.user);
+    return res.user;
+  };
+
+  const register = async (name, email, password, role = "USER", organization = "", specialization = "") => {
+    const res = await apiAuth.register(name, email, password, role, organization, specialization);
     setToken(res.token);
     setUser(res.user);
     return res.user;
@@ -54,8 +61,25 @@ export function AuthProvider({ children }) {
     }
   };
 
+  const role = user?.role || "USER";
+  const isUser = role === "USER";
+  const isDoctor = role === "DOCTOR";
+  const isAdmin = role === "ADMIN";
+
   return (
-    <AuthContext.Provider value={{ user, loading, login, register, logout, isAuthenticated: !!user }}>
+    <AuthContext.Provider value={{
+      user,
+      role,
+      isUser,
+      isDoctor,
+      isAdmin,
+      loading,
+      login,
+      loginDemo,
+      register,
+      logout,
+      isAuthenticated: !!user
+    }}>
       {children}
     </AuthContext.Provider>
   );

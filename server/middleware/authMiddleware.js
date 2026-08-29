@@ -19,11 +19,24 @@ async function authMiddleware(req, res, next) {
 
     const user = await prisma.user.findUnique({
       where: { id: decoded.userId },
-      select: { id: true, email: true, name: true, createdAt: true }
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        role: true,
+        organization: true,
+        specialization: true,
+        status: true,
+        createdAt: true
+      }
     });
 
     if (!user) {
       return res.status(401).json({ error: "User associated with token no longer exists." });
+    }
+
+    if (user.status === "SUSPENDED") {
+      return res.status(403).json({ error: "Account suspended. Please contact administrator." });
     }
 
     req.user = user;
