@@ -3,6 +3,11 @@
  * Processes written check-ins and returns structured qualitative analysis.
  */
 
+function cleanAiResponse(text) {
+  if (!text) return "";
+  return text.replace(/<think>[\s\S]*?<\/think>/gi, "").trim();
+}
+
 async function analyzeWrittenResponses(writtenResponses, scoreData) {
   const apiKey = process.env.GROQ_API_KEY;
 
@@ -18,50 +23,64 @@ async function analyzeWrittenResponses(writtenResponses, scoreData) {
     };
   }
 
-  // Attempt Groq Cloud API if configured
-  if (apiKey && apiKey.length > 10) {
-    try {
-      const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-        method: "POST",
-        headers: {
-          "Authorization": `Bearer ${apiKey}`,
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          model: "llama-3.3-70b-versatile",
-          messages: [
-            {
-              role: "system",
-              content: "You are a trauma-informed clinical AI assistant. Analyze user written responses and return JSON with keys: 'summary' (string), 'observations' (array of strings), 'recommendedCare' (string)."
-            },
-            {
-              role: "user",
-              content: `User Score: ${scoreData?.score}/100 (${scoreData?.riskLevel}). Written text: "${promptText}"`
-            }
-          ],
-          temperature: 0.5,
-          response_format: { type: "json_object" }
-        })
-      });
+  // Active Groq models
+  const activeModels = [
+    "qwen/qwen3.6-27b",
+    "qwen/qwen3.8-27b",
+    "groq/compound",
+    "groq/compound-mini"
+  ];
 
-      if (res.ok) {
-        const data = await res.json();
-        const content = data.choices[0]?.message?.content;
-        if (content) {
-          const parsed = JSON.parse(content);
-          return {
-            summary: parsed.summary || "Analysis generated from written reflection.",
-            observations: parsed.observations || ["Monitored user reflections."],
-            recommendedCare: parsed.recommendedCare || "Practice calming self-care routines."
-          };
+  if (apiKey && apiKey.length > 10) {
+    for (const model of activeModels) {
+      try {
+        const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${apiKey}`,
+            "Content-Type": "application/json",
+            "User-Agent": "Mozilla/5.0"
+          },
+          body: JSON.stringify({
+            model,
+            messages: [
+              {
+                role: "system",
+                content: "You are a trauma-informed clinical AI assistant. Analyze user written responses and return valid JSON with keys: 'summary' (string), 'observations' (array of strings), 'recommendedCare' (string). Do not wrap in markdown or think tags."
+              },
+              {
+                role: "user",
+                content: `User Score: ${scoreData?.score}/100 (${scoreData?.riskLevel}). Written text: "${promptText}"`
+              }
+            ],
+            temperature: 0.5,
+            response_format: { type: "json_object" }
+          })
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          const rawContent = data.choices[0]?.message?.content;
+          if (rawContent) {
+            const cleaned = cleanAiResponse(rawContent);
+            const parsed = JSON.parse(cleaned);
+            if (parsed.summary) {
+              console.log(`[GroqService] Analyzed written check-in via model (${model})`);
+              return {
+                summary: parsed.summary,
+                observations: parsed.observations || ["Monitored user reflections."],
+                recommendedCare: parsed.recommendedCare || "Practice calming self-care routines."
+              };
+            }
+          }
         }
+      } catch (err) {
+        console.warn(`[GroqService] Model ${model} call note:`, err.message);
       }
-    } catch (err) {
-      console.warn("[GroqService] Cloud API fallback to Local Empathetic AI Engine:", err.message);
     }
   }
 
-  // Built-in Empathetic AI Analysis Engine
+  // Built-in Empathetic AI Analysis Engine Fallback
   const textLower = promptText.toLowerCase();
 
   let summary = "Your reflection highlights feelings you are processing. Acknowledging your emotions is a meaningful step toward self-awareness.";

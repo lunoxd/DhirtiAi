@@ -2,7 +2,15 @@ const express = require("express");
 const router = express.Router();
 
 /**
- * Empathetic Local Conversational Engine for DhritiAi
+ * Strips reasoning tokens like <think>...</think> from raw Groq responses
+ */
+function cleanAiResponse(text) {
+  if (!text) return "";
+  return text.replace(/<think>[\s\S]*?<\/think>/gi, "").trim();
+}
+
+/**
+ * Empathetic Local Conversational Engine Fallback for DhritiAi
  */
 function generateEmpatheticResponse(prompt) {
   const text = (prompt || "").toLowerCase().trim();
@@ -41,7 +49,7 @@ Remember, feelings are temporary like passing clouds. Take things one moment at 
 3. 🌬️ **Exhale** smoothly through your mouth for **4 seconds**.
 4. ⏸️ **Pause** and rest for **4 seconds**.
 
-Repeat this 3 to 4 times. You can also use the interactive Breathing Pacer on your Dashboard!`;
+Repeat this 3 to 4 times to calm your nervous system.`;
   }
 
   // Sleep & Fatigue
@@ -65,18 +73,7 @@ Repeat this 3 to 4 times. You can also use the interactive Breathing Pacer on yo
 • **National Emergency**: 112`;
   }
 
-  // Sadness / Low Mood
-  if (text.includes("sad") || text.includes("depress") || text.includes("lonely") || text.includes("cry") || text.includes("low") || text.includes("pain") || text.includes("grief")) {
-    return `Thank you for sharing how you feel. It takes courage to acknowledge sadness or low mood.
-
-Please treat yourself with gentle kindness today:
-• Allow yourself to rest without judgment.
-• Drink a cup of warm water or tea.
-• Reach out to a friend, counselor, or loved one who respects your space.
-• Remember that your current state does not define your future. You matter.`;
-  }
-
-  // Default Empathetic Response
+  // Default Response
   return `Namaste! I am DhritiAi, your supportive mental health companion. 
 
 I am here to listen and assist you with:
@@ -103,50 +100,64 @@ router.post("/", async (req, res) => {
 
     const apiKey = process.env.GROQ_API_KEY;
 
-    // Attempt Groq API call if key is present
-    if (apiKey && apiKey.length > 10) {
-      try {
-        const groqRes = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-          method: "POST",
-          headers: {
-            "Authorization": `Bearer ${apiKey}`,
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            model: "llama-3.3-70b-versatile",
-            messages: [
-              {
-                role: "system",
-                content: "You are DhritiAi, a gentle, empathetic, non-diagnostic AI assistant for mental health, wellbeing, grounding, and survivor care. Keep answers concise, empathetic, and warm."
-              },
-              { role: "user", content: userPrompt || "Hello" }
-            ],
-            temperature: 0.7,
-            max_tokens: 500
-          })
-        });
+    // Active Groq models
+    const activeModels = [
+      "qwen/qwen3.6-27b",
+      "qwen/qwen3.8-27b",
+      "groq/compound",
+      "groq/compound-mini",
+      "openai/gpt-oss-20b"
+    ];
 
-        if (groqRes.ok) {
-          const data = await groqRes.json();
-          const cloudReply = data.choices[0]?.message?.content;
-          if (cloudReply) {
-            return res.json({
-              reply: cloudReply,
-              role: "assistant",
-              timestamp: new Date().toISOString()
-            });
+    let aiReply = "";
+
+    if (apiKey && apiKey.length > 10) {
+      for (const model of activeModels) {
+        try {
+          const groqRes = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+            method: "POST",
+            headers: {
+              "Authorization": `Bearer ${apiKey}`,
+              "Content-Type": "application/json",
+              "User-Agent": "Mozilla/5.0"
+            },
+            body: JSON.stringify({
+              model,
+              messages: [
+                {
+                  role: "system",
+                  content: "You are DhritiAi, a compassionate, empathetic, non-diagnostic AI assistant for mental health, wellbeing, grounding, and survivor care. Provide clear, gentle, empathetic responses without internal thinking tags."
+                },
+                { role: "user", content: userPrompt || "Hello" }
+              ],
+              temperature: 0.7,
+              max_tokens: 500
+            })
+          });
+
+          if (groqRes.ok) {
+            const data = await groqRes.json();
+            const rawContent = data.choices[0]?.message?.content;
+            if (rawContent) {
+              aiReply = cleanAiResponse(rawContent);
+              if (aiReply.length > 0) {
+                console.log(`[DhritiAi Chat] Dispatched response via Groq model (${model})`);
+                break;
+              }
+            }
           }
+        } catch (err) {
+          console.warn(`[DhritiAi Chat] Model ${model} call note:`, err.message);
         }
-      } catch (err) {
-        console.warn("[ChatRoute] Groq API call note:", err.message);
       }
     }
 
-    // High-quality Empathetic Local Engine fallback
-    const localReply = generateEmpatheticResponse(userPrompt);
+    if (!aiReply) {
+      aiReply = generateEmpatheticResponse(userPrompt);
+    }
 
     return res.json({
-      reply: localReply,
+      reply: aiReply,
       role: "assistant",
       timestamp: new Date().toISOString()
     });
