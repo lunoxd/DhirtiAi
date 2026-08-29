@@ -8,7 +8,7 @@ import { apiDhriti, apiCheckIns, apiChat } from "../../lib/api";
 import DhritiIndexGauge from "../../components/DhritiIndexGauge";
 import CheckInCalendar from "../../components/CheckInCalendar";
 import TrendChart from "../../components/TrendChart";
-import { PlusCircle, ShieldAlert, AlertCircle, Sparkles, Send, ArrowRight } from "lucide-react";
+import { PlusCircle, ShieldAlert, AlertCircle, Sparkles, Send } from "lucide-react";
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -194,7 +194,7 @@ export default function DashboardPage() {
         gridTemplateColumns: "1.1fr 1.2fr 1.1fr",
         gap: "14px",
         flex: 1,
-        maxHeight: "calc(100vh - 165px)",
+        maxHeight: "calc(100vh - 120px)",
         alignItems: "stretch",
         overflow: "hidden"
       }}>
@@ -217,7 +217,7 @@ export default function DashboardPage() {
           <CheckInCalendar checkIns={allCheckIns} />
         </div>
 
-        {/* Column 3 (Right): DHRITIAI CHATBOT IN PLACE OF BOX BREATHING */}
+        {/* Column 3 (Right): DHRITIAI CHATBOT */}
         <div className="card" style={{ padding: "14px", height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-between", overflow: "hidden" }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "8px" }}>
             <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
@@ -317,31 +317,6 @@ export default function DashboardPage() {
               <Send size={13} />
             </button>
           </div>
-        </div>
-      </div>
-
-      {/* 3. Bottom Control Row */}
-      <div className="card" style={{ padding: "8px 14px", marginTop: "8px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-          <span style={{ fontSize: "11px", fontWeight: 700, color: "#ffffff" }}>RECENT RECORD:</span>
-          {allCheckIns.length > 0 ? (
-            <span style={{ fontSize: "12px", color: "var(--text-body)" }}>
-              {new Date(allCheckIns[0].createdAt).toLocaleDateString()} — Score: <strong>{Math.round(allCheckIns[0].dhritiIndex)}/100</strong> ({allCheckIns[0].riskLevel})
-            </span>
-          ) : (
-            <span style={{ fontSize: "11px", color: "var(--text-muted)" }}>No check-in history available.</span>
-          )}
-        </div>
-
-        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-          <Link href="/history" style={{ fontSize: "11px", fontWeight: 700, color: "var(--primary)", display: "flex", alignItems: "center", gap: "3px" }}>
-            <span>Full History</span>
-            <ArrowRight size={12} />
-          </Link>
-          <span style={{ color: "var(--hairline)" }}>|</span>
-          <span style={{ fontSize: "10.5px", color: "var(--text-muted)" }}>
-            Non-Diagnostic Wellbeing Tool
-          </span>
         </div>
       </div>
     </div>
