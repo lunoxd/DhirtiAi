@@ -55,9 +55,22 @@ STEP 6: ROLE PANELS
    - ADMIN PORTAL  (/admin):  System admin approves doctor signups and manages platform audit logs.
 
 ------------------------------------------------------------------------
-3. HOW TO START THE PROJECT (1-CLICK RUNNERS)
+3. HOW IT WORKS (UNDER THE HOOD)
 ------------------------------------------------------------------------
-• WINDOWS:   Double-click "start.bat"  OR run ".\start.ps1" in PowerShell
-• MAC/LINUX: Run "./start.sh"          OR run "./chirupullthisbro.sh"
+A. DETERMINISTIC SCORING ENGINE:
+   - 10 structured questions scored on a transparent 0–100 scale.
+   - Evaluates risk levels: Stable (<25), Mild (25-49), Elevated (50-69), High (70-84), Critical (>=85).
+   - Compares today's score against past check-ins to detect trends (IMPROVING, STABLE, INCREASING).
+
+B. GROQ AI ANALYSIS & CHATBOT:
+   - Groq AI (qwen/qwen3.6-27b) evaluates qualitative written notes.
+   - Provides empathetic, trauma-informed, non-diagnostic guidance without clinical jargon.
+   - Filtered by cleanAiResponse() to ensure clean, short, human replies.
+
+C. SAFETY OVERRIDE & CLINICAL TRIAGE:
+   - If a user reports feeling unsafe or severe distress (safetyConcern: true), the system:
+     1. Immediately flags the check-in as HIGH/CRITICAL.
+     2. Displays the 24/7 Crisis Support Modal (Tele-MANAS 14416).
+     3. Transmits the case to the Doctor Triage Queue (/doctor) for clinician callback.
 
 ========================================================================
